@@ -28,7 +28,7 @@ function Navegacao(): JSX.Element {
 
             {/* Lado Direito: Ação de Acesso */}
             <div className="nav-actions">
-                <a href="/login" className="btn-entrar">
+                <a href="/lista/login" className="btn-entrar">
                     Entrar
                 </a>
             </div>
