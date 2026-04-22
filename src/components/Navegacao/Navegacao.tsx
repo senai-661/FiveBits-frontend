@@ -1,5 +1,6 @@
 import { type JSX } from "react";
-import logoImg from "../../assets/hero.png";
+import logoImg from "../../assets/logo.png.png";
+
 
 function Navegacao(): JSX.Element {
     return (

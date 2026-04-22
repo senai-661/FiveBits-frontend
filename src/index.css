@@ -16,8 +16,9 @@
 }
 
 .logo-img {
-    height: 80px; /* Ajuste para a logo não ficar gigante */
-    width: auto;
+    height: 200px; 
+    width: auto;  
+    display: block;
     object-fit: contain;
 }
 
