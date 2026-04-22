@@ -1,27 +1,36 @@
 import { type JSX } from "react";
+import logoImg from "../../assets/hero.png";
 
 function Navegacao(): JSX.Element {
     return (
         <header className="navbar-custom">
-            <div style={{ display: 'flex', alignItems: 'center', gap: '15px' }}>
-                <img src="/assets/app-icon.png" alt="Logo" style={{ height: '50px' }} />
-                <span style={{ fontSize: '1.8rem', fontWeight: 'bold' }}>
-                    <span style={{ color: 'var(--cor-logo-primaria)' }}>Med</span>
-                    <span style={{ color: 'var(--cor-logo-secundaria)' }}>Flow</span>
-                </span>
+            {/* Lado Esquerdo: Logo */}
+            <div className="nav-logo-section">
+                <img src={logoImg} alt="MedFlow Logo" className="logo-img" />
             </div>
 
-            <nav style={{ display: 'flex', alignItems: 'center', gap: '40px' }}>
-                <a href="/" style={{ textDecoration: 'none', color: 'black', fontSize: '1.1rem' }}>Home</a>
-                <a href="/login" style={{ 
-                    backgroundColor: 'var(--cor-botao-sucesso)', /* #18C401 [cite: 322] */
-                    color: 'white',
-                    padding: '12px 30px',
-                    borderRadius: '8px',
-                    textDecoration: 'none',
-                    fontWeight: 'bold'
-                }}>Entrar</a>
+            {/* Centro: Links de Gestão (RF001, RF002, RF003) */}
+            <nav className="nav-items-section">
+                <a href="/" className="nav-link">
+                    <i className="pi pi-home"></i> Home
+                </a>
+                <a href="/lista/paciente" className="nav-link">
+                    <i className="pi pi-users"></i> Paciente
+                </a>
+                <a href="/lista/medico" className="nav-link">
+                    <i className="pi pi-user-plus"></i> Médico
+                </a>
+                <a href="/lista/consulta" className="nav-link">
+                    <i className="pi pi-calendar"></i> Consulta
+                </a>
             </nav>
+
+            {/* Lado Direito: Ação de Acesso */}
+            <div className="nav-actions">
+                <a href="/login" className="btn-entrar">
+                    Entrar
+                </a>
+            </div>
         </header>
     );
 }
