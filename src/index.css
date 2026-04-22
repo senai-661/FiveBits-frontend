@@ -1,0 +1,29 @@
+/* index.css */
+html, body, #root {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  background-color: var(--cor-fundo); /* #ffffff [cite: 252] */
+  display: flex;
+  flex-direction: column;
+}
+
+/* Container para a barra de navegação profissional */
+.navbar-custom {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.5rem 10%; /* Dá respiro lateral e superior */
+  background: white;
+  border-bottom: 1px solid #eee;
+}
+
+/* Área central que "empurra" o rodapé para baixo */
+.main-wrapper {
+  flex: 1; /* Ocupa todo o espaço restante */
+  display: flex;
+  flex-direction: column;
+  justify-content: center; /* Centraliza verticalmente */
+  align-items: center;     /* Centraliza horizontalmente */
+  background-color: var(--cor-container); /* #F5F5F5 [cite: 252] */
+}
