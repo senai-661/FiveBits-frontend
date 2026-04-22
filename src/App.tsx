@@ -3,11 +3,8 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import PHome from './pages/PHome/PHome'
 import PListagemPaciente from './components/Listagens/ListagemPaciente/ListagemPaciente'
 import PListagemMedico from './components/Listagens/ListagemMedico/ListagemMedico'
-//import PLogin from './pages/PLogin/PLogin'
-// Importações das novas listagens do MedFlow
-// import PListagemPaciente from './pages/PListagem/PListagemPaciente/PListagemPaciente'
-// import PListagemMedico from './pages/PListagem/PListagemMedico/PListagemMedico'
-// import PListagemConsulta from './pages/PListagem/PListagemConsulta/PListagemConsulta'
+import PListagemConsulta from './components/Listagens/ListagemConsulta/ListagemConsulta'
+
 
 function App() {
 
@@ -18,11 +15,8 @@ function App() {
         <Route path='/' element={<PHome />} /> 
         <Route path='/lista/paciente' element={<PListagemPaciente />}/>
         <Route path='/lista/medico' element={<PListagemMedico />}/>
-{/*  
-        <Route path='/login' element={<PLogin />}/>
-        <Route path='/lista/paciente' element={<PListagemPaciente />}/>
+        <Route path='/lista/consulta' element={<PListagemConsulta />}/> 
 
-        <Route path='/lista/consulta' element={<PListagemConsulta />}/> */}
       </Routes>
     </BrowserRouter>
   )
