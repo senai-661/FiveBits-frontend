@@ -10,6 +10,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@types/react-router-dom": "^5.3.3",
     "primeicons": "^7.0.0",
     "primereact": "^10.9.7",
     "react": "^19.2.5",

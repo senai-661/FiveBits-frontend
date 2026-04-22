@@ -2,14 +2,28 @@ import { type JSX } from "react";
 
 function BoasVindas(): JSX.Element {
     return (
-        <main className="bg-gray-200 h-[76vh]">
-            <h1 className="text-[3rem] pt-20" style={{ textAlign: 'center' }}>MedFlow</h1>
-
-            <p className="text-[1.2rem] mt-10" style={{ textAlign: 'center' }}>
-                Seja bem-vindo ao MedFlow.
+        <section style={{ 
+            textAlign: 'center', 
+            padding: '2rem',
+            maxWidth: '1000px', // Limita a largura para o texto não espalhar
+            margin: '0 auto'
+        }}>
+            <h1 style={{ 
+                color: 'var(--cor-texto)', 
+                fontSize: '3.5rem', 
+                fontWeight: 'bold',
+                marginBottom: '1rem' 
+            }}>
+                Bem-vindo ao MedFlow
+            </h1>
+            <p style={{ fontSize: '1.2rem', color: '#333', lineHeight: '1.5' }}>
+                Sua saúde merece a agilidade da era digital. Conectamos você a consultas 
+                <strong> presenciais e por vídeo</strong> com total segurança.
             </p>
-        </main>
+            <p style={{ color: '#666', marginTop: '10px' }}>
+                Gestão inteligente para clínicas multidisciplinares e cuidado humanizado.
+            </p>
+        </section>
     );
 }
-
 export default BoasVindas;

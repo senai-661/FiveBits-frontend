@@ -1,68 +1,37 @@
 import { type JSX } from "react";
-import { Menubar } from 'primereact/menubar';
-import type { MenuItem } from 'primereact/menuitem';
+import logoImg from "../../assets/logo.png.png";
 
-interface CustomMenuItem extends MenuItem {
-    badge?: number;
-    shortcut?: string;
-    items?: CustomMenuItem[];
-}
 
 function Navegacao(): JSX.Element {
-    const items: CustomMenuItem[] = [
-        {
-            label: 'Home',
-            icon: 'pi pi-home',
-            className: 'm-5 text-white text-lg',
-            url: "/"
-        },
-        {
-            label: 'Pacientes',
-            icon: 'pi pi-star',
-            className: 'm-5 text-white text-lg',
-            url: "/lista/pacientes"
-        },
-        {
-            label: 'Medicos',
-            icon: 'pi pi-star',
-            className: 'm-5 text-white text-lg',
-            url: "/lista/medicos"
-        },
-        {
-            label: 'Consultas',
-            icon: 'pi pi-star',
-            className: 'm-5 text-white text-lg',
-            url: "/lista/medicos"   
-        },
-        {  
-            label: 'Login',
-            icon: 'pi pi-star',
-            className: 'm-5 text-white text-lg',
-            url: "/lista/login"
-        }
-    ];
-
-    const start = (
-        <img
-            alt="logo"
-            src='./src/assets/app-icon.png'
-            height="100"
-            className="h-20 p-3 ml-10 mr-5 h-[7rem]"
-        />
-    );
-
-    const end = (
-        <div className="flex align-items-center gap-2">
-        </div>
-    );
-
     return (
-        <header className="card h-[12vh] bg-slate-700 content-center">
-            <Menubar 
-                model={items} 
-                start={start} 
-                end={end} 
-            />
+        <header className="navbar-custom">
+            {/* Lado Esquerdo: Logo */}
+            <div className="nav-logo-section">
+                <img src={logoImg} alt="MedFlow Logo" className="logo-img" />
+            </div>
+
+            {/* Centro: Links de Gestão (RF001, RF002, RF003) */}
+            <nav className="nav-items-section">
+                <a href="/" className="nav-link">
+                    <i className="pi pi-home"></i> Home
+                </a>
+                <a href="/lista/paciente" className="nav-link">
+                    <i className="pi pi-users"></i> Paciente
+                </a>
+                <a href="/lista/medico" className="nav-link">
+                    <i className="pi pi-user-plus"></i> Médico
+                </a>
+                <a href="/lista/consulta" className="nav-link">
+                    <i className="pi pi-calendar"></i> Consulta
+                </a>
+            </nav>
+
+            {/* Lado Direito: Ação de Acesso */}
+            <div className="nav-actions">
+                <a href="/lista/login" className="btn-entrar">
+                    Entrar
+                </a>
+            </div>
         </header>
     );
 }
