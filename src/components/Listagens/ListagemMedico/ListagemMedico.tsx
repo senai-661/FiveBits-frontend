@@ -56,7 +56,6 @@ function ListagemMedicos(): JSX.Element {
                     <table style={{ width: '100%', borderCollapse: 'collapse', textAlign: 'left' }}>
                         <thead>
                             <tr style={{ borderBottom: '2px solid #f0f0f0', backgroundColor: '#f9f9f9' }}>
-                                <th style={estiloCabecalho}>ID</th>
                                 <th style={estiloCabecalho}>NOME</th>
                                 <th style={estiloCabecalho}>ESPECIALIDADE</th>
                                 <th style={estiloCabecalho}>VALOR DA CONSULTA</th>
@@ -67,9 +66,6 @@ function ListagemMedicos(): JSX.Element {
                             {medicos && medicos.length > 0 ? (
                                 medicos.map((medico) => (
                                     <tr key={medico.idMedico} style={{ borderBottom: '1px solid #f0f0f0' }}>
-                                        <td style={estiloCelula}>
-                                            <span style={{ fontWeight: 'bold', color: '#888' }}>#{medico.idMedico}</span>
-                                        </td>
                                         <td style={estiloCelula}>
                                             <div style={{ fontWeight: 'bold' }}>{medico.nome}</div>
                                         </td>
