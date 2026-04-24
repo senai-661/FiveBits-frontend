@@ -70,8 +70,8 @@ function ListagemConsultas(): JSX.Element {
                                             <div style={{ fontWeight: 'bold' }}>{data}</div>
                                             <div style={{ fontSize: '0.8rem', color: '#888' }}>às {hora}</div>
                                         </td>
-                                        <td style={estiloCelula}>ID: {consulta.idPaciente}</td>
-                                        <td style={estiloCelula}>ID: {consulta.idMedico}</td>
+                                        <td style={estiloCelula}>{consulta.paciente.nomePaciente}</td>
+                                        <td style={estiloCelula}>{consulta.medico.nomeMedico}</td>
                                         <td style={estiloCelula}>
                                             <div style={estiloTriagem}>{consulta.triagemSintomas}</div>
                                         </td>
