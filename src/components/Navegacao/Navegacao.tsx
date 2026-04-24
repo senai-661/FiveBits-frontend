@@ -20,7 +20,7 @@ function Navegacao(): JSX.Element {
     };
 
     const items: MenuItem[] = [
-        { label: 'Home', icon: 'pi pi-home', url: "/" },
+        { label: 'Home', icon: 'pi pi-home', url: isAuthenticated ? "/bem-vindo" : "/" },
         { label: 'Paciente', icon: 'pi pi-users', url: "/lista/paciente" },
         { label: 'Médico', icon: 'pi pi-user-plus', url: "/lista/medico" },
         { label: 'Consulta', icon: 'pi pi-calendar', url: "/lista/consulta" }

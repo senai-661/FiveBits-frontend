@@ -1,57 +1,102 @@
 import { type JSX } from "react";
-import avatar from "../../assets/avatar.png"; // Certifique-se que o caminho está correto
+import avatar from "../../assets/avatar.png";
 
 function BoasVindas(): JSX.Element {
+    // Definindo a cor base capturada do avatar para unificar o design
+    const corBaseMedFlow = "#00a896"; // Tom Esmeralda/Ciano do avatar
+
     return (
         <section style={{ 
+            // Fundo Sólido Unificado (Removendo o degradê antigo e a imagem de fundo)
+            backgroundColor: corBaseMedFlow,
+            minHeight: '500px',
             display: 'flex',
             alignItems: 'center',
-            justifyContent: 'space-between',
-            padding: '4rem 2rem',
-            maxWidth: '1200px',
-            margin: '0 auto',
-            gap: '2rem',
-            minHeight: '70vh'
+            position: 'relative',
+            overflow: 'hidden',
+            color: 'white',
+            padding: '0 10%'
         }}>
-            {/* Lado Esquerdo: Textos */}
-            <div style={{ flex: 1, textAlign: 'left' }}>
-                <h1 style={{ 
-                    color: '#000', 
-                    fontSize: '3.5rem', 
+            {/* Conteúdo de Texto à Esquerda */}
+            <div style={{ maxWidth: '550px', zIndex: 2, position: 'relative' }}>
+                <span style={{ 
+                    background: 'rgba(255, 255, 255, 0.2)', // Badge sutil e moderno
+                    color: 'white',
+                    padding: '6px 18px', 
+                    borderRadius: '20px', 
+                    fontSize: '0.85rem',
                     fontWeight: 'bold',
-                    lineHeight: '1.1',
-                    marginBottom: '1.5rem' 
+                    textTransform: 'uppercase',
+                    letterSpacing: '1px'
+                }}>MEDFLOW SAÚDE</span>
+                
+                <h1 style={{ 
+                    fontSize: '4rem', // Fonte maior e mais impactante
+                    margin: '25px 0 15px 0', 
+                    fontWeight: '800', // Extra bold para modernidade
+                    lineHeight: '1.05',
+                    letterSpacing: '-1px'
                 }}>
-                    Bem-vindo ao <span style={{ color: '#000' }}>MedFlow</span>
+                    APP MedFlow
                 </h1>
                 <p style={{ 
                     fontSize: '1.25rem', 
-                    color: '#333', 
+                    marginBottom: '40px', 
+                    opacity: 0.95, 
                     lineHeight: '1.6',
-                    maxWidth: '500px'
+                    fontWeight: '300' // Fonte mais leve para o parágrafo
                 }}>
-                    Sua saúde merece a agilidade da era digital. Conectamos você a consultas 
-                    <strong> presenciais e por vídeo</strong> com total segurança.
+                    Sua saúde na palma da sua mão! Agende consultas, acesse exames e fale com especialistas com total agilidade.
                 </p>
-                <p style={{ 
-                    color: '#666', 
-                    marginTop: '1.5rem',
-                    fontSize: '1.1rem' 
-                }}>
-                    Gestão inteligente para clínicas multidisciplinares e cuidado humanizado.
-                </p>
+                <button style={{ 
+                    backgroundColor: 'white', // Botão branco para alto contraste
+                    color: corBaseMedFlow, // Texto na cor do fundo
+                    border: 'none', 
+                    padding: '15px 40px', 
+                    borderRadius: '30px', 
+                    fontWeight: 'bold',
+                    fontSize: '1.1rem',
+                    cursor: 'pointer',
+                    boxShadow: '0 4px 15px rgba(0,0,0,0.1)', // Sombra suave no botão
+                    transition: 'transform 0.2s, boxShadow 0.2s'
+                }}
+                onMouseEnter={(e) => {
+                    e.currentTarget.style.transform = 'translateY(-2px)';
+                    e.currentTarget.style.boxShadow = '0 6px 20px rgba(0,0,0,0.15)';
+                }}
+                onMouseLeave={(e) => {
+                    e.currentTarget.style.transform = 'translateY(0)';
+                    e.currentTarget.style.boxShadow = '0 4px 15px rgba(0,0,0,0.1)';
+                }}
+                >
+                    Saiba mais
+                </button>
             </div>
 
-            {/* Lado Direito: Imagem */}
-            <div style={{ flex: 1, display: 'flex', justifyContent: 'center', position: 'relative' }}>
+            {/* Container da Imagem à Direita (Totalmente Integrada) */}
+            <div style={{ 
+                position: 'absolute', 
+                right: '0', // Colado na borda direita
+                bottom: '0', 
+                height: '100%', 
+                width: '50%', // Ocupa metade da tela
+                display: 'flex',
+                justifyContent: 'flex-end',
+                alignItems: 'flex-end',
+                zIndex: 1,
+                // Usando máscara para suavizar a borda esquerda da imagem, se necessário
+                WebkitMaskImage: 'linear-gradient(to right, transparent 0%, black 20%)',
+                maskImage: 'linear-gradient(to right, transparent 0%, black 20%)',
+            }}>
                 <img 
                     src={avatar} 
-                    alt="Médica MedFlow" 
+                    alt="Médica MedFlow Digital" 
                     style={{ 
-                        width: '100%', 
-                        maxWidth: '500px', 
-                        height: 'auto',
-                        objectFit: 'contain'
+                        height: '98%', // Quase altura total
+                        width: 'auto',
+                        objectFit: 'contain',
+                        // REMOVIDO: mixBlendMode (causava a sombra)
+                        // REMOVIDO: Filtros que alteravam a cor
                     }} 
                 />
             </div>
