@@ -1,81 +1,102 @@
-/* Rodape.css */
-.rodape-container {
-    background-color: #f8fafc; /* Um cinza azulado bem clarinho e moderno */
+.footer-minimal {
+    /* Fundo Criativo: Gradiente suave que remete à saúde digital */
+    background: linear-gradient(135deg, #ffffff 0%, #f0fdfa 100%);
     border-top: 1px solid #e2e8f0;
-    padding: 40px 10% 20px 10%;
-    color: #475569;
+    padding: 25px 5%; /* Altura bem reduzida */
     font-family: 'Inter', sans-serif;
 }
 
-.rodape-content {
+.footer-container {
+    max-width: 1200px;
+    margin: 0 auto;
     display: flex;
     justify-content: space-between;
-    align-items: flex-start;
-    flex-wrap: wrap;
-    gap: 30px;
-    margin-bottom: 30px;
+    align-items: center;
 }
 
-.rodape-info h3 {
-    color: #1e293b;
+/* Marca e Slogan */
+.brand-brief {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.logo-compact {
     font-size: 1.2rem;
-    font-weight: 700;
-    margin-bottom: 10px;
+    color: #1a3a36;
+    letter-spacing: -0.5px;
+}
+
+.logo-compact strong {
+    color: #00a896; /* Cor MedFlow */
+}
+
+.divider {
+    color: #cbd5e1;
+}
+
+.slogan-minimal {
+    font-size: 0.85rem;
+    color: #64748b;
+    margin: 0;
+}
+
+/* Créditos de Desenvolvedores */
+.dev-credits {
     display: flex;
     align-items: center;
     gap: 8px;
 }
 
-.rodape-info p {
-    font-size: 0.9rem;
-    line-height: 1.5;
-    max-width: 300px;
-}
-
-.rodape-links {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-}
-
-.rodape-links h4 {
-    color: #1e293b;
-    font-size: 0.95rem;
-    font-weight: 600;
+.label {
+    font-size: 0.75rem;
+    font-weight: 700;
     text-transform: uppercase;
-    letter-spacing: 0.05em;
+    color: #94a3b8;
+    letter-spacing: 0.5px;
 }
 
-.rodape-equipe {
+.dev-names {
     font-size: 0.85rem;
-}
-
-.equipe-lista {
-    display: flex;
-    gap: 8px;
-    flex-wrap: wrap;
-    color: #3b82f6; /* Azul MedFlow */
+    color: #475569;
     font-weight: 500;
 }
 
-.rodape-bottom {
-    border-top: 1px solid #e2e8f0;
-    padding-top: 20px;
+.dev-names span {
+    transition: color 0.2s;
+    cursor: default;
+}
+
+.dev-names span:hover {
+    color: #00a896;
+}
+
+/* Info e Localização */
+.footer-info {
     display: flex;
-    justify-content: space-between;
     align-items: center;
+    gap: 20px;
     font-size: 0.8rem;
     color: #94a3b8;
 }
 
-.social-icons {
-    display: flex;
-    gap: 15px;
-    font-size: 1.2rem;
+.version {
+    background: #f1f5f9;
+    padding: 2px 8px;
+    border-radius: 6px;
+    font-family: monospace;
 }
 
-.social-icons i:hover {
-    color: #3b82f6;
-    cursor: pointer;
-    transition: 0.3s;
+/* Ajuste Responsivo */
+@media (max-width: 768px) {
+    .footer-container {
+        flex-direction: column;
+        gap: 15px;
+        text-align: center;
+    }
+    .brand-brief {
+        flex-direction: column;
+        gap: 5px;
+    }
+    .divider { display: none; }
 }

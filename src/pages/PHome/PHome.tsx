@@ -4,6 +4,8 @@ import BoasVindas from "../../components/BoasVindas/BoasVindas"; // O banner ver
 import CardsServicos from "../../components/CardsServicos/CardsServicos"; // Os cards estilo Sermed
 import Rodape from "../../components/Rodape/Rodape";
 
+
+
 function PHome(): JSX.Element {
     return (
         <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
