@@ -55,7 +55,6 @@ function ListagemPacientes(): JSX.Element {
                     <table style={{ width: '100%', borderCollapse: 'collapse', textAlign: 'left' }}>
                         <thead>
                             <tr style={{ borderBottom: '2px solid #f0f0f0', backgroundColor: '#f9f9f9' }}>
-                                <th style={estiloCabecalho}>ID</th>
                                 <th style={estiloCabecalho}>NOME</th>
                                 <th style={estiloCabecalho}>CPF</th>
                                 <th style={estiloCabecalho}>TELEFONE</th>
@@ -66,7 +65,6 @@ function ListagemPacientes(): JSX.Element {
                             {pacientes.length > 0 ? (
                                 pacientes.map((paciente) => (
                                     <tr key={paciente.idPaciente} style={{ borderBottom: '1px solid #f0f0f0' }}>
-                                        <td style={estiloCelula}>{paciente.idPaciente}</td>
                                         <td style={estiloCelula}>
                                             <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
                                                 <div style={{ 
