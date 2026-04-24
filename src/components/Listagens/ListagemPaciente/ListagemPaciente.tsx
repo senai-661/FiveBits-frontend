@@ -14,93 +14,188 @@ function ListagemPacientes(): JSX.Element {
                 setPacientes(listaDePacientes);
             } catch (error) {
                 console.error(`Erro ao buscar pacientes. ${error}`);
-                alert("Erro ao criar a listagem de pacientes.");
             }
         };
-
         buscarPacientes();
     }, []);
 
     return (
-        <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
+        <div className="medflow-list-wrapper">
+            <style>{`
+                .medflow-list-wrapper {
+                    display: flex;
+                    flex-direction: column;
+                    min-height: 100vh;
+                    /* Fundo clarinho e minimalista */
+                    background-color: #f4f7f9; 
+                }
+
+                .main-content {
+                    flex: 1;
+                    padding: 50px 10%;
+                }
+
+                .page-header {
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+                    margin-bottom: 35px;
+                }
+
+                .page-header h1 {
+                    color: #1a3a36;
+                    font-size: 1.8rem;
+                    font-weight: 800;
+                    margin: 0;
+                }
+
+                /* Container com Sombra Leve e Focada */
+                .table-container {
+                    background: #ffffff;
+                    border-radius: 20px;
+                    border: 1px solid rgba(0, 0, 0, 0.03);
+                    /* Sombra suave para efeito de profundidade */
+                    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05); 
+                    overflow: hidden;
+                }
+
+                .medflow-table {
+                    width: 100%;
+                    border-collapse: collapse;
+                }
+
+                .medflow-table th {
+                    background-color: #fafbfc;
+                    padding: 18px 24px;
+                    text-align: left;
+                    font-size: 0.75rem;
+                    color: #94a3b8;
+                    text-transform: uppercase;
+                    letter-spacing: 1px;
+                    border-bottom: 1px solid #edf2f7;
+                }
+
+                .medflow-table td {
+                    padding: 16px 24px;
+                    border-bottom: 1px solid #f7fafc;
+                    color: #334155;
+                    font-size: 0.95rem;
+                }
+
+                .medflow-table tr:last-child td {
+                    border-bottom: none;
+                }
+
+                .medflow-table tr:hover {
+                    background-color: #f0fdfa; /* Destaque sutil no hover */
+                }
+
+                /* Estilização Interna */
+                .patient-box {
+                    display: flex;
+                    align-items: center;
+                    gap: 12px;
+                }
+
+                .avatar-icon {
+                    width: 36px;
+                    height: 36px;
+                    background: #e6f6f4;
+                    color: #00a896;
+                    border-radius: 8px;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    font-weight: 700;
+                    font-size: 0.85rem;
+                }
+
+                .cpf-tag {
+                    background: #f1f5f9;
+                    color: #3b82f6;
+                    padding: 4px 10px;
+                    border-radius: 6px;
+                    font-family: 'JetBrains Mono', monospace;
+                    font-size: 0.85rem;
+                    font-weight: 600;
+                }
+
+                .btn-group {
+                    display: flex;
+                    gap: 8px;
+                }
+
+                .btn-minimal {
+                    padding: 7px 15px;
+                    border-radius: 8px;
+                    border: 1px solid #e2e8f0;
+                    background: white;
+                    font-size: 0.8rem;
+                    font-weight: 600;
+                    cursor: pointer;
+                    transition: 0.2s;
+                }
+
+                .btn-minimal:hover {
+                    background: #f8fafc;
+                    border-color: #cbd5e1;
+                }
+            `}</style>
+
             <Navegacao />
 
-            <main style={{ flex: 1, padding: '40px 10%', backgroundColor: 'var(--cor-container)' }}>
-                {/* Cabeçalho da Listagem */}
-                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '24px' }}>
-                    <h1 style={{ color: 'var(--cor-inspiracao)', fontSize: '1.8rem', fontWeight: 'bold' }}>
-                        Pacientes Cadastrados
-                    </h1>
-                    <button style={{ 
-                        backgroundColor: 'var(--cor-botao-sucesso)', 
-                        color: 'white', 
-                        padding: '10px 20px', 
-                        borderRadius: '8px', 
+            <main className="main-content">
+                <div className="page-header">
+                    <h1>Pacientes Cadastrados</h1>
+                    <button style={{
+                        backgroundColor: '#00a896',
+                        color: 'white',
                         border: 'none',
-                        fontWeight: 'bold',
+                        padding: '10px 20px',
+                        borderRadius: '10px',
+                        fontWeight: '700',
                         cursor: 'pointer'
-                    }}>
-                        + Novo Paciente
-                    </button>
+                    }}>+ Novo Paciente</button>
                 </div>
 
-                {/* Tabela de Pacientes */}
-                <div style={{ 
-                    backgroundColor: 'white', 
-                    borderRadius: '12px', 
-                    boxShadow: '0 4px 6px rgba(0,0,0,0.05)', 
-                    overflow: 'hidden',
-                    border: '1px solid #e0e0e0'
-                }}>
-                    <table style={{ width: '100%', borderCollapse: 'collapse', textAlign: 'left' }}>
+                <div className="table-container">
+                    <table className="medflow-table">
                         <thead>
-                            <tr style={{ borderBottom: '2px solid #f0f0f0', backgroundColor: '#f9f9f9' }}>
-                                <th style={estiloCabecalho}>NOME</th>
-                                <th style={estiloCabecalho}>CPF</th>
-                                <th style={estiloCabecalho}>TELEFONE</th>
-                                <th style={estiloCabecalho}>AÇÕES</th>
+                            <tr>
+                                <th>Paciente</th>
+                                <th>CPF</th>
+                                <th>Telefone</th>
+                                <th style={{ textAlign: 'center' }}>Ações</th>
                             </tr>
                         </thead>
                         <tbody>
                             {pacientes.length > 0 ? (
                                 pacientes.map((paciente) => (
-                                    <tr key={paciente.idPaciente} style={{ borderBottom: '1px solid #f0f0f0' }}>
-                                        <td style={estiloCelula}>
-                                            <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-                                                <div style={{ 
-                                                    width: '30px', 
-                                                    height: '30px', 
-                                                    borderRadius: '50%', 
-                                                    backgroundColor: '#f0f0f0', 
-                                                    display: 'flex', 
-                                                    alignItems: 'center', 
-                                                    justifyContent: 'center', 
-                                                    fontSize: '0.8rem', 
-                                                    fontWeight: 'bold' 
-                                                }}>
+                                    <tr key={paciente.idPaciente}>
+                                        <td>
+                                            <div className="patient-box">
+                                                <div className="avatar-icon">
                                                     {paciente.nome.charAt(0).toUpperCase()}
                                                 </div>
-                                                {paciente.nome}
+                                                <span style={{ fontWeight: 600 }}>{paciente.nome}</span>
                                             </div>
                                         </td>
-                                        <td style={estiloCelula}>
-                                            <span style={{ backgroundColor: '#E8F7FE', color: '#3F4DE3', padding: '4px 8px', borderRadius: '4px', fontSize: '0.85rem', fontWeight: 'bold' }}>
-                                                {paciente.cpf}
-                                            </span>
+                                        <td>
+                                            <span className="cpf-tag">{paciente.cpf}</span>
                                         </td>
-                                        <td style={estiloCelula}>{paciente.telefone}</td>
-                                        <td style={estiloCelula}>
-                                            <div style={{ display: 'flex', gap: '8px' }}>
-                                                <button style={btnAcao}>Detalhes</button>
-                                                <button style={{ ...btnAcao, color: 'var(--cor-botao-sair)' }}>Remover</button>
+                                        <td>{paciente.telefone}</td>
+                                        <td>
+                                            <div className="btn-group">
+                                                <button className="btn-minimal">Detalhes</button>
+                                                <button className="btn-minimal" style={{ color: '#ef4444' }}>Remover</button>
                                             </div>
                                         </td>
                                     </tr>
                                 ))
                             ) : (
                                 <tr>
-                                    <td colSpan={6} style={{ ...estiloCelula, textAlign: 'center', padding: '40px' }}>
-                                        Nenhum paciente encontrado.
+                                    <td colSpan={4} style={{ textAlign: 'center', padding: '40px', color: '#94a3b8' }}>
+                                        Nenhum paciente registrado.
                                     </td>
                                 </tr>
                             )}
@@ -113,29 +208,5 @@ function ListagemPacientes(): JSX.Element {
         </div>
     );
 }
-
-// Estilos Reutilizáveis (Seguindo o padrão MedFlow)
-const estiloCabecalho: React.CSSProperties = {
-    padding: '16px',
-    fontSize: '0.75rem',
-    color: '#888',
-    textTransform: 'uppercase',
-    letterSpacing: '1px'
-};
-
-const estiloCelula: React.CSSProperties = {
-    padding: '16px',
-    fontSize: '0.95rem',
-    color: '#333'
-};
-
-const btnAcao: React.CSSProperties = {
-    padding: '6px 12px',
-    borderRadius: '6px',
-    border: '1px solid #ddd',
-    backgroundColor: 'white',
-    fontSize: '0.8rem',
-    cursor: 'pointer'
-};
 
 export default ListagemPacientes;
