@@ -1,24 +1,51 @@
-import type { JSX } from "react";
+import { type JSX } from "react";
+import "./Rodape.css";
 
 function Rodape(): JSX.Element {
     return (
-        <footer 
-            className="h-[12vh] flex flex-col items-center justify-center border-t" 
-            style={{ backgroundColor: '#F5F5F5', borderColor: '#D4D4D4' }}
-        >
-            <div className="text-center">
-                <p className="text-sm font-semibold" style={{ color: '#000000' }}>
-                    © 2026 MedFlow - Sistema de Gestão de Clínica Médica [cite: 8, 11]
-                </p>
-                <p className="text-xs mt-2" style={{ color: '#3F4DE3' }}>
-                    Desenvolvido por: Enzo Cassão, Gabriel Henrique, Ismael Henrique, Jadson Santos e Lívia Borges 
-                </p>
+        <footer className="rodape-container">
+            <div className="rodape-content">
+                {/* Lado Esquerdo: Marca */}
+                <div className="rodape-info">
+                    <h3>
+                        <i className="pi pi-heart-fill" style={{ color: '#10b981' }}></i>
+                        MedFlow
+                    </h3>
+                    <p>
+                        Sua saúde merece a agilidade da era digital. Gestão inteligente para clínicas multidisciplinares.
+                    </p>
+                </div>
+
+                {/* Centro: Equipe de Desenvolvimento */}
+                <div className="rodape-links">
+                    <h4>Desenvolvido por</h4>
+                    <div className="equipe-lista">
+                        <span>Enzo Cassão</span> • 
+                        <span>Gabriel Henrique</span> • 
+                        <span>Ismael Henrique</span> • 
+                        <span>Jadson Santos</span> • 
+                        <span>Lívia Borges</span>
+                    </div>
+                </div>
+
+                {/* Lado Direito: Localização */}
+                <div className="rodape-links">
+                    <h4>Localização</h4>
+                    <p className="rodape-equipe">
+                        <i className="pi pi-map-marker"></i> Sertãozinho - SP
+                    </p>
+                    <div className="social-icons">
+                        <i className="pi pi-instagram"></i>
+                        <i className="pi pi-linkedin"></i>
+                        <i className="pi pi-facebook"></i>
+                    </div>
+                </div>
             </div>
-            
-            <div className="mt-2 flex gap-4">
-                <span className="text-[10px] uppercase tracking-widest text-gray-400">
-                    Sertãozinho - SP 
-                </span>
+
+            {/* Faixa de Copyright Final */}
+            <div className="rodape-bottom">
+                <p>© 2026 MedFlow - Sistema de Gestão de Clínica Médica. Todos os direitos reservados.</p>
+                <p>Versão 1.0.2</p>
             </div>
         </footer>
     );
