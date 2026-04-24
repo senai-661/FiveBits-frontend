@@ -5,15 +5,15 @@ import Rodape from "../../components/Rodape/Rodape";
 
 function PHome(): JSX.Element {
     return (
-        <>
-            <Navegacao /> {/* Fica no topo automaticamente */}
+        <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
+            <Navegacao /> 
             
-            <main className="main-wrapper">
+            <main className="main-wrapper" style={{ flex: 1 }}>
                 <BoasVindas />
             </main>
 
-            <Rodape /> {/* Fica na base devido ao flex: 1 do main */}
-        </>
+            <Rodape />
+        </div>
     );
 }
 

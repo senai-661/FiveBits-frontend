@@ -1,0 +1,122 @@
+/* Container principal com efeito de vidro e sombra suave */
+.header-glass {
+    position: sticky;
+    top: 0;
+    z-index: 1100;
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid rgba(226, 232, 240, 0.8);
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+    padding: 0.5rem 2rem;
+}
+
+/* Reset do Menubar do PrimeReact */
+.main-menubar.p-menubar {
+    background: transparent !important;
+    border: none !important;
+    padding: 0 !important;
+    display: flex;
+    align-items: center;
+}
+
+/* Wrapper da Logo */
+.nav-logo-wrapper {
+    display: flex;
+    align-items: center;
+    margin-right: 2rem;
+}
+
+.logo-img-prime {
+    height: 50px; /* Tamanho otimizado para não quebrar o menu */
+    width: auto;
+    transition: transform 0.3s ease;
+}
+
+.logo-img-prime:hover {
+    transform: scale(1.05);
+}
+
+/* Estilização dos Itens do Menu (Centro) */
+.p-menubar .p-menuitem-link {
+    transition: all 0.2s ease !important;
+    border-radius: 8px !important;
+    padding: 0.75rem 1rem !important;
+}
+
+.p-menubar .p-menuitem-link:hover {
+    background: rgba(59, 130, 246, 0.08) !important; /* Azul MedFlow suave */
+}
+
+.p-menubar .p-menuitem-text {
+    color: #475569 !important;
+    font-weight: 500 !important;
+}
+
+.p-menubar .p-menuitem-icon {
+    color: #3b82f6 !important; /* Azul da marca */
+}
+
+/* Seção Direita (Usuário) */
+.nav-user-controls {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+}
+
+.user-text-container {
+    display: flex;
+    flex-direction: column;
+    text-align: right;
+    line-height: 1.2;
+}
+
+.welcome-span {
+    font-size: 0.75rem;
+    color: #94a3b8;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.email-span {
+    font-size: 0.875rem;
+    color: #1e293b;
+    font-weight: 600;
+}
+
+/* Botão Sair Minimalista */
+.btn-logout-modern {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: #f5f5f5;
+    color: #1d89e1;
+    border: 1px solid #fdfdfd;
+    padding: 8px 16px;
+    border-radius: 10px;
+    font-size: 0.875rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.btn-logout-modern:hover {
+    background: #ffffff;
+    transform: translateY(-1px);
+}
+
+/* Botão Entrar */
+.btn-login-modern {
+    background: #3b82f6;
+    color: white;
+    padding: 10px 24px;
+    border-radius: 10px;
+    font-weight: 600;
+    text-decoration: none;
+    box-shadow: 0 4px 10px rgba(59, 130, 246, 0.3);
+    transition: all 0.2s;
+}
+
+.btn-login-modern:hover {
+    background: #8db1ffc7;
+    box-shadow: 0 6px 15px rgba(59, 130, 246, 0.4);
+}

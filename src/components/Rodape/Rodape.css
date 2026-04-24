@@ -1,0 +1,81 @@
+/* Rodape.css */
+.rodape-container {
+    background-color: #f8fafc; /* Um cinza azulado bem clarinho e moderno */
+    border-top: 1px solid #e2e8f0;
+    padding: 40px 10% 20px 10%;
+    color: #475569;
+    font-family: 'Inter', sans-serif;
+}
+
+.rodape-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    gap: 30px;
+    margin-bottom: 30px;
+}
+
+.rodape-info h3 {
+    color: #1e293b;
+    font-size: 1.2rem;
+    font-weight: 700;
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.rodape-info p {
+    font-size: 0.9rem;
+    line-height: 1.5;
+    max-width: 300px;
+}
+
+.rodape-links {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.rodape-links h4 {
+    color: #1e293b;
+    font-size: 0.95rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.rodape-equipe {
+    font-size: 0.85rem;
+}
+
+.equipe-lista {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    color: #3b82f6; /* Azul MedFlow */
+    font-weight: 500;
+}
+
+.rodape-bottom {
+    border-top: 1px solid #e2e8f0;
+    padding-top: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.8rem;
+    color: #94a3b8;
+}
+
+.social-icons {
+    display: flex;
+    gap: 15px;
+    font-size: 1.2rem;
+}
+
+.social-icons i:hover {
+    color: #3b82f6;
+    cursor: pointer;
+    transition: 0.3s;
+}
