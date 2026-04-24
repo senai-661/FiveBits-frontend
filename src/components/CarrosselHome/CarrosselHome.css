@@ -1,0 +1,112 @@
+/* Container que redimensiona proporcionalmente (21/9 é ultra-wide e moderno) */
+.carrossel-wrapper-modern {
+    width: 100%;
+    aspect-ratio: 21 / 9; /* Mantém a proporção independente do tamanho da tela */
+    min-height: 380px; /* Garante usabilidade em telas muito pequenas */
+    border-radius: 28px; /* Bordas arredondadas como os cards da home */
+    overflow: hidden;
+    position: relative;
+    box-shadow: 0 20px 40px rgba(0, 168, 150, 0.1);
+}
+
+.swiper-tech { width: 100%; height: 100%; }
+
+/* Imagem de Fundo e Overlay */
+.slide-image-bg {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background-size: cover;
+    background-position: center;
+}
+
+.overlay-dark {
+    position: absolute;
+    width: 100%; height: 100%;
+    background: linear-gradient(105deg, rgba(13, 38, 35, 0.8) 40%, rgba(13, 38, 35, 0.2) 100%); /* Degradê escuro MedFlow */
+}
+
+/* Container de Conteúdo */
+.slide-content-area {
+    position: relative;
+    z-index: 10;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    padding: 0 8%;
+    color: white;
+}
+
+/* Glassmorphism: Efeito de vidro moderno e tecnológico */
+.tech-glass-card {
+    background: rgba(255, 255, 255, 0.05); /* Fundo sutil */
+    backdrop-filter: blur(15px); /* Desfoque do fundo (Glass effect) */
+    padding: 40px;
+    border-radius: 24px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    max-width: 550px;
+}
+
+/* Animação fadeInUp (texto surge suavemente) */
+.swiper-slide-active .tech-badge, 
+.swiper-slide-active .tech-title, 
+.swiper-slide-active .tech-desc, 
+.swiper-slide-active .btn-tech-neon {
+    animation: fadeInUp 0.8s ease forwards;
+    opacity: 0;
+}
+
+@keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(40px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Estilos de Tipografia */
+.tech-badge {
+    background: #00a896; /* Verde principal MedFlow */
+    color: white;
+    padding: 6px 15px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.tech-title {
+    font-size: 3rem; /* Título grande e impactante */
+    font-weight: 800;
+    line-height: 1.1;
+    margin: 15px 0;
+}
+
+.tech-desc {
+    font-size: 1.1rem;
+    opacity: 0.9;
+    margin-bottom: 30px;
+    font-weight: 400;
+}
+
+/* Botão Moderno com Efeito */
+.btn-tech-neon {
+    background: transparent;
+    color: #00a896;
+    border: 1px solid #00a896;
+    padding: 12px 30px;
+    border-radius: 10px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: 0.3s;
+    box-shadow: 0 0 10px rgba(0, 168, 150, 0.2);
+}
+
+.btn-tech-neon:hover {
+    background: #00a896;
+    color: white;
+    box-shadow: 0 0 20px rgba(0, 168, 150, 0.5);
+    transform: translateY(-2px);
+}
+
+/* Customização dos botões e paginação do Swiper */
+.swiper-button-next, .swiper-button-prev { color: rgba(255,255,255,0.4) !important; transform: scale(0.6); }
+.swiper-pagination-bullet-active { background: #00a896 !important; width: 22px; border-radius: 5px; }
