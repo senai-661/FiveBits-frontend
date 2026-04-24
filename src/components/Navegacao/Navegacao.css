@@ -1,112 +1,122 @@
-/* Navegacao.css */
-
-/* Remove margens do corpo para garantir alinhamento perfeito */
-body {
-    margin: 0;
-    padding: 0;
-}
-
-/* Container principal do Cabeçalho com Z-index para não sobrepor */
-.navbar-custom {
-    display: flex;
-    align-items: center;
-    background-color: #ffffff; /* Fundo branco e limpo */
-    width: 100%;
-    height: 100px; /* Altura fixa para acomodar a logo nova */
-    position: sticky; /* Menu fixo no topo ao rolar */
+/* Container principal com efeito de vidro e sombra suave */
+.header-glass {
+    position: sticky;
     top: 0;
-    z-index: 1000; /* Garante que nada passe por cima do menu */
-    border-bottom: 1px solid #f0f0f0;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    z-index: 1100;
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid rgba(226, 232, 240, 0.8);
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+    padding: 0.5rem 2rem;
 }
 
-/* Seção da Logo: Esquerda */
-.nav-logo-section {
-    padding-left: 20px;
-    display: flex;
-    align-items: center;
-}
-
-/* Estilização da Logo para não distorcer */
-.logo-img {
-    height: 80px; /* Ajuste para o tamanho desejado da logo */
-    width: auto;
-    object-fit: contain; /* Mantém a proporção */
-}
-
-/* Configuração do PrimeReact Menubar para não bagunçar */
-.navbar-custom .p-menubar {
-    flex: 1; /* Ocupa o restante do espaço */
-    background: transparent !important; /* Sem fundo próprio */
-    border: none !important; /* Sem bordas próprias */
+/* Reset do Menubar do PrimeReact */
+.main-menubar.p-menubar {
+    background: transparent !important;
+    border: none !important;
     padding: 0 !important;
-}
-
-/* Estilização das seções de 'start' e 'end' dentro do Menubar */
-.navbar-custom .p-menubar .p-menubar-start,
-.navbar-custom .p-menubar .p-menubar-end {
     display: flex;
     align-items: center;
 }
 
-/* Estilização dos textos do 'end' */
-.navbar-custom .text-user-greeting {
-    color: #4b5563; /* Gray-600 */
-    font-size: 0.875rem; /* text-sm */
-    margin-right: 15px;
+/* Wrapper da Logo */
+.nav-logo-wrapper {
+    display: flex;
+    align-items: center;
+    margin-right: 2rem;
 }
 
-.navbar-custom .text-user-email {
-    color: #1a237e; /* Cor da sua logo (azul) */
-    font-weight: 600; /* font-semibold */
+.logo-img-prime {
+    height: 50px; /* Tamanho otimizado para não quebrar o menu */
+    width: auto;
+    transition: transform 0.3s ease;
 }
 
-/* Estilização do Botão Sair */
-.navbar-custom .btn-logout {
-    background-color: #fee2e2; /* red-100 */
-    color: #b91c1c; /* red-700 */
+.logo-img-prime:hover {
+    transform: scale(1.05);
+}
+
+/* Estilização dos Itens do Menu (Centro) */
+.p-menubar .p-menuitem-link {
+    transition: all 0.2s ease !important;
+    border-radius: 8px !important;
+    padding: 0.75rem 1rem !important;
+}
+
+.p-menubar .p-menuitem-link:hover {
+    background: rgba(59, 130, 246, 0.08) !important; /* Azul MedFlow suave */
+}
+
+.p-menubar .p-menuitem-text {
+    color: #475569 !important;
+    font-weight: 500 !important;
+}
+
+.p-menubar .p-menuitem-icon {
+    color: #3b82f6 !important; /* Azul da marca */
+}
+
+/* Seção Direita (Usuário) */
+.nav-user-controls {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+}
+
+.user-text-container {
+    display: flex;
+    flex-direction: column;
+    text-align: right;
+    line-height: 1.2;
+}
+
+.welcome-span {
+    font-size: 0.75rem;
+    color: #94a3b8;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.email-span {
+    font-size: 0.875rem;
+    color: #1e293b;
+    font-weight: 600;
+}
+
+/* Botão Sair Minimalista */
+.btn-logout-modern {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: #f5f5f5;
+    color: #1d89e1;
+    border: 1px solid #fdfdfd;
     padding: 8px 16px;
-    border-radius: 8px; /* rounded-lg */
-    font-size: 0.875rem; /* text-sm */
-    font-weight: 600; /* font-bold */
-    transition: background-color 0.2s;
-    border: none;
+    border-radius: 10px;
+    font-size: 0.875rem;
+    font-weight: 600;
     cursor: pointer;
+    transition: all 0.2s;
 }
 
-.navbar-custom .btn-logout:hover {
-    background-color: #fecaca; /* red-200 */
+.btn-logout-modern:hover {
+    background: #ffffff;
+    transform: translateY(-1px);
 }
 
-/* Estilização do Botão Entrar */
-.navbar-custom .btn-login {
-    background-color: #1a237e; /* Cor azul MedFlow */
+/* Botão Entrar */
+.btn-login-modern {
+    background: #3b82f6;
     color: white;
-    padding: 8px 20px;
-    border-radius: 8px; /* rounded-lg */
-    font-size: 0.875rem; /* text-sm */
-    font-weight: 700; /* font-bold */
+    padding: 10px 24px;
+    border-radius: 10px;
+    font-weight: 600;
     text-decoration: none;
-    transition: background-color 0.2s;
-    cursor: pointer;
+    box-shadow: 0 4px 10px rgba(59, 130, 246, 0.3);
+    transition: all 0.2s;
 }
 
-.navbar-custom .btn-login:hover {
-    filter: brightness(0.9);
-}
-
-/* Estilização dos Itens do Menu (para fundos claros) */
-.navbar-custom .p-menubar .p-menuitem-link {
-    background-color: transparent !important;
-    padding: 8px 14px !important;
-    border-radius: 6px;
-}
-
-.navbar-custom .p-menubar .p-menuitem-link:hover {
-    background-color: rgba(26, 35, 126, 0.05) !important; /* Suave azul de fundo no hover */
-}
-
-.navbar-custom .p-menubar .p-menuitem-text,
-.navbar-custom .p-menubar .p-menuitem-icon {
-    color: #1a237e !important; /* Cor principal da MedFlow */
+.btn-login-modern:hover {
+    background: #8db1ffc7;
+    box-shadow: 0 6px 15px rgba(59, 130, 246, 0.4);
 }

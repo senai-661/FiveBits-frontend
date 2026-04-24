@@ -1,30 +1,24 @@
-// Navegacao.tsx
 import { type JSX, useState } from "react";
 import { Menubar } from 'primereact/menubar';
 import type { MenuItem } from 'primereact/menuitem';
 import AuthRequests from '../../fetch/AuthRequests';
-import logoImg from "../../assets/logo.png"; // Certifique-se de que o arquivo está lá
-import "./Navegacao.css"; // Certifique-se de importar o CSS corrigido
+import logoImg from "../../assets/logo.png";
+import "./Navegacao.css";
 
 function Navegacao(): JSX.Element {
-    // Estado de Autenticação
     const [isAuthenticated, setIsAuthenticated] = useState(() => {
         const isAuth = localStorage.getItem('isAuth');
         const token = localStorage.getItem('token');
         return !!(isAuth && token && AuthRequests.checkTokenExpiry());
     });
 
-    // Recupera o email para a saudação
-    const [email] = useState(() => {
-        return localStorage.getItem('email') ?? '';
-    });
+    const [email] = useState(() => localStorage.getItem('email') ?? '');
 
     const logout = () => {
         AuthRequests.removeToken();
         setIsAuthenticated(false);
     };
 
-    // Itens do Menu MedFlow
     const items: MenuItem[] = [
         { label: 'Home', icon: 'pi pi-home', url: "/" },
         { label: 'Paciente', icon: 'pi pi-users', url: "/lista/paciente" },
@@ -32,46 +26,39 @@ function Navegacao(): JSX.Element {
         { label: 'Consulta', icon: 'pi pi-calendar', url: "/lista/consulta" }
     ];
 
-    // Seção de Saudação e Logout (end)
+    // Logo encapsulada para o lado esquerdo
+    const startSection = (
+        <div className="nav-logo-wrapper">
+            <img alt="MedFlow Logo" src={logoImg} className="logo-img-prime" />
+        </div>
+    );
+
+    // Seção de usuário para o lado direito
     const endSection = (
-        <div className="flex items-center gap-3 pr-6">
+        <div className="nav-user-controls">
             {isAuthenticated ? (
                 <>
-                    <p className="text-user-greeting">
-                        Olá, <span className="text-user-email">{email}</span>
-                    </p>
-                    <button
-                        onClick={logout}
-                        className="btn-logout"
-                    >
-                        Sair
+                    <div className="user-text-container">
+                        <span className="welcome-span">Olá,</span>
+                        <span className="email-span">{email}</span>
+                    </div>
+                    <button onClick={logout} className="btn-logout-modern">
+                        <i className="pi pi-power-off"></i> Sair
                     </button>
                 </>
             ) : (
-                <a
-                    href="/login"
-                    className="btn-login"
-                >
-                    Entrar
-                </a>
+                <a href="/login" className="btn-login-modern">Entrar</a>
             )}
         </div>
     );
 
     return (
-        <header className="navbar-custom">
-            <div className="nav-logo-section">
-                <img
-                    alt="MedFlow Logo"
-                    src={logoImg}
-                    className="logo-img"
-                />
-            </div>
-            {/* O Menubar agora só contém os links centrais, a logo e o fim estão no header */}
+        <header className="header-glass">
             <Menubar
                 model={isAuthenticated ? items : [items[0]]}
+                start={startSection}
                 end={endSection}
-                className="menubar-reset"
+                className="main-menubar"
             />
         </header>
     );

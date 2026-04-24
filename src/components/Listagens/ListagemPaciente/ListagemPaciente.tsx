@@ -1,14 +1,25 @@
-import { type JSX } from "react";
+import { type JSX, useState, useEffect } from "react";
 import Navegacao from "../../../components/Navegacao/Navegacao";
 import Rodape from "../../../components/Rodape/Rodape";
+import PacienteRequests from "../../../fetch/PacienteRequest";
+import type { PacienteDTO } from "../../../dto/PacienteDTO";
 
-function PListagemPaciente(): JSX.Element {
-    // Dados fictícios para visualização
-    const pacientes = [
-        { id: 1, cpf: "123.456.789-00", nome: "Enzo Cassão", email: "enzo@email.com", telefone: "(16) 99999-1111" },
-        { id: 2, cpf: "987.654.321-11", nome: "Lívia Borges", email: "livia@email.com", telefone: "(16) 99999-2222" },
-        { id: 3, cpf: "456.789.123-22", nome: "Jadson Santos", email: "jadson@email.com", telefone: "(16) 99999-3333" },
-    ];
+function ListagemPacientes(): JSX.Element {
+    const [pacientes, setPacientes] = useState<PacienteDTO[]>([]);
+
+    useEffect(() => {
+        const buscarPacientes = async () => {
+            try {
+                const listaDePacientes = await PacienteRequests.obterListaDePacientes();
+                setPacientes(listaDePacientes);
+            } catch (error) {
+                console.error(`Erro ao buscar pacientes. ${error}`);
+                alert("Erro ao criar a listagem de pacientes.");
+            }
+        };
+
+        buscarPacientes();
+    }, []);
 
     return (
         <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
@@ -45,40 +56,56 @@ function PListagemPaciente(): JSX.Element {
                         <thead>
                             <tr style={{ borderBottom: '2px solid #f0f0f0', backgroundColor: '#f9f9f9' }}>
                                 <th style={estiloCabecalho}>ID</th>
-                                <th style={estiloCabecalho}>CPF</th>
                                 <th style={estiloCabecalho}>NOME</th>
-                                <th style={estiloCabecalho}>EMAIL</th>
+                                <th style={estiloCabecalho}>CPF</th>
                                 <th style={estiloCabecalho}>TELEFONE</th>
                                 <th style={estiloCabecalho}>AÇÕES</th>
                             </tr>
                         </thead>
                         <tbody>
-                            {pacientes.map((paciente) => (
-                                <tr key={paciente.id} className="linha-tabela" style={{ borderBottom: '1px solid #f0f0f0' }}>
-                                    <td style={estiloCelula}>{paciente.id}</td>
-                                    <td style={estiloCelula}>
-                                        <span style={{ backgroundColor: 'var(--cor-suave)', color: 'var(--cor-logo-primaria)', padding: '4px 8px', borderRadius: '4px', fontSize: '0.85rem' }}>
-                                            {paciente.cpf}
-                                        </span>
-                                    </td>
-                                    <td style={estiloCelula}>
-                                        <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-                                            <div style={{ width: '30px', height: '30px', borderRadius: '50%', backgroundColor: 'var(--cor-telemed-botao)', display: 'flex', alignItems: 'center', justifyItems: 'center', justifyContent: 'center', fontSize: '0.8rem', fontWeight: 'bold' }}>
-                                                {paciente.nome.charAt(0)}
+                            {pacientes.length > 0 ? (
+                                pacientes.map((paciente) => (
+                                    <tr key={paciente.idPaciente} style={{ borderBottom: '1px solid #f0f0f0' }}>
+                                        <td style={estiloCelula}>{paciente.idPaciente}</td>
+                                        <td style={estiloCelula}>
+                                            <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                                                <div style={{ 
+                                                    width: '30px', 
+                                                    height: '30px', 
+                                                    borderRadius: '50%', 
+                                                    backgroundColor: '#f0f0f0', 
+                                                    display: 'flex', 
+                                                    alignItems: 'center', 
+                                                    justifyContent: 'center', 
+                                                    fontSize: '0.8rem', 
+                                                    fontWeight: 'bold' 
+                                                }}>
+                                                    {paciente.nome.charAt(0).toUpperCase()}
+                                                </div>
+                                                {paciente.nome}
                                             </div>
-                                            {paciente.nome}
-                                        </div>
-                                    </td>
-                                    <td style={estiloCelula}>{paciente.email}</td>
-                                    <td style={estiloCelula}>{paciente.telefone}</td>
-                                    <td style={estiloCelula}>
-                                        <div style={{ display: 'flex', gap: '8px' }}>
-                                            <button style={btnAcao}>Editar</button>
-                                            <button style={{ ...btnAcao, color: 'var(--cor-botao-sair)' }}>Excluir</button>
-                                        </div>
+                                        </td>
+                                        <td style={estiloCelula}>
+                                            <span style={{ backgroundColor: '#E8F7FE', color: '#3F4DE3', padding: '4px 8px', borderRadius: '4px', fontSize: '0.85rem', fontWeight: 'bold' }}>
+                                                {paciente.cpf}
+                                            </span>
+                                        </td>
+                                        <td style={estiloCelula}>{paciente.telefone}</td>
+                                        <td style={estiloCelula}>
+                                            <div style={{ display: 'flex', gap: '8px' }}>
+                                                <button style={btnAcao}>Detalhes</button>
+                                                <button style={{ ...btnAcao, color: 'var(--cor-botao-sair)' }}>Remover</button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                ))
+                            ) : (
+                                <tr>
+                                    <td colSpan={6} style={{ ...estiloCelula, textAlign: 'center', padding: '40px' }}>
+                                        Nenhum paciente encontrado.
                                     </td>
                                 </tr>
-                            ))}
+                            )}
                         </tbody>
                     </table>
                 </div>
@@ -89,7 +116,7 @@ function PListagemPaciente(): JSX.Element {
     );
 }
 
-// Estilos Reutilizáveis
+// Estilos Reutilizáveis (Seguindo o padrão MedFlow)
 const estiloCabecalho: React.CSSProperties = {
     padding: '16px',
     fontSize: '0.75rem',
@@ -113,4 +140,4 @@ const btnAcao: React.CSSProperties = {
     cursor: 'pointer'
 };
 
-export default PListagemPaciente;
+export default ListagemPacientes;

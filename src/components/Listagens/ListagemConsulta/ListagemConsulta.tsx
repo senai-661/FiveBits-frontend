@@ -1,106 +1,101 @@
 import { type JSX } from "react";
+import { useState, useEffect } from "react";
+import type { ConsultaDTO } from "../../../dto/ConsultaDTO";
+import ConsultaRequest from "../../../fetch/ConsultaRequest";
+
+// Certifique-se de que os caminhos das importações estão corretos
 import Navegacao from "../../../components/Navegacao/Navegacao";
 import Rodape from "../../../components/Rodape/Rodape";
 
-function PListagemConsulta(): JSX.Element {
-    // Dados fictícios de consultas para visualização
-    const consultas = [
-        { id: 1, data: "22/04/2026", hora: "14:00", paciente: "Enzo Cassão", medico: "Dr. Gabriel Henrique", status: "Agendada" },
-        { id: 2, data: "23/04/2026", hora: "09:30", paciente: "Lívia Borges", medico: "Dra. Lívia Borges", status: "Confirmada" },
-        { id: 3, data: "21/04/2026", hora: "16:00", paciente: "Jadson Santos", medico: "Dr. Ismael Henrique", status: "Realizada" },
-    ];
+function ListagemConsultas(): JSX.Element {
+    const [consultas, setConsultas] = useState<ConsultaDTO[]>([]);
 
-    // Função para definir a cor do status
-    const getStatusStyle = (status: string) => {
-        switch(status) {
-            case "Agendada": return { backgroundColor: '#FFF4E5', color: '#B76E00' }; // Laranja
-            case "Confirmada": return { backgroundColor: '#E8F7FE', color: '#3F4DE3' }; // Azul
-            case "Realizada": return { backgroundColor: '#E7F9E2', color: '#18C401' }; // Verde
-            default: return { backgroundColor: '#F0F0F0', color: '#666' };
+    useEffect(() => {
+        const buscarConsultas = async () => {
+            try {
+                const listaDeConsultas = await ConsultaRequest.obterListaDeConsultas();
+                setConsultas(listaDeConsultas);
+            } catch (error) {
+                console.error(`Erro ao buscar consultas. ${error}`);
+            }
         }
+        buscarConsultas();
+    }, []);
+
+    const formatarDataHora = (dataIso: string) => {
+        const dataObj = new Date(dataIso);
+        return {
+            data: dataObj.toLocaleDateString('pt-BR'),
+            hora: dataObj.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' })
+        };
     };
 
     return (
-        <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
+        /* O container pai deve ser flex-column para empilhar Navegação, Conteúdo e Rodapé */
+        <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh', width: '100%' }}>
+            
+            {/* 1. CABEÇALHO (Agora visível) */}
             <Navegacao />
 
-            <main style={{ flex: 1, padding: '40px 10%', backgroundColor: 'var(--cor-container)' }}>
-                {/* Cabeçalho */}
+            {/* 2. CONTEÚDO PRINCIPAL */}
+            <main style={{ 
+                flex: 1, 
+                padding: '40px 10%', 
+                backgroundColor: '#f4f7f6' // Cor de fundo suave para destacar a tabela
+            }}>
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '24px' }}>
-                    <h1 style={{ color: 'var(--cor-inspiracao)', fontSize: '1.8rem', fontWeight: 'bold' }}>
+                    <h1 style={{ color: '#2c3e50', fontSize: '1.8rem', fontWeight: 'bold', margin: 0 }}>
                         Agenda de Consultas
                     </h1>
-                    <button style={{ 
-                        backgroundColor: 'var(--cor-logo-primaria)', 
-                        color: 'white', 
-                        padding: '10px 20px', 
-                        borderRadius: '8px', 
-                        border: 'none',
-                        fontWeight: 'bold',
-                        cursor: 'pointer'
-                    }}>
-                        + Nova Consulta
-                    </button>
+                    <button style={btnNovo}>+ Nova Consulta</button>
                 </div>
 
-                {/* Tabela de Consultas */}
-                <div style={{ 
-                    backgroundColor: 'white', 
-                    borderRadius: '12px', 
-                    boxShadow: '0 4px 6px rgba(0,0,0,0.05)', 
-                    overflow: 'hidden',
-                    border: '1px solid #e0e0e0'
-                }}>
+                <div style={containerTabela}>
                     <table style={{ width: '100%', borderCollapse: 'collapse', textAlign: 'left' }}>
                         <thead>
                             <tr style={{ borderBottom: '2px solid #f0f0f0', backgroundColor: '#f9f9f9' }}>
-                                <th style={estiloCabecalho}>DATA/HORA</th>
+                                <th style={estiloCabecalho}>DATA / HORA</th>
                                 <th style={estiloCabecalho}>PACIENTE</th>
                                 <th style={estiloCabecalho}>MÉDICO</th>
-                                <th style={estiloCabecalho}>STATUS</th>
+                                <th style={estiloCabecalho}>TRIAGEM</th>
                                 <th style={estiloCabecalho}>AÇÕES</th>
                             </tr>
                         </thead>
                         <tbody>
-                            {consultas.map((consulta) => (
-                                <tr key={consulta.id} style={{ borderBottom: '1px solid #f0f0f0' }}>
-                                    <td style={estiloCelula}>
-                                        <div style={{ fontWeight: 'bold' }}>{consulta.data}</div>
-                                        <div style={{ fontSize: '0.8rem', color: '#888' }}> às {consulta.hora}</div>
-                                    </td>
-                                    <td style={estiloCelula}>{consulta.paciente}</td>
-                                    <td style={estiloCelula}>
-                                        <span style={{ fontSize: '0.9rem' }}>{consulta.medico}</span>
-                                    </td>
-                                    <td style={estiloCelula}>
-                                        <span style={{ 
-                                            padding: '4px 12px', 
-                                            borderRadius: '20px', 
-                                            fontSize: '0.75rem', 
-                                            fontWeight: 'bold',
-                                            ...getStatusStyle(consulta.status)
-                                        }}>
-                                            {consulta.status.toUpperCase()}
-                                        </span>
-                                    </td>
-                                    <td style={estiloCelula}>
-                                        <div style={{ display: 'flex', gap: '8px' }}>
-                                            <button style={btnAcao}>Reagendar</button>
-                                            <button style={{ ...btnAcao, color: '#E53E3E' }}>Cancelar</button>
-                                        </div>
-                                    </td>
-                                </tr>
-                            ))}
+                            {consultas.map((consulta) => {
+                                const { data, hora } = formatarDataHora( consulta.dataHora.toString());
+                                return (
+                                    <tr key={consulta.idConsulta} style={{ borderBottom: '1px solid #f0f0f0' }}>
+                                        <td style={estiloCelula}>
+                                            <div style={{ fontWeight: 'bold' }}>{data}</div>
+                                            <div style={{ fontSize: '0.8rem', color: '#888' }}>às {hora}</div>
+                                        </td>
+                                        <td style={estiloCelula}>{consulta.paciente.nomePaciente}</td>
+                                        <td style={estiloCelula}>{consulta.medico.nomeMedico}</td>
+                                        <td style={estiloCelula}>
+                                            <div style={estiloTriagem}>{consulta.triagemSintomas}</div>
+                                        </td>
+                                        <td style={estiloCelula}>
+                                            <div style={{ display: 'flex', gap: '8px' }}>
+                                                <button style={btnAcao}>Detalhes</button>
+                                                <button style={{ ...btnAcao, color: '#E53E3E' }}>Cancelar</button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                );
+                            })}
                         </tbody>
                     </table>
                 </div>
             </main>
 
+            {/* 3. RODAPÉ */}
             <Rodape />
         </div>
     );
 }
 
+// Estilos extraídos para manter o componente limpo
 const estiloCabecalho: React.CSSProperties = {
     padding: '16px',
     fontSize: '0.75rem',
@@ -115,6 +110,24 @@ const estiloCelula: React.CSSProperties = {
     color: '#333'
 };
 
+const containerTabela: React.CSSProperties = {
+    backgroundColor: 'white',
+    borderRadius: '12px',
+    boxShadow: '0 4px 6px rgba(0,0,0,0.05)',
+    overflow: 'hidden',
+    border: '1px solid #e0e0e0'
+};
+
+const btnNovo: React.CSSProperties = {
+    backgroundColor: '#3f4de3',
+    color: 'white',
+    padding: '10px 20px',
+    borderRadius: '8px',
+    border: 'none',
+    fontWeight: 'bold',
+    cursor: 'pointer'
+};
+
 const btnAcao: React.CSSProperties = {
     padding: '6px 12px',
     borderRadius: '6px',
@@ -124,4 +137,13 @@ const btnAcao: React.CSSProperties = {
     cursor: 'pointer'
 };
 
-export default PListagemConsulta;
+const estiloTriagem: React.CSSProperties = {
+    fontSize: '0.85rem',
+    color: '#666',
+    maxWidth: '180px',
+    whiteSpace: 'nowrap',
+    overflow: 'hidden',
+    textOverflow: 'ellipsis'
+};
+
+export default ListagemConsultas;
