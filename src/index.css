@@ -1,0 +1,41 @@
+/* index.css */
+
+.navbar-custom {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 5%;
+    background-color: #ffffff;
+    height: 100px; /* Altura fixa para acomodar a logo nova */
+    width: 100%;
+    position: sticky; /* O menu fica preso no topo */
+    top: 0;
+    z-index: 1000; /* Garante que nada passe por cima do menu */
+    border-bottom: 1px solid #f0f0f0;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+}
+
+.logo-img {
+    height: 100px; 
+    width: auto;  
+    display: block;
+    object-fit: contain;
+}
+
+.nav-items-section {
+    display: flex;
+    align-items: center;
+    gap: 25px; /* Espaço entre os itens */
+}
+
+/* Ajuste do Main para o conteúdo não subir */
+.main-wrapper {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding-top: 20px; /* Evita que o texto encoste no menu */
+    background-color: var(--cor-container);
+    min-height: calc(100vh - 180px); /* Desconta header e footer */
+}

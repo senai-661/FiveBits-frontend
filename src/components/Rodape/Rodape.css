@@ -1,0 +1,102 @@
+.footer-minimal {
+    /* Fundo Criativo: Gradiente suave que remete à saúde digital */
+    background: linear-gradient(135deg, #ffffff 0%, #f0fdfa 100%);
+    border-top: 1px solid #e2e8f0;
+    padding: 25px 5%; /* Altura bem reduzida */
+    font-family: 'Inter', sans-serif;
+}
+
+.footer-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* Marca e Slogan */
+.brand-brief {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.logo-compact {
+    font-size: 1.2rem;
+    color: #1a3a36;
+    letter-spacing: -0.5px;
+}
+
+.logo-compact strong {
+    color: #00a896; /* Cor MedFlow */
+}
+
+.divider {
+    color: #cbd5e1;
+}
+
+.slogan-minimal {
+    font-size: 0.85rem;
+    color: #64748b;
+    margin: 0;
+}
+
+/* Créditos de Desenvolvedores */
+.dev-credits {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.label {
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    color: #94a3b8;
+    letter-spacing: 0.5px;
+}
+
+.dev-names {
+    font-size: 0.85rem;
+    color: #475569;
+    font-weight: 500;
+}
+
+.dev-names span {
+    transition: color 0.2s;
+    cursor: default;
+}
+
+.dev-names span:hover {
+    color: #00a896;
+}
+
+/* Info e Localização */
+.footer-info {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    font-size: 0.8rem;
+    color: #94a3b8;
+}
+
+.version {
+    background: #f1f5f9;
+    padding: 2px 8px;
+    border-radius: 6px;
+    font-family: monospace;
+}
+
+/* Ajuste Responsivo */
+@media (max-width: 768px) {
+    .footer-container {
+        flex-direction: column;
+        gap: 15px;
+        text-align: center;
+    }
+    .brand-brief {
+        flex-direction: column;
+        gap: 5px;
+    }
+    .divider { display: none; }
+}
