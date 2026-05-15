@@ -1,6 +1,6 @@
 import { type JSX } from "react";
 import Navegacao from "../../../components/Navegacao/Navegacao";
-import DetalhesPaciente from "../../../components/Listagens/Detalhes/DetalhesPaciente/DetalhesPaciente";
+import DetalhesPaciente from "../../../components/Listagens/DetalhesPaciente/DetalhesPaciente";
 import Rodape from "../../../components/Rodape/Rodape";
 import { useParams } from "react-router-dom";
 

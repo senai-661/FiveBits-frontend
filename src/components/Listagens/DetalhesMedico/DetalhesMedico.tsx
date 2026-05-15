@@ -7,7 +7,7 @@ import { Message } from "primereact/message";
 import MedicoRequest from "../../../fetch/MedicoRequest";
 import type { MedicoDTO } from "../../../dto/MedicoDTO";
 import { useNavigate } from "react-router-dom";
-import styles from "./DetalhesMedico.module.css";
+import styles from "../../../styles/DetalhesPadrao.module.css";
 
 interface DetalhesMedicoProps {
     id_medico: number;
@@ -49,9 +49,9 @@ function DetalhesMedico({ id_medico }: DetalhesMedicoProps): JSX.Element {
     // Renderização do estado de carregamento (Skeleton)
     if (loading) {
         return (
-            <div className={styles.loadingWrapper}>
-                <Card className="shadow-4">
-                    <div className="flex flex-col gap-4">
+            <div className={styles.skeletonWrapper}>
+                <Card className={styles.skeletonCard}>
+                    <div className="flex flex-col gap-4 p-6">
                         <div className="flex items-center gap-4">
                             <Skeleton shape="circle" size="4rem"></Skeleton>
                             <div className="flex-1">
@@ -85,44 +85,45 @@ function DetalhesMedico({ id_medico }: DetalhesMedicoProps): JSX.Element {
 
     // Renderização dos detalhes do médico
     return (
-        <main className={styles.pageWrapper}>
-            <div className={styles.pageContainer}>
-                <Card title="Detalhes do Médico" className={`${styles.detailsCard} ${styles.fadeIn}`}>
+        <main className={styles.detailsWrapper}>
+            <div className={styles.cardContainer}>
+                <Card className={styles.detailsCard}>
                     <div className={styles.cardContent}>
-                        <div className={styles.headerRow}>
-                            <h1 className={styles.headerTitle}>{medico.nome}</h1>
-                            <div className={styles.metaRow}>
-                                <Tag value={medico.crm} severity="info" className={styles.tagInfo} />
+                        <div className={styles.detailsHeader}>
+                            <h2 className={styles.headerTitle}>{medico.nome}</h2>
+                            <div className={styles.headerSubtitle}>
+                                <span>Registro no Conselho (CRM)</span>
+                                <Tag value={medico.crm} severity="info" className="px-3 py-1 text-sm font-semibold" />
                             </div>
                         </div>
 
-                        <Divider />
+                        <Divider className="my-3" />
 
-                        <div className={styles.sectionBody}>
-                            <section className={styles.infoCard}>
-                                <h2 className={styles.sectionTitle}>
-                                    <i className="pi pi-user text-blue-500"></i> Informações do Médico
-                                </h2>
-                                <div className={styles.infoList}>
-                                    <div className={styles.infoItem}>
-                                        <span className={styles.infoLabel}>Especialidade</span>
-                                        <span className={styles.infoValue}>{medico.especialidade}</span>
+                        <div className={styles.infoGrid}>
+                            <div className={styles.infoSection}>
+                                <h3 className={styles.sectionTitle}>
+                                    <i className="pi pi-briefcase text-blue-500 text-sm"></i> Informações do Médico
+                                </h3>
+                                <div className={styles.sectionText}>
+                                    <div className={styles.fieldGroup}>
+                                        <span className={styles.fieldLabel}>Especialidade</span>
+                                        <span className={styles.fieldValue}>{medico.especialidade}</span>
                                     </div>
-                                    
-                                    <div className={styles.infoItem}>
-                                        <span className={styles.infoLabel}>Valor da Consulta</span>
-                                        <span className={styles.infoValue}>{medico.valorConsulta}</span>
+                                    <div className={styles.fieldGroup}>
+                                        <span className={styles.fieldLabel}>Valor da Consulta</span>
+                                        <span className={styles.fieldValue}>
+                                            R$ {medico.valorConsulta}
+                                        </span>
                                     </div>
                                 </div>
-                            </section>
+                            </div>
                         </div>
                     </div>
                 </Card>
 
                 <div className={styles.buttonGroup}>
-                  
                     <button
-                        className={`${styles.actionButton} ${styles.secondaryButton}`}
+                        className={styles.buttonSecondary}
                         onClick={() => navigate(`/lista/medico`)}
                     >
                         Voltar
