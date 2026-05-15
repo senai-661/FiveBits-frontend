@@ -1,0 +1,182 @@
+.detailsWrapper {
+    min-height: calc(100vh - 180px);
+    padding: 40px 24px 32px;
+    background-color: #f4f7f9;
+}
+
+.cardContainer {
+    max-width: 980px;
+    margin: 0 auto;
+}
+
+.detailsCard {
+    background: #ffffff;
+    border-radius: 24px;
+    border: 1px solid rgba(15, 23, 42, 0.08);
+    box-shadow: 0 16px 40px rgba(15, 23, 42, 0.08);
+    overflow: hidden;
+    animation: fadeIn 0.5s ease-out;
+}
+
+.cardContent {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    padding: 30px;
+}
+
+.detailsHeader {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.headerTitle {
+    font-size: 2rem;
+    font-weight: 800;
+    color: #102a43;
+    margin: 0;
+}
+
+.headerSubtitle {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 12px;
+    color: #64748b;
+    font-size: 0.95rem;
+}
+
+.infoGrid {
+    display: grid;
+    grid-template-columns: repeat(1, minmax(0, 1fr));
+    gap: 24px;
+}
+
+@media (min-width: 768px) {
+    .infoGrid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+.infoSection {
+    background: #f8fafc;
+    border-radius: 20px;
+    padding: 22px;
+    border: 1px solid rgba(148, 163, 184, 0.15);
+}
+
+.sectionTitle {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 1rem;
+    font-weight: 700;
+    color: #1e293b;
+    margin: 0 0 18px;
+}
+
+.sectionText {
+    display: grid;
+    gap: 16px;
+}
+
+.fieldGroup {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.fieldLabel {
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: #94a3b8;
+}
+
+.fieldValue {
+    font-size: 0.97rem;
+    font-weight: 600;
+    color: #334155;
+}
+
+.statusActive {
+    color: #0f766e;
+}
+
+.statusInactive {
+    color: #b91c1c;
+}
+
+.buttonGroup {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-top: 24px;
+}
+
+.buttonPrimary,
+.buttonSecondary {
+    width: 100%;
+    padding: 14px 18px;
+    border-radius: 14px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.25s ease;
+    border: 1px solid transparent;
+}
+
+.buttonPrimary {
+    background-color: #0f766e;
+    color: #ffffff;
+}
+
+.buttonPrimary:hover {
+    background-color: #115e59;
+}
+
+.buttonSecondary {
+    background-color: #ffffff;
+    color: #102a43;
+    border-color: rgba(148, 163, 184, 0.3);
+}
+
+.buttonSecondary:hover {
+    background-color: #f8fafc;
+}
+
+.skeletonWrapper {
+    min-height: calc(100vh - 180px);
+    padding: 40px 24px 32px;
+    background-color: #f4f7f9;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.skeletonCard {
+    width: 100%;
+    max-width: 980px;
+    border-radius: 24px;
+    border: 1px solid rgba(15, 23, 42, 0.08);
+    box-shadow: 0 16px 40px rgba(15, 23, 42, 0.08);
+}
+
+.errorWrapper {
+    display: flex;
+    justify-content: center;
+    padding: 40px 24px;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(12px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}

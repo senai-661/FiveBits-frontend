@@ -8,6 +8,9 @@ import PListagemConsulta from './components/Listagens/ListagemConsulta/ListagemC
 import ProtectedRoute from './components/Rotas/ProtectedRotes'
 import PHomeLogin from './pages/PHomeLogin/PHomeLogin'
 import PDetalhesConsulta from "./pages/PDetalhesConsulta/PDetalhesConsulta";
+import PDetalhesPaciente from './pages/PDetalhes/PDetalhesPaciente/PDetalhesPaciente'
+import PDetalhesMedico from './pages/PDetalhes/PDetalhesMedico/PDetalhesMedico'
+
 
 function App() {
 
@@ -15,15 +18,15 @@ function App() {
     <BrowserRouter>
       <Routes>
         {/* Rota Principal: Landing Page do MedFlow */}
-        <Route path='/' element={<PHome />} /> 
-        <Route path='/login' element = {<PLogin/>}/>
-        <Route path='/bem-vindo' element = {<PHomeLogin/>}/>
-        <Route path='/lista/paciente' element={<ProtectedRoute element={<PListagemPaciente />} />}/>
-        <Route path='/lista/medico' element={<ProtectedRoute element={<PListagemMedico />} />}/>
-        <Route path='/lista/consulta' element={<ProtectedRoute element={<PListagemConsulta />} />}/>
+        <Route path='/' element={<PHome />} />
+        <Route path='/login' element={<PLogin />} />
+        <Route path='/bem-vindo' element={<PHomeLogin />} />
+        <Route path='/lista/paciente' element={<ProtectedRoute element={<PListagemPaciente />} />} />
+        <Route path='/lista/medico' element={<ProtectedRoute element={<PListagemMedico />} />} />
+        <Route path='/lista/consulta' element={<ProtectedRoute element={<PListagemConsulta />} />} />
+        <Route path='/detalhes/paciente/:id_paciente' element={<ProtectedRoute element={<PDetalhesPaciente />} />} />
+        <Route path='/detalhes/medico/:id_medico' element={<ProtectedRoute element={<PDetalhesMedico />} />}/>
         <Route path='/detalhes/consulta/:id_consulta' element={<ProtectedRoute element={<PDetalhesConsulta />} />}/>
-        
-
       </Routes>
     </BrowserRouter>
   )
