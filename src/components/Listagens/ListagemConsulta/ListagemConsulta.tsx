@@ -2,23 +2,32 @@ import { type JSX } from "react";
 import { useState, useEffect } from "react";
 import type { ConsultaDTO } from "../../../dto/ConsultaDTO";
 import ConsultaRequest from "../../../fetch/ConsultaRequest";
-
-// Certifique-se de que os caminhos das importações estão corretos
+import { useNavigate } from "react-router-dom";
 import Navegacao from "../../../components/Navegacao/Navegacao";
 import Rodape from "../../../components/Rodape/Rodape";
+import "../../../styles/ListagensPadrao.css";
 
 function ListagemConsultas(): JSX.Element {
     const [consultas, setConsultas] = useState<ConsultaDTO[]>([]);
+    const [erro, setErro] = useState<boolean>(false);
+    const navigate = useNavigate();
+
+    const buscarConsultas = async () => {
+        setErro(false);
+        try {
+            const listaDeConsultas = await ConsultaRequest.obterListaDeConsultas();
+            if (listaDeConsultas) {
+                setConsultas(listaDeConsultas);
+            } else {
+                setConsultas([]);
+            }
+        } catch (error) {
+            console.error(`Erro ao buscar consultas. ${error}`);
+            setErro(true);
+        }
+    }
 
     useEffect(() => {
-        const buscarConsultas = async () => {
-            try {
-                const listaDeConsultas = await ConsultaRequest.obterListaDeConsultas();
-                setConsultas(listaDeConsultas);
-            } catch (error) {
-                console.error(`Erro ao buscar consultas. ${error}`);
-            }
-        }
         buscarConsultas();
     }, []);
 
@@ -31,59 +40,81 @@ function ListagemConsultas(): JSX.Element {
     };
 
     return (
-        /* O container pai deve ser flex-column para empilhar Navegação, Conteúdo e Rodapé */
-        <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh', width: '100%' }}>
+        <div className="medflow-list-wrapper">
             
             {/* 1. CABEÇALHO (Agora visível) */}
             <Navegacao />
 
             {/* 2. CONTEÚDO PRINCIPAL */}
-            <main style={{ 
-                flex: 1, 
-                padding: '40px 10%', 
-                backgroundColor: '#f4f7f6' // Cor de fundo suave para destacar a tabela
-            }}>
-                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '24px' }}>
-                    <h1 style={{ color: '#2c3e50', fontSize: '1.8rem', fontWeight: 'bold', margin: 0 }}>
-                        Agenda de Consultas
-                    </h1>
-                    <button style={btnNovo}>+ Nova Consulta</button>
+            <main className="main-content">
+                <div className="page-header">
+                    <h1>Agenda de Consultas</h1>
+                    <button className="btn-novo">+ Nova Consulta</button>
                 </div>
 
-                <div style={containerTabela}>
-                    <table style={{ width: '100%', borderCollapse: 'collapse', textAlign: 'left' }}>
+                <div className="table-container">
+                    <table className="medflow-table">
                         <thead>
-                            <tr style={{ borderBottom: '2px solid #f0f0f0', backgroundColor: '#f9f9f9' }}>
-                                <th style={estiloCabecalho}>DATA / HORA</th>
-                                <th style={estiloCabecalho}>PACIENTE</th>
-                                <th style={estiloCabecalho}>MÉDICO</th>
-                                <th style={estiloCabecalho}>TRIAGEM</th>
-                                <th style={estiloCabecalho}>AÇÕES</th>
+                            <tr>
+                                <th>DATA / HORA</th>
+                                <th>PACIENTE</th>
+                                <th>MÉDICO</th>
+                                <th>TRIAGEM</th>
+                                <th>AÇÕES</th>
                             </tr>
                         </thead>
                         <tbody>
-                            {consultas.map((consulta) => {
-                                const { data, hora } = formatarDataHora( consulta.dataHora.toString());
-                                return (
-                                    <tr key={consulta.idConsulta} style={{ borderBottom: '1px solid #f0f0f0' }}>
-                                        <td style={estiloCelula}>
-                                            <div style={{ fontWeight: 'bold' }}>{data}</div>
-                                            <div style={{ fontSize: '0.8rem', color: '#888' }}>às {hora}</div>
-                                        </td>
-                                        <td style={estiloCelula}>{consulta.paciente.nomePaciente}</td>
-                                        <td style={estiloCelula}>{consulta.medico.nomeMedico}</td>
-                                        <td style={estiloCelula}>
-                                            <div style={estiloTriagem}>{consulta.triagemSintomas}</div>
-                                        </td>
-                                        <td style={estiloCelula}>
-                                            <div style={{ display: 'flex', gap: '8px' }}>
-                                                <button style={btnAcao}>Detalhes</button>
-                                                <button style={{ ...btnAcao, color: '#E53E3E' }}>Cancelar</button>
+                            {erro ? (
+                                <tr>
+                                    <td colSpan={5}>
+                                        <div className="error-state">
+                                            <div className="error-icon">⚠️</div>
+                                            <div className="error-title">Serviço Indisponível</div>
+                                            <div className="error-message">
+                                                Não foi possível conectar ao servidor. Verifique sua conexão ou tente novamente mais tarde.
                                             </div>
-                                        </td>
-                                    </tr>
-                                );
-                            })}
+                                            <button className="btn-retry" onClick={buscarConsultas}>Tentar Novamente</button>
+                                        </div>
+                                    </td>
+                                </tr>
+                            ) : consultas && consultas.length > 0 ? (
+                                consultas.map((consulta) => {
+                                    const { data, hora } = formatarDataHora( consulta.dataHora.toString());
+                                    return (
+                                        <tr key={consulta.idConsulta}>
+                                            <td>
+                                                <div className="text-bold">{data}</div>
+                                                <div style={{ fontSize: '0.8rem', color: '#888' }}>às {hora}</div>
+                                            </td>
+                                            <td>{consulta.paciente.nomePaciente}</td>
+                                            <td>{consulta.medico.nomeMedico}</td>
+                                            <td>
+                                                <div style={{
+                                                    fontSize: '0.85rem',
+                                                    color: '#666',
+                                                    maxWidth: '180px',
+                                                    whiteSpace: 'nowrap',
+                                                    overflow: 'hidden',
+                                                    textOverflow: 'ellipsis'
+                                                }}>{consulta.triagemSintomas}</div>
+                                            </td>
+                                            <td>
+                                                <div className="btn-group">
+                                                    <button className="btn-minimal primary" onClick={() => navigate (`/detalhes/consulta/${consulta.idConsulta}`)}>Detalhes</button>
+                                                    <button className="btn-minimal secondary">Atualizar</button>
+                                                    <button className="btn-minimal danger">Cancelar</button>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    );
+                                })
+                            ) : (
+                                <tr>
+                                    <td colSpan={5} className="empty-state">
+                                        Nenhuma consulta agendada.
+                                    </td>
+                                </tr>
+                            )}
                         </tbody>
                     </table>
                 </div>
@@ -94,56 +125,5 @@ function ListagemConsultas(): JSX.Element {
         </div>
     );
 }
-
-// Estilos extraídos para manter o componente limpo
-const estiloCabecalho: React.CSSProperties = {
-    padding: '16px',
-    fontSize: '0.75rem',
-    color: '#888',
-    textTransform: 'uppercase',
-    letterSpacing: '1px'
-};
-
-const estiloCelula: React.CSSProperties = {
-    padding: '16px',
-    fontSize: '0.95rem',
-    color: '#333'
-};
-
-const containerTabela: React.CSSProperties = {
-    backgroundColor: 'white',
-    borderRadius: '12px',
-    boxShadow: '0 4px 6px rgba(0,0,0,0.05)',
-    overflow: 'hidden',
-    border: '1px solid #e0e0e0'
-};
-
-const btnNovo: React.CSSProperties = {
-    backgroundColor: '#3f4de3',
-    color: 'white',
-    padding: '10px 20px',
-    borderRadius: '8px',
-    border: 'none',
-    fontWeight: 'bold',
-    cursor: 'pointer'
-};
-
-const btnAcao: React.CSSProperties = {
-    padding: '6px 12px',
-    borderRadius: '6px',
-    border: '1px solid #ddd',
-    backgroundColor: 'white',
-    fontSize: '0.8rem',
-    cursor: 'pointer'
-};
-
-const estiloTriagem: React.CSSProperties = {
-    fontSize: '0.85rem',
-    color: '#666',
-    maxWidth: '180px',
-    whiteSpace: 'nowrap',
-    overflow: 'hidden',
-    textOverflow: 'ellipsis'
-};
 
 export default ListagemConsultas;
