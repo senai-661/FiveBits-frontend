@@ -29,7 +29,7 @@ class MedicoRequests {
             }
         } catch (error) {
             console.error(`Erro ao fazer a consulta de médicos. ${error}`);
-            return;
+            throw error;
         }
     }
     async obterMedicoPorId(id_medico: number): Promise<MedicoDTO | undefined> {
@@ -50,7 +50,7 @@ class MedicoRequests {
             }
         } catch (error) {
             console.error(`Erro ao fazer a consulta de médico por ID. ${error}`);
-            return;
+            throw error;
         }
     }
 }

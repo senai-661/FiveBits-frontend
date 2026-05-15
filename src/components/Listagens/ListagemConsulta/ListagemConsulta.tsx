@@ -9,17 +9,25 @@ import "../../../styles/ListagensPadrao.css";
 
 function ListagemConsultas(): JSX.Element {
     const [consultas, setConsultas] = useState<ConsultaDTO[]>([]);
+    const [erro, setErro] = useState<boolean>(false);
     const navigate = useNavigate();
 
-    useEffect(() => {
-        const buscarConsultas = async () => {
-            try {
-                const listaDeConsultas = await ConsultaRequest.obterListaDeConsultas();
+    const buscarConsultas = async () => {
+        setErro(false);
+        try {
+            const listaDeConsultas = await ConsultaRequest.obterListaDeConsultas();
+            if (listaDeConsultas) {
                 setConsultas(listaDeConsultas);
-            } catch (error) {
-                console.error(`Erro ao buscar consultas. ${error}`);
+            } else {
+                setConsultas([]);
             }
+        } catch (error) {
+            console.error(`Erro ao buscar consultas. ${error}`);
+            setErro(true);
         }
+    }
+
+    useEffect(() => {
         buscarConsultas();
     }, []);
 
@@ -56,7 +64,20 @@ function ListagemConsultas(): JSX.Element {
                             </tr>
                         </thead>
                         <tbody>
-                            {consultas && consultas.length > 0 ? (
+                            {erro ? (
+                                <tr>
+                                    <td colSpan={5}>
+                                        <div className="error-state">
+                                            <div className="error-icon">⚠️</div>
+                                            <div className="error-title">Serviço Indisponível</div>
+                                            <div className="error-message">
+                                                Não foi possível conectar ao servidor. Verifique sua conexão ou tente novamente mais tarde.
+                                            </div>
+                                            <button className="btn-retry" onClick={buscarConsultas}>Tentar Novamente</button>
+                                        </div>
+                                    </td>
+                                </tr>
+                            ) : consultas && consultas.length > 0 ? (
                                 consultas.map((consulta) => {
                                     const { data, hora } = formatarDataHora( consulta.dataHora.toString());
                                     return (

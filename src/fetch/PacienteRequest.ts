@@ -29,7 +29,7 @@ class PacienteRequests {
             }
         } catch (error) {
             console.error(`Erro ao fazer a consulta de pacientes. ${error}`);
-            return;
+            throw error;
         }
     }
 
@@ -51,7 +51,7 @@ class PacienteRequests {
             }
         } catch (error) {
             console.error(`Erro ao fazer a consulta de paciente por ID. ${error}`);
-            return;
+            throw error;
         }
     }
 }

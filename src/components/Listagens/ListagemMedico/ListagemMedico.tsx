@@ -9,19 +9,25 @@ import "../../../styles/ListagensPadrao.css";
 
 function ListagemMedicos(): JSX.Element {
     const [medicos, setMedicos] = useState<MedicoDTO[]>([]);
+    const [erro, setErro] = useState<boolean>(false);
     const navigate = useNavigate();
 
-    useEffect(() => {
-        const buscarMedicos = async () => {
-            try {
-                const listaDeMedicos = await MedicoRequests.obterListaDeMedicos();
+    const buscarMedicos = async () => {
+        setErro(false);
+        try {
+            const listaDeMedicos = await MedicoRequests.obterListaDeMedicos();
+            if (listaDeMedicos) {
                 setMedicos(listaDeMedicos);
-            } catch (error) {
-                console.error(`Erro ao buscar médicos. ${error}`);
-                alert("Erro ao criar a listagem de médicos.");
+            } else {
+                setMedicos([]);
             }
+        } catch (error) {
+            console.error(`Erro ao buscar médicos. ${error}`);
+            setErro(true);
         }
+    }
 
+    useEffect(() => {
         buscarMedicos();
     }, []);
 
@@ -48,7 +54,20 @@ function ListagemMedicos(): JSX.Element {
                             </tr>
                         </thead>
                         <tbody>
-                            {medicos && medicos.length > 0 ? (
+                            {erro ? (
+                                <tr>
+                                    <td colSpan={4}>
+                                        <div className="error-state">
+                                            <div className="error-icon">⚠️</div>
+                                            <div className="error-title">Serviço Indisponível</div>
+                                            <div className="error-message">
+                                                Não foi possível conectar ao servidor. Verifique sua conexão ou tente novamente mais tarde.
+                                            </div>
+                                            <button className="btn-retry" onClick={buscarMedicos}>Tentar Novamente</button>
+                                        </div>
+                                    </td>
+                                </tr>
+                            ) : medicos && medicos.length > 0 ? (
                                 medicos.map((medico) => (
                                     <tr key={medico.idMedico}>
                                         <td>

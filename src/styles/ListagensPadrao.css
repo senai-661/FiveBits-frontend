@@ -148,10 +148,52 @@
     font-weight: 600;
 }
 
-.empty-state {
+.empty-state, .error-state {
     text-align: center;
-    padding: 40px;
+    padding: 60px 40px;
     color: #94a3b8;
+}
+
+.error-state {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+}
+
+.error-icon {
+    font-size: 3rem;
+    color: #ef4444;
+    margin-bottom: 10px;
+    opacity: 0.8;
+}
+
+.error-title {
+    color: #1a3a36;
+    font-size: 1.2rem;
+    font-weight: 700;
+}
+
+.error-message {
+    font-size: 0.95rem;
+    max-width: 400px;
+    line-height: 1.5;
+}
+
+.btn-retry {
+    margin-top: 15px;
+    background-color: #3b82f6;
+    color: white;
+    border: none;
+    padding: 8px 24px;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.btn-retry:hover {
+    background-color: #2563eb;
 }
 
 .money-tag {

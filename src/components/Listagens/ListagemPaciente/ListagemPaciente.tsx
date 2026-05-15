@@ -8,17 +8,25 @@ import "../../../styles/ListagensPadrao.css";
 
 function ListagemPacientes(): JSX.Element {
     const [pacientes, setPacientes] = useState<PacienteDTO[]>([]);
+    const [erro, setErro] = useState<boolean>(false);
     const navigate = useNavigate();
 
-    useEffect(() => {
-        const buscarPacientes = async () => {
-            try {
-                const listaDePacientes = await PacienteRequests.obterListaDePacientes();
+    const buscarPacientes = async () => {
+        setErro(false);
+        try {
+            const listaDePacientes = await PacienteRequests.obterListaDePacientes();
+            if (listaDePacientes) {
                 setPacientes(listaDePacientes);
-            } catch (error) {
-                console.error(`Erro ao buscar pacientes. ${error}`);
+            } else {
+                setPacientes([]);
             }
-        };
+        } catch (error) {
+            console.error(`Erro ao buscar pacientes. ${error}`);
+            setErro(true);
+        }
+    };
+
+    useEffect(() => {
         buscarPacientes();
     }, []);
 
@@ -43,7 +51,20 @@ function ListagemPacientes(): JSX.Element {
                             </tr>
                         </thead>
                         <tbody>
-                            {pacientes.length > 0 ? (
+                            {erro ? (
+                                <tr>
+                                    <td colSpan={4}>
+                                        <div className="error-state">
+                                            <div className="error-icon">⚠️</div>
+                                            <div className="error-title">Serviço Indisponível</div>
+                                            <div className="error-message">
+                                                Não foi possível conectar ao servidor. Verifique sua conexão ou tente novamente mais tarde.
+                                            </div>
+                                            <button className="btn-retry" onClick={buscarPacientes}>Tentar Novamente</button>
+                                        </div>
+                                    </td>
+                                </tr>
+                            ) : pacientes.length > 0 ? (
                                 pacientes.map((paciente) => (
                                     <tr key={paciente.idPaciente}>
                                         <td>
