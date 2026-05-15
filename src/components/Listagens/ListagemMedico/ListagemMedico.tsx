@@ -1,4 +1,4 @@
-import { type JSX } from "react";
+    import { type JSX } from "react";
 import { useState, useEffect } from "react";
 import type { MedicoDTO } from "../../../dto/MedicoDTO";
 import MedicoRequests from "../../../fetch/MedicoRequest";
