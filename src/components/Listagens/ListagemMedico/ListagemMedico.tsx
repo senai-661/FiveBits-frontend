@@ -4,9 +4,11 @@ import type { MedicoDTO } from "../../../dto/MedicoDTO";
 import MedicoRequests from "../../../fetch/MedicoRequest";
 import Navegacao from "../../../components/Navegacao/Navegacao";
 import Rodape from "../../../components/Rodape/Rodape";
+import { useNavigate } from "react-router-dom";
 
 function ListagemMedicos(): JSX.Element {
     const [medicos, setMedicos] = useState<MedicoDTO[]>([]);
+    const navigate = useNavigate();
 
     useEffect(() => {
         const buscarMedicos = async () => {
@@ -84,7 +86,7 @@ function ListagemMedicos(): JSX.Element {
                                         </td>
                                         <td style={estiloCelula}>
                                             <div style={{ display: 'flex', gap: '8px' }}>
-                                                <button style={btnAcao}>Detalhes</button>
+                                                <button style={btnAcao} onClick={() => navigate(`/detalhes/medico/${medico.idMedico}`)}>Detalhes</button>
                                                 <button style={{ ...btnAcao, color: '#3F4DE3' }}>Atualizar</button>
                                                 <button style={{ ...btnAcao, color: '#E53E3E' }}>Deletar</button>
                                             </div>
