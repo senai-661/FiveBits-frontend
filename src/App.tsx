@@ -22,7 +22,7 @@ function App() {
         <Route path='/lista/paciente' element={<ProtectedRoute element={<PListagemPaciente />} />}/>
         <Route path='/lista/medico' element={<ProtectedRoute element={<PListagemMedico />} />}/>
         <Route path='/lista/consulta' element={<ProtectedRoute element={<PListagemConsulta />} />}/> 
-        <Route path='/detalhes/medico/:id_medico' element={<PDetalhesMedico />} />
+        <Route path='/detalhes/medico/:id_medico' element={<ProtectedRoute element={<PDetalhesMedico />} />}/>
 
       </Routes>
     </BrowserRouter>
