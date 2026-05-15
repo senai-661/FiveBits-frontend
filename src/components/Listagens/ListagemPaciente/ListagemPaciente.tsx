@@ -3,9 +3,11 @@ import Navegacao from "../../../components/Navegacao/Navegacao";
 import Rodape from "../../../components/Rodape/Rodape";
 import PacienteRequests from "../../../fetch/PacienteRequest";
 import type { PacienteDTO } from "../../../dto/PacienteDTO";
+import { useNavigate } from "react-router-dom";
 
 function ListagemPacientes(): JSX.Element {
     const [pacientes, setPacientes] = useState<PacienteDTO[]>([]);
+    const navigate = useNavigate();
 
     useEffect(() => {
         const buscarPacientes = async () => {
@@ -186,7 +188,8 @@ function ListagemPacientes(): JSX.Element {
                                         <td>{paciente.telefone}</td>
                                         <td>
                                             <div className="btn-group">
-                                                <button className="btn-minimal">Detalhes</button>
+                                                <button className="btn-minimal" onClick={( ()=> navigate(`/detalhes/paciente/${paciente.idPaciente}`))}>Detalhes</button>
+                                                <button className="btn-minimal" style={{ color: '#3F4DE3' }}>Atualizar</button>
                                                 <button className="btn-minimal" style={{ color: '#ef4444' }}>Remover</button>
                                             </div>
                                         </td>

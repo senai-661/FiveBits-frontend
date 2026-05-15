@@ -87,7 +87,7 @@ function DetalhesMedico({ id_medico }: DetalhesMedicoProps): JSX.Element {
     return (
         <main className={styles.pageWrapper}>
             <div className={styles.pageContainer}>
-                <Card title={`${medico.nome}`} className={`${styles.detailsCard} ${styles.fadeIn}`}>
+                <Card title="Detalhes do Médico" className={`${styles.detailsCard} ${styles.fadeIn}`}>
                     <div className={styles.cardContent}>
                         <div className={styles.headerRow}>
                             <h1 className={styles.headerTitle}>{medico.nome}</h1>
@@ -108,10 +108,7 @@ function DetalhesMedico({ id_medico }: DetalhesMedicoProps): JSX.Element {
                                         <span className={styles.infoLabel}>Especialidade</span>
                                         <span className={styles.infoValue}>{medico.especialidade}</span>
                                     </div>
-                                    <div className={styles.infoItem}>
-                                        <span className={styles.infoLabel}>E-mail</span>
-                                        <span className={styles.infoValue}>{medico.emailMedico}</span>
-                                    </div>
+                                    
                                     <div className={styles.infoItem}>
                                         <span className={styles.infoLabel}>Valor da Consulta</span>
                                         <span className={styles.infoValue}>{medico.valorConsulta}</span>
@@ -123,12 +120,7 @@ function DetalhesMedico({ id_medico }: DetalhesMedicoProps): JSX.Element {
                 </Card>
 
                 <div className={styles.buttonGroup}>
-                    <button
-                        className={`${styles.actionButton} ${styles.primaryButton}`}
-                        onClick={() => navigate(`/atualizar/medico/${medico.idMedico}`)}
-                    >
-                        Editar Médico
-                    </button>
+                  
                     <button
                         className={`${styles.actionButton} ${styles.secondaryButton}`}
                         onClick={() => navigate(`/lista/medico`)}
