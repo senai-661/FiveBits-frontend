@@ -78,6 +78,7 @@ function ListagemConsultas(): JSX.Element {
                                         <td style={estiloCelula}>
                                             <div style={{ display: 'flex', gap: '8px' }}>
                                                 <button style={btnAcao}>Detalhes</button>
+                                                <button style={{ ...btnAcao, color: '#3F4DE3' }}>Atualizar</button>
                                                 <button style={{ ...btnAcao, color: '#E53E3E' }}>Cancelar</button>
                                             </div>
                                         </td>
