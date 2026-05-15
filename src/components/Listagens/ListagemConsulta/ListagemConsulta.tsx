@@ -2,13 +2,14 @@ import { type JSX } from "react";
 import { useState, useEffect } from "react";
 import type { ConsultaDTO } from "../../../dto/ConsultaDTO";
 import ConsultaRequest from "../../../fetch/ConsultaRequest";
-
+import { useNavigate } from "react-router-dom";
 // Certifique-se de que os caminhos das importações estão corretos
 import Navegacao from "../../../components/Navegacao/Navegacao";
 import Rodape from "../../../components/Rodape/Rodape";
 
 function ListagemConsultas(): JSX.Element {
     const [consultas, setConsultas] = useState<ConsultaDTO[]>([]);
+    const navigate = useNavigate();
 
     useEffect(() => {
         const buscarConsultas = async () => {
@@ -77,7 +78,8 @@ function ListagemConsultas(): JSX.Element {
                                         </td>
                                         <td style={estiloCelula}>
                                             <div style={{ display: 'flex', gap: '8px' }}>
-                                                <button style={btnAcao}>Detalhes</button>
+                                                <button style={btnAcao} onClick={() => navigate (`/detalhes/consulta/${consulta.idConsulta}`)}>Detalhes</button>
+                                                <button style={{ ...btnAcao, color: '#3F4DE3' }}>Atualizar</button>
                                                 <button style={{ ...btnAcao, color: '#E53E3E' }}>Cancelar</button>
                                             </div>
                                         </td>
