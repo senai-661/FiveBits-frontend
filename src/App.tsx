@@ -7,6 +7,7 @@ import PListagemMedico from './components/Listagens/ListagemMedico/ListagemMedic
 import PListagemConsulta from './components/Listagens/ListagemConsulta/ListagemConsulta'
 import ProtectedRoute from './components/Rotas/ProtectedRotes'
 import PHomeLogin from './pages/PHomeLogin/PHomeLogin'
+import PDetalhesMedico from './pages/PDetalhes/PDetalhesMedico/PDetalhesMedico'
 
 
 function App() {
@@ -21,6 +22,7 @@ function App() {
         <Route path='/lista/paciente' element={<ProtectedRoute element={<PListagemPaciente />} />}/>
         <Route path='/lista/medico' element={<ProtectedRoute element={<PListagemMedico />} />}/>
         <Route path='/lista/consulta' element={<ProtectedRoute element={<PListagemConsulta />} />}/> 
+        <Route path='/detalhes/medico/:id_medico' element={<PDetalhesMedico />} />
 
       </Routes>
     </BrowserRouter>
