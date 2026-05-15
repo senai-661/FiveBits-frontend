@@ -27,7 +27,7 @@ class ConsultaRequests {
             }
         } catch (error) {
             console.error(`Erro ao fazer a consulta de consultas. ${error}`);
-            return;
+            throw error;
         }
     }
 
@@ -51,7 +51,7 @@ async obterConsultaPorId(id_consulta: number) {
             }
         } catch (error) {
             console.error(`Erro ao buscar o empréstimo por ID. ${error}`);
-            return;
+            throw error;
         }
     }
 }
