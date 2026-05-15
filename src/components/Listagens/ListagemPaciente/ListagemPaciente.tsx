@@ -187,6 +187,7 @@ function ListagemPacientes(): JSX.Element {
                                         <td>
                                             <div className="btn-group">
                                                 <button className="btn-minimal">Detalhes</button>
+                                                <button className="btn-minimal" style={{ color: '#3F4DE3' }}>Atualizar</button>
                                                 <button className="btn-minimal" style={{ color: '#ef4444' }}>Remover</button>
                                             </div>
                                         </td>
