@@ -7,7 +7,7 @@ import { Message } from "primereact/message";
 import ConsultaRequests from "../../../fetch/ConsultaRequest.ts";
 import type {ConsultaDTO} from "../../../dto/ConsultaDTO";
 import { useNavigate } from "react-router-dom";
-import "./DetalhesConsulta.css";
+import styles from "../../../styles/DetalhesPadrao.module.css";
 
 interface DetalhesConsultaProps {
     id_consulta: number;
@@ -48,18 +48,18 @@ function DetalhesConsulta({ id_consulta }: DetalhesConsultaProps): JSX.Element {
 
     if (loading) {
         return (
-            <div className="detalhes-consulta-page">
-                <Card className="detalhes-card detalhes-card--compact detalhes-skeleton-card animate-fade-in">
-                    <div className="skeleton-grid">
-                        <div className="detalhes-header">
+            <div className={styles.skeletonWrapper}>
+                <Card className={styles.skeletonCard}>
+                    <div className="flex flex-col gap-4 p-6">
+                        <div className="flex items-center gap-4">
                             <Skeleton shape="circle" size="4rem"></Skeleton>
-                            <div style={{ flex: 1 }}>
-                                <Skeleton width="65%" height="2rem" className="mb-2"></Skeleton>
-                                <Skeleton width="45%"></Skeleton>
+                            <div className="flex-1">
+                                <Skeleton width="60%" height="2rem" className="mb-2"></Skeleton>
+                                <Skeleton width="40%"></Skeleton>
                             </div>
                         </div>
-                        <Divider className="divider" />
-                        <div className="section-grid">
+                        <Divider />
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                             {[1, 2, 3, 4, 5, 6].map((i) => (
                                 <div key={i}>
                                     <Skeleton width="30%" className="mb-2"></Skeleton>
@@ -75,118 +75,121 @@ function DetalhesConsulta({ id_consulta }: DetalhesConsultaProps): JSX.Element {
 
     if (error || !consulta) {
         return (
-            <div className="error-message-container">
+            <div className={styles.errorWrapper}>
                 <Message severity="error" text={error || "Erro desconhecido."} />
             </div>
         );
     }
 
     return (
-        <main className="detalhes-consulta-page">
-            <Card title={`Consulta #${consulta.idConsulta}`} className="detalhes-card animate-fade-in">
-                <div className="detalhes-card-content">
-                    <div className="detalhes-header">
-                        <span className="section-label">Status da Consulta</span>
-                        <Tag value={consulta.status || "Pendente"} severity="info" className="tag-info" />
+        <main className={styles.detailsWrapper}>
+            <div className={styles.cardContainer}>
+                <Card className={styles.detailsCard}>
+                    <div className={styles.cardContent}>
+                        <div className={styles.detailsHeader}>
+                            <h2 className={styles.headerTitle}>Consulta #{consulta.idConsulta}</h2>
+                            <div className={styles.headerSubtitle}>
+                                <span>Status da Consulta</span>
+                                <Tag value={consulta.status || "Pendente"} severity="info" className="px-3 py-1 text-sm font-semibold" />
+                            </div>
+                        </div>
+
+                        <Divider className="my-3" />
+
+                        <div className={styles.infoGrid}>
+                            <div className={styles.infoSection}>
+                                <h3 className={styles.sectionTitle}>
+                                    <i className="pi pi-user text-blue-500 text-sm"></i> Dados do Paciente
+                                </h3>
+                                <div className={styles.sectionText}>
+                                    <div className={styles.fieldGroup}>
+                                        <span className={styles.fieldLabel}>Nome</span>
+                                        <span className={styles.fieldValue}>{consulta.paciente.nomePaciente}</span>
+                                    </div>
+                                    <div className={styles.fieldGroup}>
+                                        <span className={styles.fieldLabel}>CPF</span>
+                                        <span className={styles.fieldValue}>{consulta.paciente.cpf}</span>
+                                    </div>
+                                    <div className={styles.fieldGroup}>
+                                        <span className={styles.fieldLabel}>Telefone</span>
+                                        <span className={styles.fieldValue}>{consulta.paciente.telefone ?? "Não informado"}</span>
+                                    </div>
+                                    <div className={styles.fieldGroup}>
+                                        <span className={styles.fieldLabel}>Data de Nascimento</span>
+                                        <span className={styles.fieldValue}>{new Date(consulta.paciente.dataNascimento).toLocaleDateString('pt-BR')}</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div className={styles.infoSection}>
+                                <h3 className={styles.sectionTitle}>
+                                    <i className="pi pi-briefcase text-orange-500 text-sm"></i> Dados do Médico
+                                </h3>
+                                <div className={styles.sectionText}>
+                                    <div className={styles.fieldGroup}>
+                                        <span className={styles.fieldLabel}>Nome</span>
+                                        <span className={styles.fieldValue}>{consulta.medico.nomeMedico}</span>
+                                    </div>
+                                    <div className={styles.fieldGroup}>
+                                        <span className={styles.fieldLabel}>CRM</span>
+                                        <span className={styles.fieldValue}>{consulta.medico.crm}</span>
+                                    </div>
+                                    <div className={styles.fieldGroup}>
+                                        <span className={styles.fieldLabel}>Especialidade</span>
+                                        <span className={styles.fieldValue}>{consulta.medico.especialidade}</span>
+                                    </div>
+                                    <div className={styles.fieldGroup}>
+                                        <span className={styles.fieldLabel}>Valor da Consulta</span>
+                                        <span className={styles.fieldValue}>{consulta.medico.valorConsulta.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div className={styles.infoSection}>
+                                <h3 className={styles.sectionTitle}>
+                                    <i className="pi pi-calendar text-green-500 text-sm"></i> Data e Modalidade
+                                </h3>
+                                <div className={styles.sectionText}>
+                                    <div className={styles.fieldGroup}>
+                                        <span className={styles.fieldLabel}>Data e Hora</span>
+                                        <span className={styles.fieldValue}>{new Date(consulta.dataHora).toLocaleString('pt-BR')}</span>
+                                    </div>
+                                    <div className={styles.fieldGroup}>
+                                        <span className={styles.fieldLabel}>Modalidade</span>
+                                        <span className={styles.fieldValue}>{consulta.modalidade ?? "Não informada"}</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div className={styles.infoSection}>
+                                <h3 className={styles.sectionTitle}>
+                                    <i className="pi pi-heart text-red-500 text-sm"></i> Triagem
+                                </h3>
+                                <div className={styles.sectionText}>
+                                    <div className={styles.fieldGroup}>
+                                        <span className={styles.fieldLabel}>Sintomas</span>
+                                        <span className={styles.fieldValue}>{consulta.triagemSintomas}</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
+                </Card>
 
-                    <Divider className="divider" />
-
-                    <div className="section-grid">
-                        <section className="detail-section">
-                            <h3 className="section-title">
-                                <i className="pi pi-user" style={{ color: '#2563eb' }}></i>
-                                Dados do Paciente
-                            </h3>
-                            <div className="detail-box">
-                                <div className="detail-item">
-                                    <span className="detail-label">Nome</span>
-                                    <span className="detail-value">{consulta.paciente.nomePaciente}</span>
-                                </div>
-                                <div className="detail-item">
-                                    <span className="detail-label">CPF</span>
-                                    <span className="detail-value">{consulta.paciente.cpf}</span>
-                                </div>
-                                <div className="detail-item">
-                                    <span className="detail-label">Telefone</span>
-                                    <span className="detail-value">{consulta.paciente.telefone ?? "Não informado"}</span>
-                                </div>
-                                <div className="detail-item">
-                                    <span className="detail-label">Data de Nascimento</span>
-                                    <span className="detail-value">{new Date(consulta.paciente.dataNascimento).toLocaleDateString('pt-BR')}</span>
-                                </div>
-                            </div>
-                        </section>
-
-                        <section className="detail-section">
-                            <h3 className="section-title">
-                                <i className="pi pi-briefcase" style={{ color: '#f97316' }}></i>
-                                Dados do Médico
-                            </h3>
-                            <div className="detail-box">
-                                <div className="detail-item">
-                                    <span className="detail-label">Nome</span>
-                                    <span className="detail-value">{consulta.medico.nomeMedico}</span>
-                                </div>
-                                <div className="detail-item">
-                                    <span className="detail-label">CRM</span>
-                                    <span className="detail-value">{consulta.medico.crm}</span>
-                                </div>
-                                <div className="detail-item">
-                                    <span className="detail-label">Especialidade</span>
-                                    <span className="detail-value">{consulta.medico.especialidade}</span>
-                                </div>
-                                <div className="detail-item">
-                                    <span className="detail-label">Valor da Consulta</span>
-                                    <span className="detail-value">{consulta.medico.valorConsulta.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</span>
-                                </div>
-                            </div>
-                        </section>
-                    </div>
-
-                    <Divider className="divider" />
-
-                    <div className="section-grid">
-                        <section className="detail-section">
-                            <h3 className="section-title">
-                                <i className="pi pi-calendar" style={{ color: '#22c55e' }}></i>
-                                Data e Modalidade
-                            </h3>
-                            <div className="detail-box">
-                                <div className="detail-item">
-                                    <span className="detail-label">Data e Hora</span>
-                                    <span className="detail-value">{new Date(consulta.dataHora).toLocaleString('pt-BR')}</span>
-                                </div>
-                                <div className="detail-item">
-                                    <span className="detail-label">Modalidade</span>
-                                    <span className="detail-value">{consulta.modalidade ?? "Não informada"}</span>
-                                </div>
-                            </div>
-                        </section>
-
-                        <section className="detail-section">
-                            <h3 className="section-title">
-                                <i className="pi pi-heart" style={{ color: '#ef4444' }}></i>
-                                Triagem
-                            </h3>
-                            <div className="detail-box">
-                                <div className="detail-item">
-                                    <span className="detail-label">Sintomas</span>
-                                    <span className="detail-value">{consulta.triagemSintomas}</span>
-                                </div>
-                            </div>
-                        </section>
-                    </div>
+                <div className={styles.buttonGroup}>
+                    <button
+                        className={styles.buttonPrimary}
+                        onClick={() => navigate(`#`)}//navigate(`/atualizar/consulta/${consulta.idConsulta}`)}
+                    >
+                        Editar Consulta
+                    </button>
+                    <button
+                        className={styles.buttonSecondary}
+                        onClick={() => navigate(`/lista/consulta`)}
+                    >
+                        Voltar
+                    </button>
                 </div>
-            </Card>
-
-            <div className="button-group">
-                <button className="primary-button" onClick={() => navigate(`/atualizar/consulta/${consulta.idConsulta}`)}>
-                    Editar Consulta
-                </button>
-                <button className="secondary-button" onClick={() => navigate(`/lista/consulta`)}>
-                    Voltar
-                </button>
             </div>
         </main>
     );

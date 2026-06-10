@@ -4,10 +4,10 @@ import { Skeleton } from "primereact/skeleton";
 import { Tag } from "primereact/tag";
 import { Divider } from "primereact/divider";
 import { Message } from "primereact/message";
-import PacienteRequest from "../../../../fetch/PacienteRequest";
-import type { PacienteDTO } from "../../../../dto/PacienteDTO";
+import PacienteRequest from "../../../fetch/PacienteRequest";
+import type { PacienteDTO } from "../../../dto/PacienteDTO";
 import { useNavigate } from "react-router-dom";
-import styles from "./DetalhesPaciente.module.css";
+import styles from "../../../styles/DetalhesPadrao.module.css";
 
 interface DetalhesPacienteProps {
     id_paciente: number;
@@ -140,7 +140,7 @@ function DetalhesPaciente({ id_paciente }: DetalhesPacienteProps): JSX.Element {
                 <div className={styles.buttonGroup}>
                     <button
                         className={styles.buttonPrimary}
-                        onClick={() => navigate(`/atualizar/paciente/${paciente.idPaciente}`)}
+                        onClick={() => navigate(`#`)}//navigate(`/atualizar/paciente/${paciente.idPaciente}`)}
                     >
                         Editar Paciente
                     </button>
