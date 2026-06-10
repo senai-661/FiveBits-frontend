@@ -1,6 +1,6 @@
 import { type JSX, useState } from 'react';
 import { Link } from 'react-router-dom';
-import AuthRequests from '../../fetch/AuthRequests';
+import  AuthRequests from '../../../fetch/AuthRequests';
 
 function LoginForm(): JSX.Element {
     const [email, setEmail] = useState('');
