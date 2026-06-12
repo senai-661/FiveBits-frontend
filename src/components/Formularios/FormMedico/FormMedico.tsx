@@ -4,7 +4,6 @@ import { Divider } from "primereact/divider";
 import { useNavigate } from "react-router-dom";
 import MedicoRequest from "../../../fetch/MedicoRequest";
 import type { MedicoDTO } from "../../../dto/MedicoDTO";
-import Utilitario from "../../../utils/Utilitario";
 import styles from "../../../styles/DetalhesPadrao.module.css";
 
 function FormMedico(): JSX.Element {
@@ -16,8 +15,7 @@ function FormMedico(): JSX.Element {
         crm: "",
         especialidade: "",
         valorConsulta: 0,
-        emailMedico: "",
-        senhaMedico: "",
+
         situacao: true
     });
 
@@ -40,10 +38,6 @@ function FormMedico(): JSX.Element {
     ) => {
         e.preventDefault();
 
-        if (!Utilitario.validarEmail(formData.emailMedico)) {
-            alert("E-mail inválido");
-            return;
-        }
 
         const resposta =
             await MedicoRequest.enviarFormularioMedico(formData);
@@ -56,7 +50,7 @@ function FormMedico(): JSX.Element {
     };
 
     return (
-        <main className={styles.detailsWrapper}>
+        <main className={`${styles.detailsWrapper} ${styles.centeredFormWrapper}`}>
             <form onSubmit={handleSubmit}>
                 <div className={styles.cardContainer}>
                     <Card className={styles.detailsCard}>
@@ -77,7 +71,7 @@ function FormMedico(): JSX.Element {
                             <Divider className="my-3" />
 
                             {/* Grid */}
-                            <div className={styles.infoGrid}>
+                            <div className={`${styles.infoGrid} ${styles.singleColumnGrid}`}>
 
                                 {/* Dados Profissionais */}
                                 <div className={styles.infoSection}>
@@ -150,46 +144,10 @@ function FormMedico(): JSX.Element {
                                     </div>
                                 </div>
 
-                                {/* Contato e Acesso */}
-                                <div className={styles.infoSection}>
-                                    <h3 className={styles.sectionTitle}>
-                                        <i className="pi pi-envelope text-orange-500 text-sm"></i>
-                                        {" "}Contato e Acesso
-                                    </h3>
+                                
 
-                                    <div className={styles.sectionText}>
-
-                                        <div className={styles.fieldGroup}>
-                                            <span className={styles.fieldLabel}>
-                                                E-mail
-                                            </span>
-                                            <input
-                                                type="email"
-                                                name="emailMedico"
-                                                required
-                                                onChange={handleChange}
-                                                placeholder="medico@email.com"
-                                                className={styles.fieldInput}
-                                            />
-                                        </div>
-
-                                        <div className={styles.fieldGroup}>
-                                            <span className={styles.fieldLabel}>
-                                                Senha
-                                            </span>
-                                            <input
-                                                type="password"
-                                                name="senhaMedico"
-                                                required
-                                                minLength={6}
-                                                onChange={handleChange}
-                                                placeholder="Digite a senha"
-                                                className={styles.fieldInput}
-                                            />
-                                        </div>
-
-                                    </div>
-                                </div>
+                               
+                              
 
                             </div>
                         </div>

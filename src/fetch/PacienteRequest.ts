@@ -67,7 +67,11 @@ class PacienteRequests {
                 body: JSON.stringify(formPaciente)
             });
 
-            if(!respostaAPI.ok) throw new Error(`Erro ${respostaAPI.status}: ${respostaAPI.statusText}`);
+            if (!respostaAPI.ok) {
+                const erroAPI = await respostaAPI.json().catch(() => null);
+                const mensagem = erroAPI?.mensagem || respostaAPI.statusText;
+                throw new Error(`Erro ${respostaAPI.status}: ${mensagem}`);
+            }
 
             console.info(`${respostaAPI.status}: ${respostaAPI.statusText}`);
 
