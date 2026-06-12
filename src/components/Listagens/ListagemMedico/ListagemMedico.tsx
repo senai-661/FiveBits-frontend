@@ -39,7 +39,9 @@ function ListagemMedicos(): JSX.Element {
                 {/* Cabeçalho */}
                 <div className="page-header">
                     <h1>Médicos</h1>
-                    <button className="btn-novo">+ Novo Médico</button>
+                   <a href="/cadastro/medico" className="btn-novo">
+                        + Novo Médico
+                    </a>
                 </div>
 
                 {/* Tabela de Médicos */}
