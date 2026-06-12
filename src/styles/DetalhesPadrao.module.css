@@ -4,6 +4,16 @@
     background-color: #f4f7f9;
 }
 
+.centeredFormWrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.centeredFormWrapper > form {
+    width: 100%;
+}
+
 .cardContainer {
     max-width: 980px;
     margin: 0 auto;
@@ -53,9 +63,18 @@
     gap: 24px;
 }
 
+.singleColumnGrid {
+    grid-template-columns: minmax(0, 560px);
+    justify-content: center;
+}
+
 @media (min-width: 768px) {
     .infoGrid {
         grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .singleColumnGrid {
+        grid-template-columns: minmax(0, 560px);
     }
 }
 
@@ -179,4 +198,30 @@
         opacity: 1;
         transform: translateY(0);
     }
+}
+
+ 
+.fieldInput {
+    width: 100%;
+    padding: 0.5rem 0.75rem;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    font-size: 0.95rem;
+    color: #1e293b;
+    background-color: #ffffff;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    outline: none;
+}
+ 
+.fieldInput::placeholder {
+    color: #94a3b8;
+}
+ 
+.fieldInput:focus {
+    border-color: #0d9488; /* teal-600 — mesma cor do botão primário */
+    box-shadow: 0 0 0 3px rgba(13, 148, 136, 0.1);
+}
+ 
+.fieldInput[type="date"] {
+    color: #475569;
 }

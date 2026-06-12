@@ -10,6 +10,9 @@ import PHomeLogin from './pages/PHomeLogin/PHomeLogin'
 import PDetalhesConsulta from "./pages/PDetalhes/PDetalhesConsulta/PDetalhesConsulta";
 import PDetalhesPaciente from './pages/PDetalhes/PDetalhesPaciente/PDetalhesPaciente'
 import PDetalhesMedico from './pages/PDetalhes/PDetalhesMedico/PDetalhesMedico'
+import PCadastroPaciente from './pages/PCadastro/PCadastroPaciente/PCadastroPaciente'
+import PCadastroMedico from './pages/PCadastro/PCadastroMedico/PCadastroMedico'
+import PCadastroConsulta from './pages/PCadastro/PCadastroConsulta/PCadastroConsulta'
 
 
 function App() {
@@ -27,6 +30,10 @@ function App() {
         <Route path='/detalhes/paciente/:id_paciente' element={<ProtectedRoute element={<PDetalhesPaciente />} />} />
         <Route path='/detalhes/medico/:id_medico' element={<ProtectedRoute element={<PDetalhesMedico />} />} />
         <Route path='/detalhes/consulta/:id_consulta' element={<ProtectedRoute element={<PDetalhesConsulta />} />} />
+        <Route path='/cadastro/paciente/' element={<ProtectedRoute element={<PCadastroPaciente />} />} />
+        <Route path='/cadastro/medico/' element={<ProtectedRoute element={<PCadastroMedico />} />} />
+        <Route path='/cadastro/consulta/' element={<ProtectedRoute element={<PCadastroConsulta />} />} />
+        
       </Routes>
     </BrowserRouter>
   )

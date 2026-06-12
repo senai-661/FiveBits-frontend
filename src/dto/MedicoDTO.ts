@@ -7,7 +7,5 @@ export interface MedicoDTO {
     crm: string;
     especialidade: string;
     valorConsulta: number;
-    emailMedico: string;
-    senhaMedico: string;
     situacao?: boolean // Opcional
 }

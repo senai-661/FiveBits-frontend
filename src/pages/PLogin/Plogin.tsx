@@ -2,7 +2,7 @@ import { type JSX } from "react";
 
 import Navegacao from "../../components/Navegacao/Navegacao";
 
-import LoginForm from "../../components/Formularios/LoginForm";
+import LoginForm from "../../components/Formularios/FormLogin/LoginForm";
 import Rodape from "../../components/Rodape/Rodape";
 
 
