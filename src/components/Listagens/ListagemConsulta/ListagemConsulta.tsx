@@ -49,7 +49,9 @@ function ListagemConsultas(): JSX.Element {
             <main className="main-content">
                 <div className="page-header">
                     <h1>Agenda de Consultas</h1>
-                    <button className="btn-novo">+ Nova Consulta</button>
+                     <a href="/cadastro/consulta" className="btn-novo">
+                        + Nova Consulta
+                    </a>
                 </div>
 
                 <div className="table-container">
