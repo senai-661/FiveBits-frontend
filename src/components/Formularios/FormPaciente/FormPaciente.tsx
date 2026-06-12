@@ -8,13 +8,10 @@ import styles from './FormPaciente.module.css';
 function FormPaciente() {
     const navigate = useNavigate();
     const [formData, setFormData] = useState<PacienteDTO>({
-        idPaciente: 0,
         nome: '',
         cpf: '',
-        email: '',
         telefone: '',
-        senha: '',
-        dataNascimento: new Date(),
+        dataNascimento: '',
     });
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -32,14 +29,22 @@ function FormPaciente() {
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
 
-        if (!Utilitario.validarEmail(formData.email)) {
-            alert("E-mail inválido");
+        const paciente: PacienteDTO = {
+            nome: formData.nome.trim(),
+            cpf: formData.cpf.replace(/\D/g, ''),
+            telefone: formData.telefone?.trim() || undefined,
+            dataNascimento: formData.dataNascimento,
+        };
+
+        if (paciente.cpf.length !== 11) {
+            alert("CPF deve conter 11 números");
             return;
         }
 
-        const resposta = await PacienteRequest.enviarFormularioPaciente(formData);
+        const resposta = await PacienteRequest.enviarFormularioPaciente(paciente);
         if (resposta) {
             alert("Paciente cadastrado com sucesso");
+            navigate(`/lista/paciente`);
         } else {
             alert("Erro ao cadastrar paciente");
         }
@@ -99,21 +104,6 @@ function FormPaciente() {
                             </div>
                         </div>
 
-                        {/* Linha 2: E-mail */}
-                        <div>
-                            <label htmlFor="email" className={`${styles.label} block text-sm font-semibold text-slate-700 mb-2`}>
-                                E-mail
-                            </label>
-                            <input
-                                type="email"
-                                name="email"
-                                id="email"
-                                onChange={handleChange}
-                                placeholder="exemplo@email.com"
-                                className={`${styles.input} w-full px-4 py-3 border-2 border-slate-200 rounded-xl focus:border-teal-500 focus:outline-none transition-all placeholder:text-slate-400 text-slate-800`}
-                            />
-                        </div>
-
                         {/* Linha 3: Data de Nascimento e Telefone */}
                         <div className="flex flex-col sm:flex-row gap-6">
                             <div className="flex-1">
@@ -124,6 +114,8 @@ function FormPaciente() {
                                     type="date"
                                     name="dataNascimento"
                                     id="dataNascimento"
+                                    required
+                                    value={String(formData.dataNascimento)}
                                     onChange={handleChange}
                                     className={`${styles.input} w-full px-4 py-3 border-2 border-slate-200 rounded-xl focus:border-teal-500 focus:outline-none transition-all text-slate-600`}
                                 />

@@ -1,7 +1,9 @@
 .container {
   display: flex;
+  flex: 1;
   justify-content: center;
   align-items: flex-start;
+  min-height: calc(100vh - 180px);
   padding: 2rem 1rem;
   background-color: #f8fafb;
 }
