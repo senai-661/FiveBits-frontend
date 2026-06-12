@@ -4,6 +4,16 @@
     background-color: #f4f7f9;
 }
 
+.centeredFormWrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.centeredFormWrapper > form {
+    width: 100%;
+}
+
 .cardContainer {
     max-width: 980px;
     margin: 0 auto;
@@ -53,9 +63,18 @@
     gap: 24px;
 }
 
+.singleColumnGrid {
+    grid-template-columns: minmax(0, 560px);
+    justify-content: center;
+}
+
 @media (min-width: 768px) {
     .infoGrid {
         grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .singleColumnGrid {
+        grid-template-columns: minmax(0, 560px);
     }
 }
 
