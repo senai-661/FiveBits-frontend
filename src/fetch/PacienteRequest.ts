@@ -54,6 +54,33 @@ class PacienteRequests {
             throw error;
         }
     }
+
+    async enviarFormularioPaciente(formPaciente: PacienteDTO): Promise<boolean> {
+        try {
+            const token = localStorage.getItem('token');
+            const respostaAPI = await fetch(`${this.serverURL}${this.endpointPaciente}`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'x-access-token': `${token}`
+                },
+                body: JSON.stringify(formPaciente)
+            });
+
+            if (!respostaAPI.ok) {
+                const erroAPI = await respostaAPI.json().catch(() => null);
+                const mensagem = erroAPI?.mensagem || respostaAPI.statusText;
+                throw new Error(`Erro ${respostaAPI.status}: ${mensagem}`);
+            }
+
+            console.info(`${respostaAPI.status}: ${respostaAPI.statusText}`);
+
+            return true;
+        } catch (error) {
+            console.error(`Erro ao fazer consulta à API. ${error}`);
+            return false;
+        }
+    }
 }
 
 export default new PacienteRequests;

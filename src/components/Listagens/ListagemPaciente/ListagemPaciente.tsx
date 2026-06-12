@@ -37,7 +37,9 @@ function ListagemPacientes(): JSX.Element {
             <main className="main-content">
                 <div className="page-header">
                     <h1>Pacientes Cadastrados</h1>
-                    <button className="btn-novo">+ Novo Paciente</button>
+                    <a href="/cadastro/paciente" className="btn-novo">
+                        + Novo Paciente
+                    </a>
                 </div>
 
                 <div className="table-container">
