@@ -279,13 +279,7 @@ function FormConsulta() {
                                                     Confirmado
                                                 </option>
 
-                                                <option value="Cancelado">
-                                                    Cancelado
-                                                </option>
-
-                                                <option value="Concluido">
-                                                    Concluído
-                                                </option>
+                        
                                             </select>
                                         </div>
 
