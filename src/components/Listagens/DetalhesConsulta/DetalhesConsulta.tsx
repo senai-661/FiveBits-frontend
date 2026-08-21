@@ -104,7 +104,7 @@ function DetalhesConsulta({ id_consulta }: DetalhesConsultaProps): JSX.Element {
                                 <div className={styles.sectionText}>
                                     <div className={styles.fieldGroup}>
                                         <span className={styles.fieldLabel}>Nome</span>
-                                        <span className={styles.fieldValue}>{consulta.paciente.nomePaciente}</span>
+                                        <span className={styles.fieldValue}>{consulta.paciente.nome}</span>
                                     </div>
                                     <div className={styles.fieldGroup}>
                                         <span className={styles.fieldLabel}>CPF</span>
@@ -128,7 +128,7 @@ function DetalhesConsulta({ id_consulta }: DetalhesConsultaProps): JSX.Element {
                                 <div className={styles.sectionText}>
                                     <div className={styles.fieldGroup}>
                                         <span className={styles.fieldLabel}>Nome</span>
-                                        <span className={styles.fieldValue}>{consulta.medico.nomeMedico}</span>
+                                        <span className={styles.fieldValue}>{consulta.medico.nome}</span>
                                     </div>
                                     <div className={styles.fieldGroup}>
                                         <span className={styles.fieldLabel}>CRM</span>

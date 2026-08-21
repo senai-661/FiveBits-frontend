@@ -10,6 +10,11 @@ class ConsultaRequests {
         this.endpointConsulta = `/api/consultas`;
     }
 
+    private async mensagemDeErro(respostaAPI: Response): Promise<string> {
+        const erroAPI = await respostaAPI.json().catch(() => null);
+        return erroAPI?.mensagem || erroAPI?.message || respostaAPI.statusText;
+    }
+
     async obterListaDeConsultas() {
         try {
             const token = localStorage.getItem('token');
@@ -76,7 +81,7 @@ async obterConsultaPorId(id_consulta: number) {
                 let detalhe = '';
                 try {
                     detalhe = await respostaAPI.text();
-                } catch (e) {
+                } catch {
                     detalhe = `${respostaAPI.statusText}`;
                 }
 
@@ -89,6 +94,63 @@ async obterConsultaPorId(id_consulta: number) {
             return true;
         } catch (error) {
             console.error(`Erro ao fazer consulta à API. ${error}`);
+            return false;
+        }
+    }
+
+    async atualizarConsulta(formConsulta: ConsultaDTO): Promise<boolean> {
+        if (formConsulta.idConsulta === undefined) {
+            throw new Error("ID da consulta não informado.");
+        }
+
+        try {
+            const token = localStorage.getItem('token');
+            const respostaAPI = await fetch(`${this.serverURL}${this.endpointConsulta}/${formConsulta.idConsulta}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'x-access-token': `${token}`
+                },
+                body: JSON.stringify({
+                    idConsulta: formConsulta.idConsulta,
+                    idPaciente: formConsulta.paciente.idPaciente,
+                    idMedico: formConsulta.medico.idMedico,
+                    dataHora: formConsulta.dataHora,
+                    status: formConsulta.status,
+                    modalidade: formConsulta.modalidade,
+                    triagemSintomas: formConsulta.triagemSintomas
+                })
+            });
+
+            if (!respostaAPI.ok) {
+                throw new Error(`Erro ${respostaAPI.status}: ${await this.mensagemDeErro(respostaAPI)}`);
+            }
+
+            return true;
+        } catch (error) {
+            console.error(`Erro ao atualizar consulta. ${error}`);
+            throw error;
+        }
+    }
+
+    async deletarConsulta(idConsulta: number): Promise<boolean> {
+        try {
+            const token = localStorage.getItem('token');
+            const respostaAPI = await fetch(`${this.serverURL}${this.endpointConsulta}/${idConsulta}`, {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'x-access-token': `${token}`
+                }
+            });
+
+            if (!respostaAPI.ok) {
+                throw new Error(`Erro ${respostaAPI.status}: ${await this.mensagemDeErro(respostaAPI)}`);
+            }
+
+            return true;
+        } catch (error) {
+            console.error(`Erro ao deletar consulta. ${error}`);
             return false;
         }
     }
