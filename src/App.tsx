@@ -13,6 +13,7 @@ import PDetalhesMedico from './pages/PDetalhes/PDetalhesMedico/PDetalhesMedico'
 import PCadastroPaciente from './pages/PCadastro/PCadastroPaciente/PCadastroPaciente'
 import PCadastroMedico from './pages/PCadastro/PCadastroMedico/PCadastroMedico'
 import PCadastroConsulta from './pages/PCadastro/PCadastroConsulta/PCadastroConsulta'
+import PAtualizarPaciente from './pages/PAtualizar/PAtualizarPaciente/PAtualizarPaciente'
 
 
 function App() {
@@ -33,7 +34,8 @@ function App() {
         <Route path='/cadastro/paciente/' element={<ProtectedRoute element={<PCadastroPaciente />} />} />
         <Route path='/cadastro/medico/' element={<ProtectedRoute element={<PCadastroMedico />} />} />
         <Route path='/cadastro/consulta/' element={<ProtectedRoute element={<PCadastroConsulta />} />} />
-        
+        <Route path='/atualizar/paciente/:id_paciente' element={<ProtectedRoute element={<PAtualizarPaciente />} />} />
+
       </Routes>
     </BrowserRouter>
   )

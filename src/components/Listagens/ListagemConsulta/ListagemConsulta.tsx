@@ -41,7 +41,7 @@ function ListagemConsultas(): JSX.Element {
 
     return (
         <div className="medflow-list-wrapper">
-            
+
             {/* 1. CABEÇALHO (Agora visível) */}
             <Navegacao />
 
@@ -49,7 +49,7 @@ function ListagemConsultas(): JSX.Element {
             <main className="main-content">
                 <div className="page-header">
                     <h1>Agenda de Consultas</h1>
-                     <a href="/cadastro/consulta" className="btn-novo">
+                    <a href="/cadastro/consulta" className="btn-novo">
                         + Nova Consulta
                     </a>
                 </div>
@@ -81,15 +81,15 @@ function ListagemConsultas(): JSX.Element {
                                 </tr>
                             ) : consultas && consultas.length > 0 ? (
                                 consultas.map((consulta) => {
-                                    const { data, hora } = formatarDataHora( consulta.dataHora.toString());
+                                    const { data, hora } = formatarDataHora(consulta.dataHora.toString());
                                     return (
                                         <tr key={consulta.idConsulta}>
                                             <td>
                                                 <div className="text-bold">{data}</div>
                                                 <div style={{ fontSize: '0.8rem', color: '#888' }}>às {hora}</div>
                                             </td>
-                                            <td>{consulta.paciente.nomePaciente}</td>
-                                            <td>{consulta.medico.nomeMedico}</td>
+                                            <td>{consulta.paciente.nome}</td>
+                                            <td>{consulta.medico.nome}</td>
                                             <td>
                                                 <div style={{
                                                     fontSize: '0.85rem',
@@ -102,7 +102,7 @@ function ListagemConsultas(): JSX.Element {
                                             </td>
                                             <td>
                                                 <div className="btn-group">
-                                                    <button className="btn-minimal primary" onClick={() => navigate (`/detalhes/consulta/${consulta.idConsulta}`)}>Detalhes</button>
+                                                    <button className="btn-minimal primary" onClick={() => navigate(`/detalhes/consulta/${consulta.idConsulta}`)}>Detalhes</button>
                                                     <button className="btn-minimal secondary">Atualizar</button>
                                                     <button className="btn-minimal danger">Cancelar</button>
                                                 </div>
