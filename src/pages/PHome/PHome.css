@@ -1,0 +1,39 @@
+.home-page { height: 100vh; overflow: hidden; display: flex; flex-direction: column; justify-content: space-between; background: linear-gradient(135deg, rgba(8, 23, 41, 0.88), rgba(19, 42, 19, 0.88)), url('https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?auto=format&fit=crop&w=1920&q=80') center/cover no-repeat; }
+.home-page .header-glass { flex: 0 0 auto; background: rgba(8, 23, 41, 0.78); border-bottom-color: rgba(255, 255, 255, 0.16); }
+.home-page .p-menubar .p-menuitem-text { color: #FFFFFF !important; }
+.home-page .welcome-span { color: #D0D7CB; }
+.home-page .email-span { color: #FFFFFF; }
+.home-page .nav-user-controls { background: rgba(0, 45, 71, 0.72); border-color: rgba(255, 255, 255, 0.16); }
+.home-page .footer-minimal { flex: 0 0 auto; background: rgba(0, 13, 26, 0.86); border-top-color: rgba(255, 255, 255, 0.16); }
+.home-main { flex: 1 1 auto; min-height: 0; overflow: hidden; display: grid; grid-template-rows: minmax(220px, 1fr) 180px minmax(130px, 0.7fr) minmax(90px, 0.45fr); gap: 8px; padding: 8px 5%; }
+.welcome-card { min-height: 0; height: 100%; display: flex; align-items: center; justify-content: space-between; position: relative; overflow: hidden; padding: 18px 5%; border: 1px solid rgba(255,255,255,0.3); border-radius: 16px; background: rgba(255,255,255,0.95); backdrop-filter: blur(12px); box-shadow: 0 15px 35px rgba(0,0,0,0.3); color: #0F172A; }
+.welcome-copy { position: relative; z-index: 1; max-width: 62%; }
+.welcome-badge { display: inline-block; padding: 4px 10px; border-radius: 20px; background: #DCFCE7; color: #14532D; font-size: 0.65rem; font-weight: 800; letter-spacing: 0.08em; }
+.welcome-card h1 { margin: 8px 0 5px; font-size: clamp(1.4rem, 2.6vw, 2.25rem); line-height: 1.05; }
+.welcome-card p { margin: 0 0 12px; color: #334155; font-size: 0.85rem; }
+.welcome-cta { border: 0; border-radius: 8px; padding: 8px 14px; background: #0284C7; color: #FFFFFF; font-weight: 800; cursor: pointer; }
+.welcome-cta:hover { background: #0369A1; }
+.welcome-avatar { align-self: flex-end; height: 96%; max-width: 34%; object-fit: contain; }
+.home-main .static-hero { min-height: 180px; height: 180px; max-height: 200px; border-radius: 12px; }
+.home-main .static-hero-content { min-height: 0; height: 100%; padding: 14px 5%; }
+.home-main .tech-glass-card { max-width: 520px; padding: 16px 20px; border-radius: 12px; }
+.home-main .tech-title { font-size: clamp(1.3rem, 2.5vw, 2rem); margin: 8px 0; }
+.home-main .tech-desc { font-size: 0.8rem; margin-bottom: 10px; }
+.home-main .btn-tech-neon { padding: 8px 14px; font-size: 0.8rem; }
+.home-main .functional-banner { min-height: 0; height: 100%; padding: 12px 5%; gap: 18px; }
+.home-main .functional-copy h2 { font-size: clamp(1rem, 2vw, 1.5rem); margin: 5px 0 8px; }
+.home-main .functional-list { gap: 5px; }
+.home-main .functional-item { padding: 6px 8px; gap: 8px; }
+.home-main .functional-icon { flex-basis: 28px; width: 28px; height: 28px; border-radius: 8px; }
+.home-main .functional-item h3 { font-size: 0.75rem; }
+.home-main .functional-item p { font-size: 0.65rem; }
+.home-main .functional-visual { min-height: 0; }
+.home-main .ring-one { width: 120px; height: 120px; }
+.home-main .ring-two { width: 180px; height: 180px; }
+.home-main .visual-monitor { width: 130px; padding: 12px; gap: 5px; }
+.home-main .visual-monitor i { font-size: 1rem; }
+.home-main .visual-monitor span { font-size: 0.6rem; }
+.home-main .visual-monitor strong { font-size: 1.2rem; }
+.home-main > section:last-child { min-height: 0; height: 100%; overflow: hidden; }
+.home-main > * { min-height: 0; overflow: hidden; }
+@media (max-width: 760px) { .home-main { grid-template-rows: minmax(180px, 1fr) 160px minmax(120px, 0.75fr) minmax(82px, 0.55fr); padding: 6px 3%; gap: 6px; } .home-main .static-hero { min-height: 160px; height: 160px; } .welcome-copy { max-width: 70%; } .welcome-avatar { max-width: 30%; } }

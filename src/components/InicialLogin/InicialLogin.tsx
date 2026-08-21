@@ -1,59 +1,37 @@
 import { type JSX } from "react";
-import avatar from "../../assets/avatar.png"; // Certifique-se que o caminho está correto
+import { useNavigate } from "react-router-dom";
+import "./InicialLogin.css";
 
 function InicialLogin(): JSX.Element {
-    return (
-        <section style={{ 
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'space-between',
-            padding: '4rem 2rem',
-            maxWidth: '1200px',
-            margin: '0 auto',
-            gap: '2rem',
-            minHeight: '70vh'
-        }}>
-            {/* Lado Esquerdo: Textos */}
-            <div style={{ flex: 1, textAlign: 'left' }}>
-                <h1 style={{ 
-                    color: '#000', 
-                    fontSize: '3.5rem', 
-                    fontWeight: 'bold',
-                    lineHeight: '1.1',
-                    marginBottom: '1.5rem' 
-                }}>
-                    Bem-vindo ao <span style={{ color: '#000' }}>MedFlow</span>
-                </h1>
-                <p style={{ 
-                    fontSize: '1.25rem', 
-                    color: '#333', 
-                    lineHeight: '1.6',
-                    maxWidth: '500px'
-                }}>
-                    Sua saúde merece a agilidade da era digital. Conectamos você a consultas 
-                    <strong> presenciais e por vídeo</strong> com total segurança.
-                </p>
-                <p style={{ 
-                    color: '#666', 
-                    marginTop: '1.5rem',
-                    fontSize: '1.1rem' 
-                }}>
-                    Gestão inteligente para clínicas multidisciplinares e cuidado humanizado.
-                </p>
-            </div>
+    const navigate = useNavigate();
 
-            {/* Lado Direito: Imagem */}
-            <div style={{ flex: 1, display: 'flex', justifyContent: 'center', position: 'relative' }}>
-                <img 
-                    src={avatar} 
-                    alt="Médica MedFlow" 
-                    style={{ 
-                        width: '100%', 
-                        maxWidth: '500px', 
-                        height: 'auto',
-                        objectFit: 'contain'
-                    }} 
-                />
+    return (
+        <section className="inicial-login" aria-labelledby="welcome-title">
+            <span className="inicial-badge">PLATAFORMA INTEGRADA DE SAÚDE</span>
+            <h1 id="welcome-title">Bem-vindo ao MedFlow</h1>
+            <p className="inicial-description">Sua plataforma integrada de saúde. Gerencie suas consultas, acompanhe a triagem inteligente e tenha acesso ao seu histórico médico em um só lugar.</p>
+            <div className="inicial-features">
+                <article className="feature-card">
+                    <div className="feature-icon feature-icon-blue"><i className="pi pi-bolt" aria-hidden="true" /></div>
+                    <span className="feature-status status-green">IA Ativa</span>
+                    <strong>Triagem Prévia com IA</strong>
+                    <span>Análise automatizada de sintomas para agilizar o direcionamento médico e classificar o grau de urgência.</span>
+                </article>
+                <article className="feature-card">
+                    <div className="feature-icon feature-icon-green"><i className="pi pi-calendar" aria-hidden="true" /></div>
+                    <span className="feature-status status-blue">24/7 Disponível</span>
+                    <strong>Agendamento Unificado</strong>
+                    <span>Gestão integrada de horários para consultas presenciais e atendimento via telemedicina em tempo real.</span>
+                </article>
+                <article className="feature-card">
+                    <div className="feature-icon feature-icon-purple"><i className="pi pi-shield" aria-hidden="true" /></div>
+                    <span className="feature-status status-dark">Criptografado</span>
+                    <strong>Prontuário Digital Seguro</strong>
+                    <span>Acesso centralizado a prescrições, laudos e histórico clínico com máxima proteção de dados.</span>
+                </article>
+            </div>
+            <div className="inicial-actions">
+                <button type="button" className="inicial-primary" onClick={() => navigate("/lista/consulta")}>Acessar Painel de Consultas</button>
             </div>
         </section>
     );

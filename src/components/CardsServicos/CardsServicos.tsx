@@ -29,38 +29,38 @@ function CardsServicos(): JSX.Element {
         <section style={{ 
             display: 'grid', 
             gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', // Grid responsivo
-            gap: '30px', // Espaço moderno entre os cards
-            padding: '60px 10%', // Padding lateral para centralizar
-            backgroundColor: '#ffffff'
+            gap: '8px',
+            padding: '8px 5%',
+            backgroundColor: '#081729'
         }}>
             {servicos.map((item, index) => (
                 <div key={index} 
                     style={{
-                        backgroundColor: '#fff',
-                        borderRadius: '20px', // Bordas arredondadas modernas
+                        backgroundColor: '#002D47',
+                        borderRadius: '10px',
                         overflow: 'hidden', // Garante que a imagem siga o arredondamento
-                        boxShadow: '0 10px 25px rgba(0, 0, 0, 0.05)', // Sombra muito suave (limpa)
+                        boxShadow: '0 6px 16px rgba(0, 0, 0, 0.2)',
                         transition: 'transform 0.3s, boxShadow 0.3s',
                         cursor: 'pointer',
-                        border: '1px solid #f0f0f0', // Borda sutil
+                        border: '1px solid rgba(144, 169, 85, 0.2)',
                         display: 'flex',
                         flexDirection: 'column'
                     }}
                     onMouseEnter={(e) => {
                         e.currentTarget.style.transform = 'translateY(-5px)';
-                        e.currentTarget.style.boxShadow = '0 15px 30px rgba(0, 168, 150, 0.1)';
+                        e.currentTarget.style.boxShadow = '0 0 24px rgba(0, 170, 255, 0.22)';
                     }}
                     onMouseLeave={(e) => {
                         e.currentTarget.style.transform = 'translateY(0)';
-                        e.currentTarget.style.boxShadow = '0 10px 25px rgba(0, 0, 0, 0.05)';
+                        e.currentTarget.style.boxShadow = '0 10px 30px rgba(0, 0, 0, 0.3)';
                     }}
                 >
                     {/* CONTAINER DA IMAGEM (NOVO) */}
                     <div style={{ 
                         width: '100%', 
-                        height: '160px', // Altura fixa para alinhar os cards
+                        height: '48px',
                         overflow: 'hidden',
-                        borderBottom: '1px solid #f0f0f0' // Separação sutil
+                        borderBottom: '1px solid rgba(144, 169, 85, 0.2)'
                     }}>
                         <img 
                             src={item.img} 
@@ -75,7 +75,7 @@ function CardsServicos(): JSX.Element {
 
                     {/* CONTAINER DO TEXTO E BOTÃO */}
                     <div style={{ 
-                        padding: '25px', 
+                        padding: '6px 10px',
                         textAlign: 'center',
                         flex: 1, // Faz este container ocupar o espaço restante
                         display: 'flex',
@@ -83,9 +83,9 @@ function CardsServicos(): JSX.Element {
                         justifyContent: 'space-between' // Alinha o título no topo e o botão na base
                     }}>
                         <h3 style={{ 
-                            fontSize: '1.25rem', // Fonte maior e limpa
-                            color: '#1a1a1a', 
-                            marginBottom: '20px',
+                            fontSize: '0.75rem',
+                            color: '#FFFFFF',
+                            marginBottom: '5px',
                             fontWeight: '600',
                             lineHeight: '1.2'
                         }}>
@@ -93,19 +93,19 @@ function CardsServicos(): JSX.Element {
                         </h3>
                         
                         <button style={{
-                            backgroundColor: '#00a896', // Verde Água/Esmeralda moderno (capturado do avatar)
-                            color: 'white',
+                            backgroundColor: '#00AAFF',
+                            color: '#FFFFFF',
                             border: 'none',
-                            padding: '12px 25px',
-                            borderRadius: '10px',
+                            padding: '5px 10px',
+                            borderRadius: '7px',
                             cursor: 'pointer',
                             fontWeight: 'bold',
-                            fontSize: '0.95rem',
+                            fontSize: '0.7rem',
                             width: '100%', // Botão ocupando toda a largura interna (moderno)
                             transition: 'background 0.3s'
                         }}
-                        onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#008e7f'}
-                        onMouseLeave={(e) => e.currentTarget.style.backgroundColor = '#00a896'}
+                        onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#005F91'}
+                        onMouseLeave={(e) => e.currentTarget.style.backgroundColor = '#00AAFF'}
                         >
                             Clique aqui
                         </button>

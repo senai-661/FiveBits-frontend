@@ -1,0 +1,48 @@
+.welcome-page {
+    height: 100vh;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 0;
+    margin: 0;
+    background: linear-gradient(135deg, #EBF3F5 0%, #E2ECE9 100%);
+}
+
+.welcome-page .header-glass {
+    flex: 0 0 auto;
+    background: #081729;
+    border-bottom-color: rgba(255, 255, 255, 0.14);
+}
+
+.welcome-page .p-menubar .p-menuitem-text,
+.welcome-page .email-span { color: #FFFFFF !important; }
+.welcome-page .p-menubar .p-menuitem-icon { color: #ECF39E !important; }
+.welcome-page .welcome-span { color: #D0D7CB; }
+.welcome-page .nav-user-controls { background: transparent; border-color: transparent; padding-left: 0; padding-right: 0; }
+
+.welcome-main {
+    flex: 1 1 auto;
+    min-height: 0;
+    width: 100%;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+}
+
+.welcome-main > .carrossel-wrapper-fullscreen { flex: 1 1 auto; width: 100%; }
+
+.welcome-page .footer-minimal {
+    flex: 0 0 auto;
+    background: #000D1A;
+    border-top-color: rgba(255, 255, 255, 0.14);
+}
+
+@media (max-width: 520px) {
+    .welcome-main { padding: 0; }
+    .welcome-main > .carrossel-wrapper-fullscreen { flex: 1 1 auto; }
+}

@@ -5,28 +5,28 @@
   align-items: flex-start;
   min-height: calc(100vh - 180px);
   padding: 2rem 1rem;
-  background-color: #f8fafb;
+  background-color: #081729;
 }
 
 .form {
-  background-color: #ffffff;
+  background-color: #002D47;
   padding: 1.25rem;
   border-radius: 12px;
-  box-shadow: 0 6px 18px rgba(16,24,40,0.06);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
   width: 100%;
   max-width: 900px;
-  border: 1px solid #e6eef2;
+  border: 1px solid rgba(144, 169, 85, 0.2);
 }
 
 .headerTitle {
   font-size: 1.875rem;
-  color: #0f172a;
+  color: #FFFFFF;
   margin: 0 0 0.25rem 0;
   font-weight: 700;
 }
 
 .subtitle {
-  color: #64748b;
+  color: #D0D7CB;
   margin-top: 0.25rem;
   font-size: 0.95rem;
 }
@@ -38,7 +38,7 @@
 .label {
   display: block;
   margin-bottom: 0.5rem;
-  color: #0f172a;
+  color: #FFFFFF;
   font-weight: 600;
   font-size: 0.95rem;
 }
@@ -46,17 +46,17 @@
 .input {
   width: 100%;
   padding: 0.75rem 1rem;
-  border: 1px solid #d1e2e8;
+  border: 1px solid #CBD5E1;
   border-radius: 10px;
-  color: #0f172a;
-  background: #ffffff;
+  color: #FFFFFF;
+  background: #081729;
   transition: border-color 0.18s ease, box-shadow 0.18s ease;
 }
 
 .input:focus {
   outline: none;
-  border-color: #14b8a6;
-  box-shadow: 0 0 0 4px rgba(20,184,166,0.06);
+  border-color: #00AAFF;
+  box-shadow: 0 0 0 4px rgba(0,170,255,0.14);
 }
 
 .row {
@@ -71,13 +71,13 @@
 
 .divider {
   border: none;
-  border-top: 1px solid #f1f5f9;
+  border-top: 1px solid rgba(144, 169, 85, 0.2);
   margin: 1.25rem 0;
 }
 
 .btnPrimary {
   width: 100%;
-  background-color: #0d9488;
+  background-color: #00AAFF;
   color: #ffffff;
   padding: 0.9rem 1rem;
   border-radius: 10px;
@@ -87,18 +87,18 @@
   transition: background-color 0.16s ease, transform 0.06s ease;
 }
 
-.btnPrimary:hover { background-color: #0b7f77; }
+.btnPrimary:hover { background-color: #005F91; }
 .btnPrimary:active { transform: scale(0.995); }
 
 .btnSecondary {
   width: 100%;
-  background: #ffffff;
-  color: #334155;
-  border: 1px solid #e2e8f0;
+  background: transparent;
+  color: #00AAFF;
+  border: 1px solid #00AAFF;
   padding: 0.9rem 1rem;
   border-radius: 10px;
   font-weight: 600;
   cursor: pointer;
 }
 
-.btnSecondary:hover { background: #f8fafc; }
+.btnSecondary:hover { background: rgba(0, 170, 255, 0.12); border-color: #00AAFF; }

@@ -10,6 +10,8 @@ import "../../../styles/ListagensPadrao.css";
 function ListagemMedicos(): JSX.Element {
     const [medicos, setMedicos] = useState<MedicoDTO[]>([]);
     const [erro, setErro] = useState<boolean>(false);
+    const [pagina, setPagina] = useState(1);
+    const itensPorPagina = 5;
     const navigate = useNavigate();
 
     const buscarMedicos = async () => {
@@ -18,6 +20,7 @@ function ListagemMedicos(): JSX.Element {
             const listaDeMedicos = await MedicoRequests.obterListaDeMedicos();
             if (listaDeMedicos) {
                 setMedicos(listaDeMedicos);
+                setPagina(1);
             } else {
                 setMedicos([]);
             }
@@ -82,13 +85,15 @@ function ListagemMedicos(): JSX.Element {
                                     </td>
                                 </tr>
                             ) : medicos && medicos.length > 0 ? (
-                                medicos.map((medico) => (
+                                medicos.slice((pagina - 1) * itensPorPagina, pagina * itensPorPagina).map((medico) => (
                                     <tr key={medico.idMedico}>
                                         <td>
                                             <div className="item-box">
-                                                <div className="avatar-icon">
-                                                    {medico.nome.charAt(0).toUpperCase()}
-                                                </div>
+                                                <img
+                                                    className="avatar-photo"
+                                                    src={`https://i.pravatar.cc/88?u=medico-${medico.idMedico}`}
+                                                    alt={`Avatar de ${medico.nome}`}
+                                                />
                                                 <span className="text-bold">{medico.nome}</span>
                                             </div>
                                         </td>
@@ -100,9 +105,9 @@ function ListagemMedicos(): JSX.Element {
                                         </td>
                                         <td>
                                             <div className="btn-group">
-                                                <button className="btn-minimal primary" onClick={() => navigate(`/detalhes/medico/${medico.idMedico}`)}>Detalhes</button>
-                                                <button className="btn-minimal secondary" onClick={() => navigate(`/atualizar/medico/${medico.idMedico}`)}>Atualizar</button>
-                                                <button className="btn-minimal danger" onClick={() => deletarMedico(medico.idMedico)}>Deletar</button>
+                                                <button className="btn-minimal primary" title="Ver detalhes" aria-label="Ver detalhes" onClick={() => navigate(`/detalhes/medico/${medico.idMedico}`)}><i className="pi pi-eye" /></button>
+                                                <button className="btn-minimal secondary" title="Atualizar" aria-label="Atualizar" onClick={() => navigate(`/atualizar/medico/${medico.idMedico}`)}><i className="pi pi-pencil" /></button>
+                                                <button className="btn-minimal danger" title="Deletar" aria-label="Deletar" onClick={() => deletarMedico(medico.idMedico)}><i className="pi pi-trash" /></button>
                                             </div>
                                         </td>
                                     </tr>
@@ -116,6 +121,13 @@ function ListagemMedicos(): JSX.Element {
                             )}
                         </tbody>
                     </table>
+                    <div className="pagination-bar">
+                        <span>Página {pagina} de {Math.max(1, Math.ceil(medicos.length / itensPorPagina))}</span>
+                        <div className="pagination-actions">
+                            <button className="pagination-button" disabled={pagina === 1} onClick={() => setPagina((valor) => valor - 1)} aria-label="Página anterior">&lt; Anterior</button>
+                            <button className="pagination-button" disabled={pagina >= Math.ceil(medicos.length / itensPorPagina)} onClick={() => setPagina((valor) => valor + 1)} aria-label="Próxima página">Próxima &gt;</button>
+                        </div>
+                    </div>
                 </div>
             </main>
 

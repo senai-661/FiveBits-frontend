@@ -4,13 +4,14 @@ import Navegacao from "../../components/Navegacao/Navegacao";
 
 import LoginForm from "../../components/Formularios/FormLogin/LoginForm";
 import Rodape from "../../components/Rodape/Rodape";
+import "./Plogin.css";
 
 
 
 
 function PLogin(): JSX.Element {
     return (
-        <div className="pagina-grid">
+        <div className="login-page">
       
             <Navegacao />
             <LoginForm />

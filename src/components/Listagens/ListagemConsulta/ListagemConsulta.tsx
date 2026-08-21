@@ -10,6 +10,8 @@ import "../../../styles/ListagensPadrao.css";
 function ListagemConsultas(): JSX.Element {
     const [consultas, setConsultas] = useState<ConsultaDTO[]>([]);
     const [erro, setErro] = useState<boolean>(false);
+    const [pagina, setPagina] = useState(1);
+    const itensPorPagina = 5;
     const navigate = useNavigate();
 
     const buscarConsultas = async () => {
@@ -18,6 +20,7 @@ function ListagemConsultas(): JSX.Element {
             const listaDeConsultas = await ConsultaRequest.obterListaDeConsultas();
             if (listaDeConsultas) {
                 setConsultas(listaDeConsultas);
+                setPagina(1);
             } else {
                 setConsultas([]);
             }
@@ -92,7 +95,7 @@ function ListagemConsultas(): JSX.Element {
                                     </td>
                                 </tr>
                             ) : consultas && consultas.length > 0 ? (
-                                consultas.map((consulta) => {
+                                consultas.slice((pagina - 1) * itensPorPagina, pagina * itensPorPagina).map((consulta) => {
                                     const { data, hora } = formatarDataHora( consulta.dataHora.toString());
                                     return (
                                         <tr key={consulta.idConsulta}>
@@ -114,9 +117,9 @@ function ListagemConsultas(): JSX.Element {
                                             </td>
                                             <td>
                                                 <div className="btn-group">
-                                                    <button className="btn-minimal primary" onClick={() => navigate (`/detalhes/consulta/${consulta.idConsulta}`)}>Detalhes</button>
-                                                    <button className="btn-minimal secondary" onClick={() => consulta.idConsulta !== undefined && navigate(`/atualizar/consulta/${consulta.idConsulta}`)}>Atualizar</button>
-                                                    <button className="btn-minimal danger" onClick={() => consulta.idConsulta !== undefined && deletarConsulta(consulta.idConsulta)}>Cancelar</button>
+                                                    <button className="btn-minimal primary" title="Ver detalhes" aria-label="Ver detalhes" onClick={() => navigate (`/detalhes/consulta/${consulta.idConsulta}`)}><i className="pi pi-eye" /></button>
+                                                    <button className="btn-minimal secondary" title="Atualizar" aria-label="Atualizar" onClick={() => consulta.idConsulta !== undefined && navigate(`/atualizar/consulta/${consulta.idConsulta}`)}><i className="pi pi-pencil" /></button>
+                                                    <button className="btn-minimal danger" title="Cancelar" aria-label="Cancelar" onClick={() => consulta.idConsulta !== undefined && deletarConsulta(consulta.idConsulta)}><i className="pi pi-trash" /></button>
                                                 </div>
                                             </td>
                                         </tr>
@@ -131,6 +134,13 @@ function ListagemConsultas(): JSX.Element {
                             )}
                         </tbody>
                     </table>
+                    <div className="pagination-bar">
+                        <span>Página {pagina} de {Math.max(1, Math.ceil(consultas.length / itensPorPagina))}</span>
+                        <div className="pagination-actions">
+                            <button className="pagination-button" disabled={pagina === 1} onClick={() => setPagina((valor) => valor - 1)} aria-label="Página anterior">&lt; Anterior</button>
+                            <button className="pagination-button" disabled={pagina >= Math.ceil(consultas.length / itensPorPagina)} onClick={() => setPagina((valor) => valor + 1)} aria-label="Próxima página">Próxima &gt;</button>
+                        </div>
+                    </div>
                 </div>
             </main>
 

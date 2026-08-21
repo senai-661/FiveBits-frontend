@@ -1,0 +1,18 @@
+.functional-banner { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(320px, 0.9fr); gap: 48px; align-items: center; padding: 72px 10%; background: #081729; border-top: 1px solid rgba(144,169,85,0.2); }
+.functional-kicker { color: #ECF39E; font-size: 0.75rem; font-weight: 800; letter-spacing: 0.14em; }
+.functional-copy h2 { color: #FFFFFF; font-size: clamp(2rem, 4vw, 3.5rem); line-height: 1.05; margin: 14px 0 28px; max-width: 620px; }
+.functional-list { display: grid; gap: 14px; max-width: 620px; }
+.functional-item { display: flex; gap: 16px; align-items: center; padding: 16px; background: #002D47; border: 1px solid rgba(144,169,85,0.2); border-radius: 12px; transition: transform 0.2s ease, border-color 0.2s ease; }
+.functional-item:hover { transform: translateX(5px); border-color: #00AAFF; }
+.functional-icon { flex: 0 0 42px; width: 42px; height: 42px; display: grid; place-items: center; border-radius: 12px; background: linear-gradient(135deg, #31572C, #00AAFF); color: #FFFFFF; }
+.functional-item h3 { color: #FFFFFF; margin: 0 0 4px; font-size: 1rem; }
+.functional-item p { color: #D0D7CB; margin: 0; font-size: 0.9rem; }
+.functional-visual { position: relative; min-height: 360px; display: grid; place-items: center; overflow: hidden; }
+.visual-ring { position: absolute; border: 1px solid rgba(0,170,255,0.45); border-radius: 50%; box-shadow: 0 0 30px rgba(0,170,255,0.16); }
+.ring-one { width: 280px; height: 280px; }
+.ring-two { width: 420px; height: 420px; border-color: rgba(144,169,85,0.25); }
+.visual-monitor { position: relative; width: 220px; padding: 28px 22px; display: grid; gap: 14px; color: #FFFFFF; background: rgba(0,45,71,0.88); border: 1px solid rgba(255,255,255,0.25); border-radius: 16px; box-shadow: 0 0 40px rgba(0,170,255,0.28); backdrop-filter: blur(12px); }
+.visual-monitor i { color: #ECF39E; font-size: 2rem; }
+.visual-monitor span { color: #D0D7CB; font-size: 0.8rem; }
+.visual-monitor strong { color: #00AAFF; font-size: 2rem; }
+@media (max-width: 800px) { .functional-banner { grid-template-columns: 1fr; padding: 56px 7%; } .functional-visual { min-height: 280px; } }
