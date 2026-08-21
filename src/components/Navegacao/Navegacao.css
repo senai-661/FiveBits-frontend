@@ -1,122 +1,156 @@
-/* Container principal com efeito de vidro e sombra suave */
 .header-glass {
-    position: sticky;
-    top: 0;
-    z-index: 1100;
-    background: rgba(255, 255, 255, 0.95);
-    backdrop-filter: blur(10px);
-    border-bottom: 1px solid rgba(226, 232, 240, 0.8);
-    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
-    padding: 0.5rem 2rem;
+  position: sticky;
+  top: 0;
+  z-index: 1100;
+  padding: 0.65rem max(1.5rem, calc((100vw - 1120px) / 2));
+  background: var(--jet-black);
+  border-bottom: 1px solid var(--border);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
 }
 
-/* Reset do Menubar do PrimeReact */
 .main-menubar.p-menubar {
-    background: transparent !important;
-    border: none !important;
-    padding: 0 !important;
-    display: flex;
-    align-items: center;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
 }
 
-/* Wrapper da Logo */
 .nav-logo-wrapper {
-    display: flex;
-    align-items: center;
-    margin-right: 2rem;
+  display: flex;
+  align-items: center;
+  margin-right: 1.5rem;
 }
 
 .logo-img-prime {
-    height: 50px; /* Tamanho otimizado para não quebrar o menu */
-    width: auto;
-    transition: transform 0.3s ease;
+  width: auto;
+  height: 44px;
+  object-fit: contain;
 }
 
-.logo-img-prime:hover {
-    transform: scale(1.05);
-}
-
-/* Estilização dos Itens do Menu (Centro) */
+/* Header Links: White text with Lime Cream highlights */
 .p-menubar .p-menuitem-link {
-    transition: all 0.2s ease !important;
-    border-radius: 8px !important;
-    padding: 0.75rem 1rem !important;
-}
-
-.p-menubar .p-menuitem-link:hover {
-    background: rgba(59, 130, 246, 0.08) !important; /* Azul MedFlow suave */
+  padding: 0.6rem 1rem;
+  border-radius: 999px;
+  color: var(--white) !important;
+  transition: background-color 0.2s ease, color 0.2s ease, transform 0.2s ease;
 }
 
 .p-menubar .p-menuitem-text {
-    color: #475569 !important;
-    font-weight: 500 !important;
+  color: var(--white) !important;
+  font-size: 0.92rem;
+  font-weight: 700;
 }
 
 .p-menubar .p-menuitem-icon {
-    color: #3b82f6 !important; /* Azul da marca */
+  color: var(--lime-cream) !important;
 }
 
-/* Seção Direita (Usuário) */
+.header-glass .main-menubar.p-menubar .p-menubar-root-list>.p-menuitem:not(.p-highlight):not(.p-disabled)>.p-menuitem-content:hover {
+  background: rgba(236, 243, 158, 0.14) !important;
+  color: var(--lime-cream) !important;
+}
+
+.header-glass .main-menubar.p-menubar .p-menubar-root-list>.p-menuitem:not(.p-highlight):not(.p-disabled)>.p-menuitem-content:hover .p-menuitem-link {
+  color: var(--lime-cream) !important;
+  transform: translateY(-1px);
+}
+
+.header-glass .main-menubar.p-menubar .p-menubar-root-list>.p-menuitem:not(.p-highlight):not(.p-disabled)>.p-menuitem-content:hover .p-menuitem-link .p-menuitem-text {
+  color: var(--white) !important;
+}
+
+.header-glass .main-menubar.p-menubar .p-menubar-root-list>.p-menuitem:not(.p-highlight):not(.p-disabled)>.p-menuitem-content:hover .p-menuitem-link .p-menuitem-icon {
+  color: var(--lime-cream) !important;
+}
+
 .nav-user-controls {
-    display: flex;
-    align-items: center;
-    gap: 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
 }
 
 .user-text-container {
-    display: flex;
-    flex-direction: column;
-    text-align: right;
-    line-height: 1.2;
+  display: flex;
+  flex-direction: column;
+  text-align: right;
+  line-height: 1.25;
 }
 
 .welcome-span {
-    font-size: 0.75rem;
-    color: #94a3b8;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
+  color: var(--pale-sky);
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
 }
 
 .email-span {
-    font-size: 0.875rem;
-    color: #1e293b;
-    font-weight: 600;
+  color: var(--white);
+  font-size: 0.82rem;
+  font-weight: 700;
 }
 
-/* Botão Sair Minimalista */
-.btn-logout-modern {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    background: #f5f5f5;
-    color: #1d89e1;
-    border: 1px solid #fdfdfd;
-    padding: 8px 16px;
-    border-radius: 10px;
-    font-size: 0.875rem;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.2s;
-}
-
-.btn-logout-modern:hover {
-    background: #ffffff;
-    transform: translateY(-1px);
-}
-
-/* Botão Entrar */
+.btn-logout-modern,
 .btn-login-modern {
-    background: #3b82f6;
-    color: white;
-    padding: 10px 24px;
-    border-radius: 10px;
-    font-weight: 600;
-    text-decoration: none;
-    box-shadow: 0 4px 10px rgba(59, 130, 246, 0.3);
-    transition: all 0.2s;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  min-height: 2.6rem;
+  padding: 0.65rem 1.1rem;
+  border-radius: 999px;
+  font-size: 0.88rem;
+  font-weight: 800;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.btn-login-modern {
+  color: var(--jet-black);
+  background: var(--lime-cream);
+  border: 1px solid var(--lime-cream);
+  box-shadow: 0 4px 14px rgba(236, 243, 158, 0.25);
+}
+
+.btn-logout-modern {
+  color: var(--white);
+  background: transparent;
+  border: 1px solid rgba(191, 219, 247, 0.3);
+}
+
+.btn-login-modern:hover,
+.btn-logout-modern:hover {
+  transform: translateY(-1px);
 }
 
 .btn-login-modern:hover {
-    background: #8db1ffc7;
-    box-shadow: 0 6px 15px rgba(59, 130, 246, 0.4);
+  background: var(--white);
+  border-color: var(--white);
+  box-shadow: 0 6px 18px rgba(236, 243, 158, 0.35);
+}
+
+.btn-logout-modern:hover {
+  color: var(--lime-cream);
+  background: rgba(236, 243, 158, 0.14);
+  border-color: var(--lime-cream);
+}
+
+
+
+@media (max-width: 700px) {
+  .header-glass {
+    padding-inline: 1rem;
+  }
+
+  .user-text-container {
+    display: none;
+  }
+
+  .nav-logo-wrapper {
+    margin-right: 0.5rem;
+  }
+
+  .logo-img-prime {
+    height: 38px;
+  }
 }

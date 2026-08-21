@@ -7,6 +7,7 @@ import { Message } from "primereact/message";
 import MedicoRequest from "../../../fetch/MedicoRequest";
 import type { MedicoDTO } from "../../../dto/MedicoDTO";
 import { useNavigate } from "react-router-dom";
+import Utilitario from "../../../utils/Utilitario";
 import styles from "../../../styles/DetalhesPadrao.module.css";
 
 interface DetalhesMedicoProps {
@@ -93,7 +94,7 @@ function DetalhesMedico({ id_medico }: DetalhesMedicoProps): JSX.Element {
                             <h2 className={styles.headerTitle}>{medico.nome}</h2>
                             <div className={styles.headerSubtitle}>
                                 <span>Registro no Conselho (CRM)</span>
-                                <Tag value={medico.crm} severity="info" className="px-3 py-1 text-sm font-semibold" />
+                                <Tag value={Utilitario.formatarCrm(medico.crm)} severity="info" className="px-3 py-1 text-sm font-semibold" />
                             </div>
                         </div>
 
@@ -122,6 +123,12 @@ function DetalhesMedico({ id_medico }: DetalhesMedicoProps): JSX.Element {
                 </Card>
 
                 <div className={styles.buttonGroup}>
+                    <button
+                        className={styles.buttonPrimary}
+                        onClick={() => navigate(`/atualizar/medico/${medico.idMedico}`)}
+                    >
+                        Editar Médico
+                    </button>
                     <button
                         className={styles.buttonSecondary}
                         onClick={() => navigate(`/lista/medico`)}

@@ -5,9 +5,11 @@ import FormMedico from "../../../components/Formularios/FormMedico/FormMedico";
 
 function PCadastroMedico(): JSX.Element {
     return (
-        <div className="min-h-screen flex flex-col">
+        <div className="page-shell">
             <Navegacao />
-            <FormMedico />
+            <main className="page-main">
+                <FormMedico />
+            </main>
             <Rodape />
         </div>
     );

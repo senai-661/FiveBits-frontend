@@ -8,7 +8,7 @@ function PAtualizarPaciente(): JSX.Element {
     const { id_paciente } = useParams();
 
     return (
-        <div className="min-h-screen flex flex-col">
+        <div className="page-shell">
             <Navegacao />
             <FormAtualizarPaciente idPaciente={Number(id_paciente)} />
             <Rodape />

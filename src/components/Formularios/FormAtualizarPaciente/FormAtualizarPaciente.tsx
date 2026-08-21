@@ -1,12 +1,22 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, type JSX } from 'react';
+import { Card } from 'primereact/card';
+import { Divider } from 'primereact/divider';
 import { useNavigate } from 'react-router-dom';
 import PacienteRequest from '../../../fetch/PacienteRequest';
 import type { PacienteDTO } from '../../../dto/PacienteDTO';
 import Utilitario from '../../../utils/Utilitario';
-import styles from '../FormPaciente/FormPaciente.module.css';
+import { AlertCard, type AlertVariant } from '../../AlertCard';
+import styles from '../../../styles/DetalhesPadrao.module.css';
 
 interface FormAtualizarPacienteProps {
     idPaciente: number;
+}
+
+interface AlertaState {
+    variant: AlertVariant;
+    title?: string;
+    message: string;
+    type?: 'banner' | 'toast';
 }
 
 function formatarDataParaInput(data: Date | string): string {
@@ -28,7 +38,7 @@ function formatarDataParaInput(data: Date | string): string {
     return dataConvertida.toISOString().slice(0, 10);
 }
 
-function FormAtualizarPaciente({ idPaciente }: FormAtualizarPacienteProps) {
+function FormAtualizarPaciente({ idPaciente }: FormAtualizarPacienteProps): JSX.Element {
     const navigate = useNavigate();
     const [formData, setFormData] = useState<PacienteDTO>({
         nome: '',
@@ -39,6 +49,7 @@ function FormAtualizarPaciente({ idPaciente }: FormAtualizarPacienteProps) {
     const [carregando, setCarregando] = useState(true);
     const [salvando, setSalvando] = useState(false);
     const [erro, setErro] = useState('');
+    const [alerta, setAlerta] = useState<AlertaState | null>(null);
 
     useEffect(() => {
         async function carregarPaciente() {
@@ -51,8 +62,8 @@ function FormAtualizarPaciente({ idPaciente }: FormAtualizarPacienteProps) {
 
                 setFormData({
                     ...paciente,
-                    cpf: paciente.cpf,
-                    telefone: paciente.telefone || '',
+                    cpf: Utilitario.formatarCpf(paciente.cpf),
+                    telefone: paciente.telefone ? Utilitario.formatarTelefone(paciente.telefone) : '',
                     dataNascimento: formatarDataParaInput(paciente.dataNascimento),
                 });
             } catch {
@@ -69,27 +80,45 @@ function FormAtualizarPaciente({ idPaciente }: FormAtualizarPacienteProps) {
         const { name, value } = e.target;
         setFormData(prev => ({
             ...prev,
-            [name]: name === 'telefone' ? Utilitario.formatarTelefone(value) : value,
+            [name]: name === 'cpf'
+                ? Utilitario.formatarCpf(value)
+                : name === 'telefone'
+                    ? Utilitario.formatarTelefone(value)
+                    : value,
         }));
     };
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
+        setAlerta(null);
+
         if (!Number.isInteger(idPaciente) || idPaciente <= 0) {
-            alert('Identificador do paciente inválido');
+            setAlerta({
+                variant: 'danger',
+                title: 'Erro de Identificação',
+                message: 'Identificador do paciente é inválido.',
+            });
             return;
         }
 
         const cpf = formData.cpf.replace(/\D/g, '');
 
         if (cpf.length !== 11) {
-            alert('CPF deve conter 11 números');
+            setAlerta({
+                variant: 'warning',
+                title: 'CPF Incompleto',
+                message: 'O CPF deve conter exatamente 11 dígitos numéricos.',
+            });
             return;
         }
 
         const dataNascimento = String(formData.dataNascimento).trim();
         if (!/^\d{4}-\d{2}-\d{2}$/.test(dataNascimento)) {
-            alert('Informe uma data de nascimento válida');
+            setAlerta({
+                variant: 'warning',
+                title: 'Data Inválida',
+                message: 'Informe uma data de nascimento válida.',
+            });
             return;
         }
 
@@ -103,69 +132,170 @@ function FormAtualizarPaciente({ idPaciente }: FormAtualizarPacienteProps) {
         setSalvando(false);
 
         if (resposta.sucesso) {
-            alert('Paciente atualizado com sucesso');
-            navigate(`/detalhes/paciente/${idPaciente}`);
+            navigate(`/detalhes/paciente/${idPaciente}`, {
+                state: {
+                    alerta: {
+                        variant: 'success',
+                        title: 'Atualização Concluída',
+                        message: 'Os dados do paciente foram atualizados com sucesso!',
+                        type: 'toast',
+                    }
+                }
+            });
         } else {
-            alert(resposta.mensagem || 'Erro ao atualizar paciente');
+            setAlerta({
+                variant: 'danger',
+                title: 'Falha na Atualização',
+                message: resposta.mensagem || 'Ocorreu um erro ao atualizar o paciente.',
+            });
         }
     };
 
     if (carregando) {
-        return <main className={`${styles.container} flex-1`}><p>Carregando dados do paciente...</p></main>;
+        return (
+            <main className={`${styles.detailsWrapper} ${styles.centeredFormWrapper}`}>
+                <p>Carregando dados do paciente...</p>
+            </main>
+        );
     }
 
     if (erro) {
         return (
-            <main className={`${styles.container} flex-1`}>
-                <div className="max-w-3xl mx-auto">
-                    <p role="alert" className="text-red-600">{erro}</p>
-                    <button type="button" className={`${styles.btnSecondary} mt-6`} onClick={() => navigate('/lista/paciente')}>Voltar</button>
+            <main className={`${styles.detailsWrapper} ${styles.centeredFormWrapper}`}>
+                <div className={styles.cardContainer}>
+                    <AlertCard
+                        variant="danger"
+                        type="toast"
+                        title="Erro de Carregamento"
+                        message={erro}
+                        actionLabel="Voltar para a Lista"
+                        onAction={() => navigate('/lista/paciente')}
+                    />
                 </div>
             </main>
         );
     }
 
     return (
-        <main className={`${styles.container} flex-1 py-8 sm:py-12 px-4 sm:px-6 lg:px-8 overflow-y-auto`}>
-            <div className="max-w-3xl mx-auto">
-                <form onSubmit={handleSubmit} className={`${styles.form} bg-white shadow-2xl rounded-2xl p-6 sm:p-10 border border-slate-200`}>
-                    <div className="mb-8 sm:mb-10">
-                        <h1 className={`${styles.headerTitle} text-3xl sm:text-4xl font-bold text-slate-800`}>Atualizar Paciente</h1>
-                        <p className={`${styles.subtitle} text-slate-500 mt-1 text-sm`}>Altere os dados do paciente e salve as modificações.</p>
-                    </div>
-
-                    <div className="space-y-6">
-                        <div className="flex flex-col sm:flex-row gap-6">
-                            <div className="flex-1">
-                                <label htmlFor="nome" className={`${styles.label} block text-sm font-semibold text-slate-700 mb-2`}>Nome completo</label>
-                                <input type="text" name="nome" id="nome" required minLength={3} value={formData.nome} onChange={handleChange} className={`${styles.input} w-full px-4 py-3 border-2 border-slate-200 rounded-xl`} />
+        <main className={`${styles.detailsWrapper} ${styles.centeredFormWrapper}`}>
+            {alerta && (
+                <div style={{ marginBottom: '1.25rem' }}>
+                    <AlertCard
+                        variant={alerta.variant}
+                        type={alerta.type || 'toast'}
+                        title={alerta.title}
+                        message={alerta.message}
+                        onClose={() => setAlerta(null)}
+                    />
+                </div>
+            )}
+            <form onSubmit={handleSubmit}>
+                <div className={styles.cardContainer}>
+                    <Card className={styles.detailsCard}>
+                        <div className={styles.cardContent}>
+                            {/* Cabeçalho */}
+                            <div className={styles.detailsHeader}>
+                                <h2 className={styles.headerTitle}>Atualização de Paciente</h2>
+                                <div className={styles.headerSubtitle}>
+                                    <span>Altere os dados abaixo e salve as informações do paciente.</span>
+                                </div>
                             </div>
-                            <div className="flex-1">
-                                <label htmlFor="cpf" className={`${styles.label} block text-sm font-semibold text-slate-700 mb-2`}>CPF</label>
-                                <input type="text" name="cpf" id="cpf" required minLength={11} value={formData.cpf} onChange={handleChange} className={`${styles.input} w-full px-4 py-3 border-2 border-slate-200 rounded-xl`} />
+
+                            <Divider className="my-3" />
+
+                            {/* Grid */}
+                            <div className={`${styles.infoGrid} ${styles.singleColumnGrid}`}>
+                                <div className={styles.infoSection}>
+                                    <h3 className={styles.sectionTitle}>
+                                        <i className="pi pi-user text-green-500 text-sm"></i>
+                                        {" "}Informações Pessoais
+                                    </h3>
+
+                                    <div className={styles.sectionText}>
+                                        <div className={styles.fieldGroup}>
+                                            <span className={styles.fieldLabel}>Nome Completo</span>
+                                            <input
+                                                type="text"
+                                                name="nome"
+                                                id="nome"
+                                                required
+                                                minLength={3}
+                                                value={formData.nome}
+                                                onChange={handleChange}
+                                                placeholder="Digite o nome"
+                                                className={styles.fieldInput}
+                                            />
+                                        </div>
+
+                                        <div className={styles.fieldGroup}>
+                                            <span className={styles.fieldLabel}>CPF</span>
+                                            <input
+                                                type="text"
+                                                name="cpf"
+                                                id="cpf"
+                                                required
+                                                maxLength={14}
+                                                value={formData.cpf}
+                                                onChange={handleChange}
+                                                placeholder="000.000.000-00"
+                                                className={styles.fieldInput}
+                                            />
+                                        </div>
+
+                                        <div className={styles.fieldGroup}>
+                                            <span className={styles.fieldLabel}>Data de Nascimento</span>
+                                            <input
+                                                type="date"
+                                                name="dataNascimento"
+                                                id="dataNascimento"
+                                                required
+                                                value={String(formData.dataNascimento)}
+                                                onChange={handleChange}
+                                                className={styles.fieldInput}
+                                            />
+                                        </div>
+
+                                        <div className={styles.fieldGroup}>
+                                            <span className={styles.fieldLabel}>Telefone</span>
+                                            <input
+                                                type="tel"
+                                                name="telefone"
+                                                id="telefone"
+                                                value={formData.telefone}
+                                                onChange={handleChange}
+                                                placeholder="(xx) x xxxx-xxxx"
+                                                className={styles.fieldInput}
+                                            />
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                        <div className="flex flex-col sm:flex-row gap-6">
-                            <div className="flex-1">
-                                <label htmlFor="dataNascimento" className={`${styles.label} block text-sm font-semibold text-slate-700 mb-2`}>Data de Nascimento</label>
-                                <input type="date" name="dataNascimento" id="dataNascimento" required value={String(formData.dataNascimento)} onChange={handleChange} className={`${styles.input} w-full px-4 py-3 border-2 border-slate-200 rounded-xl`} />
-                            </div>
-                            <div className="flex-1">
-                                <label htmlFor="telefone" className={`${styles.label} block text-sm font-semibold text-slate-700 mb-2`}>Telefone</label>
-                                <input type="tel" name="telefone" id="telefone" value={formData.telefone} onChange={handleChange} placeholder="(xx) x xxxx-xxxx" className={`${styles.input} w-full px-4 py-3 border-2 border-slate-200 rounded-xl`} />
-                            </div>
-                        </div>
-                    </div>
+                    </Card>
 
-                    <hr className={`${styles.divider} my-8 border-slate-100`} />
-                    <div className="space-y-3">
-                        <button type="submit" disabled={salvando} className={`${styles.btnPrimary} w-full bg-teal-600 text-white py-4 rounded-xl font-bold disabled:opacity-60`}>{salvando ? 'Salvando...' : 'Salvar Alterações'}</button>
-                        <button type="button" className={`${styles.btnSecondary} w-full bg-white border-2 border-slate-200 text-slate-600 py-4 rounded-xl`} onClick={() => navigate(`/detalhes/paciente/${idPaciente}`)}>Cancelar</button>
+                    {/* Botões */}
+                    <div className={styles.buttonGroup}>
+                        <button
+                            type="submit"
+                            disabled={salvando}
+                            className={styles.buttonPrimary}
+                        >
+                            {salvando ? 'Salvando...' : 'Atualizar Paciente'}
+                        </button>
+
+                        <button
+                            type="button"
+                            className={styles.buttonSecondary}
+                            onClick={() => navigate(`/detalhes/paciente/${idPaciente}`)}
+                        >
+                            Voltar
+                        </button>
                     </div>
-                </form>
-            </div>
+                </div>
+            </form>
         </main>
     );
 }
 
 export default FormAtualizarPaciente;
+

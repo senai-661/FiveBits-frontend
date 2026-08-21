@@ -1,11 +1,21 @@
-import { useState } from 'react';
+import { useState, type JSX } from 'react';
+import { Card } from 'primereact/card';
+import { Divider } from 'primereact/divider';
 import { useNavigate } from 'react-router-dom';
 import PacienteRequest from '../../../fetch/PacienteRequest';
 import type { PacienteDTO } from '../../../dto/PacienteDTO';
 import Utilitario from '../../../utils/Utilitario';
-import styles from './FormPaciente.module.css';
+import { AlertCard, type AlertVariant } from '../../AlertCard';
+import styles from '../../../styles/DetalhesPadrao.module.css';
 
-function FormPaciente() {
+interface AlertaState {
+    variant: AlertVariant;
+    title?: string;
+    message: string;
+    type?: 'banner' | 'toast';
+}
+
+function FormPaciente(): JSX.Element {
     const navigate = useNavigate();
     const [formData, setFormData] = useState<PacienteDTO>({
         nome: '',
@@ -13,9 +23,16 @@ function FormPaciente() {
         telefone: '',
         dataNascimento: '',
     });
+    const [salvando, setSalvando] = useState(false);
+    const [alerta, setAlerta] = useState<AlertaState | null>(null);
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
+
+        if (name === 'cpf') {
+            setFormData(prev => ({ ...prev, [name]: Utilitario.formatarCpf(value) }));
+            return;
+        }
 
         if (name === 'telefone') {
             const telefoneFormatado = Utilitario.formatarTelefone(value);
@@ -28,140 +45,175 @@ function FormPaciente() {
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
+        setAlerta(null);
 
         const paciente: PacienteDTO = {
             nome: formData.nome.trim(),
             cpf: formData.cpf.replace(/\D/g, ''),
-            telefone: formData.telefone?.trim() || undefined,
+            telefone: formData.telefone?.replace(/\D/g, '') || undefined,
             dataNascimento: formData.dataNascimento,
         };
 
         if (paciente.cpf.length !== 11) {
-            alert("CPF deve conter 11 números");
+            setAlerta({
+                variant: 'warning',
+                title: 'CPF Incompleto',
+                message: 'O CPF deve conter 11 números.',
+            });
             return;
         }
 
-        const resposta = await PacienteRequest.enviarFormularioPaciente(paciente);
-        if (resposta) {
-            alert("Paciente cadastrado com sucesso");
-            navigate(`/lista/paciente`);
-        } else {
-            alert("Erro ao cadastrar paciente");
+        setSalvando(true);
+        try {
+            const resposta = await PacienteRequest.enviarFormularioPaciente(paciente);
+            if (resposta) {
+                navigate(`/lista/paciente`, {
+                    state: {
+                        alerta: {
+                            variant: 'success',
+                            title: 'Paciente Cadastrado',
+                            message: 'Paciente cadastrado com sucesso!',
+                            type: 'toast',
+                        }
+                    }
+                });
+            } else {
+                setAlerta({
+                    variant: 'danger',
+                    title: 'Erro de Cadastro',
+                    message: 'Erro ao cadastrar paciente.',
+                });
+            }
+        } catch (error) {
+            const mensagem = error instanceof Error ? error.message : "Erro desconhecido";
+            setAlerta({
+                variant: 'danger',
+                title: 'Erro no Servidor',
+                message: `Não foi possível cadastrar o paciente: ${mensagem}`,
+            });
+        } finally {
+            setSalvando(false);
         }
     };
 
     return (
-        <main className={`${styles.container} flex-1 py-8 sm:py-12 px-4 sm:px-6 lg:px-8 overflow-y-auto`}>
-            <div className="max-w-3xl mx-auto">
-                <form
-                    onSubmit={handleSubmit}
-                    className={`${styles.form} bg-white shadow-2xl rounded-2xl p-6 sm:p-10 border border-slate-200`}
-                >
-                    {/* Cabeçalho */}
-                    <div className="mb-8 sm:mb-10">
-                        <h1 className={`${styles.headerTitle} text-3xl sm:text-4xl font-bold text-slate-800`}>
-                            Cadastro de Paciente
-                        </h1>
-                        <p className={`${styles.subtitle} text-slate-500 mt-1 text-sm`}>
-                            Preencha os dados abaixo para registrar um novo paciente.
-                        </p>
-                    </div>
-
-                    <div className="space-y-6">
-
-                        {/* Linha 1: Nome e CPF */}
-                        <div className="flex flex-col sm:flex-row gap-6">
-                            <div className="flex-1">
-                                <label htmlFor="nome" className={`${styles.label} block text-sm font-semibold text-slate-700 mb-2`}>
-                                    Nome completo
-                                </label>
-                                <input
-                                    type="text"
-                                    name="nome"
-                                    id="nome"
-                                    required
-                                    minLength={3}
-                                    onChange={handleChange}
-                                    placeholder="Digite o nome"
-                                    className={`${styles.input} w-full px-4 py-3 border-2 border-slate-200 rounded-xl focus:border-teal-500 focus:outline-none transition-all placeholder:text-slate-400 text-slate-800`}
-                                />
+        <main className={`${styles.detailsWrapper} ${styles.centeredFormWrapper}`}>
+            {alerta && (
+                <AlertCard
+                    variant={alerta.variant}
+                    type={alerta.type || 'toast'}
+                    title={alerta.title}
+                    message={alerta.message}
+                    onClose={() => setAlerta(null)}
+                />
+            )}
+            <form onSubmit={handleSubmit}>
+                <div className={styles.cardContainer}>
+                    <Card className={styles.detailsCard}>
+                        <div className={styles.cardContent}>
+                            {/* Cabeçalho */}
+                            <div className={styles.detailsHeader}>
+                                <h2 className={styles.headerTitle}>Cadastro de Paciente</h2>
+                                <div className={styles.headerSubtitle}>
+                                    <span>Preencha os dados abaixo para registrar um novo paciente.</span>
+                                </div>
                             </div>
 
-                            <div className="flex-1">
-                                <label htmlFor="cpf" className={`${styles.label} block text-sm font-semibold text-slate-700 mb-2`}>
-                                    CPF
-                                </label>
-                                <input
-                                    type="text"
-                                    name="cpf"
-                                    id="cpf"
-                                    required
-                                    minLength={11}
-                                    onChange={handleChange}
-                                    placeholder="000.000.000-00"
-                                    className={`${styles.input} w-full px-4 py-3 border-2 border-slate-200 rounded-xl focus:border-teal-500 focus:outline-none transition-all placeholder:text-slate-400 text-slate-800`}
-                                />
+                            <Divider className="my-3" />
+
+                            {/* Grid */}
+                            <div className={`${styles.infoGrid} ${styles.singleColumnGrid}`}>
+                                <div className={styles.infoSection}>
+                                    <h3 className={styles.sectionTitle}>
+                                        <i className="pi pi-user text-green-500 text-sm"></i>
+                                        {" "}Informações Pessoais
+                                    </h3>
+
+                                    <div className={styles.sectionText}>
+                                        <div className={styles.fieldGroup}>
+                                            <span className={styles.fieldLabel}>Nome Completo</span>
+                                            <input
+                                                type="text"
+                                                name="nome"
+                                                id="nome"
+                                                required
+                                                minLength={3}
+                                                value={formData.nome}
+                                                onChange={handleChange}
+                                                placeholder="Digite o nome"
+                                                className={styles.fieldInput}
+                                            />
+                                        </div>
+
+                                        <div className={styles.fieldGroup}>
+                                            <span className={styles.fieldLabel}>CPF</span>
+                                            <input
+                                                type="text"
+                                                name="cpf"
+                                                id="cpf"
+                                                required
+                                                maxLength={14}
+                                                value={formData.cpf}
+                                                onChange={handleChange}
+                                                placeholder="000.000.000-00"
+                                                className={styles.fieldInput}
+                                            />
+                                        </div>
+
+                                        <div className={styles.fieldGroup}>
+                                            <span className={styles.fieldLabel}>Data de Nascimento</span>
+                                            <input
+                                                type="date"
+                                                name="dataNascimento"
+                                                id="dataNascimento"
+                                                required
+                                                value={String(formData.dataNascimento)}
+                                                onChange={handleChange}
+                                                className={styles.fieldInput}
+                                            />
+                                        </div>
+
+                                        <div className={styles.fieldGroup}>
+                                            <span className={styles.fieldLabel}>Telefone</span>
+                                            <input
+                                                type="tel"
+                                                name="telefone"
+                                                id="telefone"
+                                                value={formData.telefone}
+                                                onChange={handleChange}
+                                                placeholder="(xx) x xxxx-xxxx"
+                                                className={styles.fieldInput}
+                                            />
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
-
-                        {/* Linha 3: Data de Nascimento e Telefone */}
-                        <div className="flex flex-col sm:flex-row gap-6">
-                            <div className="flex-1">
-                                <label htmlFor="dataNascimento" className={`${styles.label} block text-sm font-semibold text-slate-700 mb-2`}>
-                                    Data de Nascimento
-                                </label>
-                                <input
-                                    type="date"
-                                    name="dataNascimento"
-                                    id="dataNascimento"
-                                    required
-                                    value={String(formData.dataNascimento)}
-                                    onChange={handleChange}
-                                    className={`${styles.input} w-full px-4 py-3 border-2 border-slate-200 rounded-xl focus:border-teal-500 focus:outline-none transition-all text-slate-600`}
-                                />
-                            </div>
-
-                            <div className="flex-1">
-                                <label htmlFor="telefone" className={`${styles.label} block text-sm font-semibold text-slate-700 mb-2`}>
-                                    Telefone
-                                </label>
-                                <input
-                                    type="tel"
-                                    name="telefone"
-                                    id="telefone"
-                                    value={formData.telefone}
-                                    onChange={handleChange}
-                                    placeholder="(xx) x xxxx-xxxx"
-                                    className={`${styles.input} w-full px-4 py-3 border-2 border-slate-200 rounded-xl focus:border-teal-500 focus:outline-none transition-all placeholder:text-slate-400 text-slate-800`}
-                                />
-                            </div>
-                        </div>
-
-                    </div>
-
-                    {/* Divisor */}
-                    <hr className={`${styles.divider} my-8 border-slate-100`} />
+                    </Card>
 
                     {/* Botões */}
-                    <div className="space-y-3">
+                    <div className={styles.buttonGroup}>
                         <button
                             type="submit"
-                            className={`${styles.btnPrimary} w-full bg-teal-600 text-white py-4 rounded-xl font-bold text-base tracking-wide cursor-pointer hover:bg-teal-700 shadow-md hover:shadow-lg transition-all active:scale-[0.98]`}
+                            disabled={salvando}
+                            className={styles.buttonPrimary}
                         >
-                            Cadastrar Paciente
+                            {salvando ? 'Cadastrando...' : 'Cadastrar Paciente'}
                         </button>
+
                         <button
                             type="button"
-                            className={`${styles.btnSecondary} w-full bg-white border-2 border-slate-200 text-slate-600 py-4 rounded-xl font-semibold text-base hover:bg-slate-50 hover:border-slate-300 transition-all active:scale-[0.98]`}
+                            className={styles.buttonSecondary}
                             onClick={() => navigate(`/lista/paciente`)}
                         >
                             Voltar
                         </button>
                     </div>
-                </form>
-            </div>
+                </div>
+            </form>
         </main>
     );
 }
 
 export default FormPaciente;
+

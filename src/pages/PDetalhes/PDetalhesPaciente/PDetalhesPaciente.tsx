@@ -8,9 +8,9 @@ function PDetalhesPaciente(): JSX.Element {
     const { id_paciente } = useParams();  // Recebe o ID do registro acessado
 
     return (
-        <div className="min-h-screen flex flex-col">
+        <div className="page-shell">
             <Navegacao />
-            <DetalhesPaciente id_paciente={Number(id_paciente)} />  {/* Envia o ID para o componente */}
+            <DetalhesPaciente id_paciente={Number(id_paciente)} />
             <Rodape />
         </div>
     );

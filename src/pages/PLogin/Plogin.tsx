@@ -10,11 +10,12 @@ import Rodape from "../../components/Rodape/Rodape";
 
 function PLogin(): JSX.Element {
     return (
-        <div className="pagina-grid">
-      
+        <div className="page-shell">
             <Navegacao />
-            <LoginForm />
-            <Rodape/>
+            <main className="page-main">
+                <LoginForm />
+            </main>
+            <Rodape />
         </div>
     );
 }
