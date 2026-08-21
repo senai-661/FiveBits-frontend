@@ -26,6 +26,23 @@ function ListagemPacientes(): JSX.Element {
         }
     };
 
+    const handleRemoverPaciente = async (id_paciente: number | undefined, nome: string) => {
+        if (id_paciente === undefined) {
+            return;
+        }
+
+        if (window.confirm(`Tem certeza que deseja remover o paciente "${nome}"?`)) {
+            const sucesso = await PacienteRequests.removerPaciente(id_paciente);
+            if (sucesso) {
+                alert("Paciente removido com sucesso!");
+
+                setPacientes(prev => prev.filter(paciente => paciente.idPaciente !== id_paciente));
+            } else {
+                alert("Não foi possível remover o paciente.");
+            }
+        }
+    };
+
     useEffect(() => {
         buscarPacientes();
     }, []);
@@ -83,9 +100,9 @@ function ListagemPacientes(): JSX.Element {
                                         <td>{paciente.telefone}</td>
                                         <td>
                                             <div className="btn-group">
-                                                <button className="btn-minimal primary" onClick={( ()=> navigate(`/detalhes/paciente/${paciente.idPaciente}`))}>Detalhes</button>
-                                                <button className="btn-minimal secondary">Atualizar</button>
-                                                <button className="btn-minimal danger">Remover</button>
+                                                <button className="btn-minimal primary" onClick={(() => navigate(`/detalhes/paciente/${paciente.idPaciente}`))}>Detalhes</button>
+                                                <button className="btn-minimal secondary" onClick={() => navigate(`/atualizar/paciente/${paciente.idPaciente}`)}>Atualizar</button>
+                                                <button className="btn-minimal danger" onClick={() => handleRemoverPaciente(paciente.idPaciente, paciente.nome)}>Remover</button>
                                             </div>
                                         </td>
                                     </tr>

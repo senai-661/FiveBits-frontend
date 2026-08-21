@@ -53,7 +53,7 @@ function ListagemConsultas(): JSX.Element {
 
     return (
         <div className="medflow-list-wrapper">
-            
+
             {/* 1. CABEÇALHO (Agora visível) */}
             <Navegacao />
 
@@ -61,7 +61,7 @@ function ListagemConsultas(): JSX.Element {
             <main className="main-content">
                 <div className="page-header">
                     <h1>Agenda de Consultas</h1>
-                     <a href="/cadastro/consulta" className="btn-novo">
+                    <a href="/cadastro/consulta" className="btn-novo">
                         + Nova Consulta
                     </a>
                 </div>
@@ -93,7 +93,7 @@ function ListagemConsultas(): JSX.Element {
                                 </tr>
                             ) : consultas && consultas.length > 0 ? (
                                 consultas.map((consulta) => {
-                                    const { data, hora } = formatarDataHora( consulta.dataHora.toString());
+                                    const { data, hora } = formatarDataHora(consulta.dataHora.toString());
                                     return (
                                         <tr key={consulta.idConsulta}>
                                             <td>

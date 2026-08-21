@@ -5,7 +5,7 @@ import { Tag } from "primereact/tag";
 import { Divider } from "primereact/divider";
 import { Message } from "primereact/message";
 import ConsultaRequests from "../../../fetch/ConsultaRequest.ts";
-import type {ConsultaDTO} from "../../../dto/ConsultaDTO";
+import type { ConsultaDTO } from "../../../dto/ConsultaDTO";
 import { useNavigate } from "react-router-dom";
 import styles from "../../../styles/DetalhesPadrao.module.css";
 

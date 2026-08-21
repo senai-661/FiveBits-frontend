@@ -140,7 +140,7 @@ function DetalhesPaciente({ id_paciente }: DetalhesPacienteProps): JSX.Element {
                 <div className={styles.buttonGroup}>
                     <button
                         className={styles.buttonPrimary}
-                        onClick={() => navigate(`#`)}//navigate(`/atualizar/paciente/${paciente.idPaciente}`)}
+                        onClick={() => navigate(`/atualizar/paciente/${paciente.idPaciente}`)}
                     >
                         Editar Paciente
                     </button>
