@@ -1,4 +1,4 @@
-import { useState, type JSX } from "react";
+import { useEffect, useState, type JSX } from "react";
 import { Card } from "primereact/card";
 import { Divider } from "primereact/divider";
 import { useNavigate } from "react-router-dom";
@@ -6,7 +6,11 @@ import MedicoRequest from "../../../fetch/MedicoRequest";
 import type { MedicoDTO } from "../../../dto/MedicoDTO";
 import styles from "../../../styles/DetalhesPadrao.module.css";
 
-function FormMedico(): JSX.Element {
+interface FormMedicoProps {
+    idMedico?: number;
+}
+
+function FormMedico({ idMedico }: FormMedicoProps): JSX.Element {
     const navigate = useNavigate();
 
     const [formData, setFormData] = useState<MedicoDTO>({
@@ -18,6 +22,27 @@ function FormMedico(): JSX.Element {
 
         situacao: true
     });
+    const modoEdicao = idMedico !== undefined;
+    const [carregando, setCarregando] = useState(modoEdicao);
+
+    useEffect(() => {
+        if (idMedico === undefined) return;
+
+        async function buscarMedico(medicoId: number) {
+            try {
+                const medico = await MedicoRequest.obterMedicoPorId(medicoId);
+                if (medico) setFormData(medico);
+                else alert("Médico não encontrado");
+            } catch (error) {
+                console.error("Erro ao carregar médico para edição:", error);
+                alert("Erro ao carregar os dados do médico");
+            } finally {
+                setCarregando(false);
+            }
+        }
+
+        buscarMedico(idMedico);
+    }, [idMedico]);
 
     const handleChange = (
         e: React.ChangeEvent<HTMLInputElement>
@@ -39,15 +64,27 @@ function FormMedico(): JSX.Element {
         e.preventDefault();
 
 
-        const resposta =
-            await MedicoRequest.enviarFormularioMedico(formData);
+        try {
+            const resposta = modoEdicao
+                ? await MedicoRequest.atualizarMedico(formData)
+                : await MedicoRequest.enviarFormularioMedico(formData);
 
-        if (resposta) {
-            alert("Médico cadastrado com sucesso");
-        } else {
-            alert("Erro ao cadastrar médico");
+            if (resposta) {
+                alert(modoEdicao ? "Médico atualizado com sucesso" : "Médico cadastrado com sucesso");
+                navigate("/lista/medico");
+            } else {
+                alert(modoEdicao ? "Erro ao atualizar médico" : "Erro ao cadastrar médico");
+            }
+        } catch (error) {
+            const mensagem = error instanceof Error ? error.message : "Erro desconhecido";
+            const acao = modoEdicao ? "atualizar" : "cadastrar";
+            alert(`Não foi possível ${acao} o médico: ${mensagem}`);
         }
     };
+
+    if (carregando) {
+        return <main className={`${styles.detailsWrapper} ${styles.centeredFormWrapper}`}><p>Carregando dados do médico...</p></main>;
+    }
 
     return (
         <main className={`${styles.detailsWrapper} ${styles.centeredFormWrapper}`}>
@@ -59,11 +96,13 @@ function FormMedico(): JSX.Element {
                             {/* Cabeçalho */}
                             <div className={styles.detailsHeader}>
                                 <h2 className={styles.headerTitle}>
-                                    Cadastro de Médico
+                                    {modoEdicao ? "Atualização de Médico" : "Cadastro de Médico"}
                                 </h2>
                                 <div className={styles.headerSubtitle}>
                                     <span>
-                                        Preencha os dados abaixo para registrar um novo médico.
+                                        {modoEdicao
+                                            ? "Altere os dados abaixo e salve as informações do médico."
+                                            : "Preencha os dados abaixo para registrar um novo médico."}
                                     </span>
                                 </div>
                             </div>
@@ -91,6 +130,7 @@ function FormMedico(): JSX.Element {
                                                 name="nome"
                                                 required
                                                 minLength={3}
+                                                value={formData.nome}
                                                 onChange={handleChange}
                                                 placeholder="Digite o nome"
                                                 className={styles.fieldInput}
@@ -105,6 +145,7 @@ function FormMedico(): JSX.Element {
                                                 type="text"
                                                 name="crm"
                                                 required
+                                                value={formData.crm}
                                                 onChange={handleChange}
                                                 placeholder="Digite o CRM"
                                                 className={styles.fieldInput}
@@ -119,6 +160,7 @@ function FormMedico(): JSX.Element {
                                                 type="text"
                                                 name="especialidade"
                                                 required
+                                                value={formData.especialidade}
                                                 onChange={handleChange}
                                                 placeholder="Ex: Cardiologia"
                                                 className={styles.fieldInput}
@@ -135,6 +177,7 @@ function FormMedico(): JSX.Element {
                                                 min="0"
                                                 step="0.01"
                                                 required
+                                                value={formData.valorConsulta}
                                                 onChange={handleChange}
                                                 placeholder="0,00"
                                                 className={styles.fieldInput}
@@ -159,7 +202,7 @@ function FormMedico(): JSX.Element {
                             type="submit"
                             className={styles.buttonPrimary}
                         >
-                            Cadastrar Médico
+                            {modoEdicao ? "Atualizar Médico" : "Cadastrar Médico"}
                         </button>
 
                         <button
