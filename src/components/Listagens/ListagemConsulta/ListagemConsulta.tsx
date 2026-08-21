@@ -27,6 +27,18 @@ function ListagemConsultas(): JSX.Element {
         }
     }
 
+    const deletarConsulta = async (idConsulta: number) => {
+        if (!window.confirm("Deseja realmente cancelar esta consulta?")) return;
+
+        const resposta = await ConsultaRequest.deletarConsulta(idConsulta);
+        if (resposta) {
+            alert("Consulta cancelada com sucesso");
+            buscarConsultas();
+        } else {
+            alert("Erro ao cancelar consulta");
+        }
+    };
+
     useEffect(() => {
         buscarConsultas();
     }, []);
@@ -102,9 +114,9 @@ function ListagemConsultas(): JSX.Element {
                                             </td>
                                             <td>
                                                 <div className="btn-group">
-                                                    <button className="btn-minimal primary" onClick={() => navigate(`/detalhes/consulta/${consulta.idConsulta}`)}>Detalhes</button>
-                                                    <button className="btn-minimal secondary">Atualizar</button>
-                                                    <button className="btn-minimal danger">Cancelar</button>
+                                                    <button className="btn-minimal primary" onClick={() => navigate (`/detalhes/consulta/${consulta.idConsulta}`)}>Detalhes</button>
+                                                    <button className="btn-minimal secondary" onClick={() => consulta.idConsulta !== undefined && navigate(`/atualizar/consulta/${consulta.idConsulta}`)}>Atualizar</button>
+                                                    <button className="btn-minimal danger" onClick={() => consulta.idConsulta !== undefined && deletarConsulta(consulta.idConsulta)}>Cancelar</button>
                                                 </div>
                                             </td>
                                         </tr>

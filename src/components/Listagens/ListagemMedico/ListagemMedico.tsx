@@ -27,6 +27,18 @@ function ListagemMedicos(): JSX.Element {
         }
     }
 
+    const deletarMedico = async (idMedico: number) => {
+        if (!window.confirm("Deseja realmente deletar este médico?")) return;
+
+        const resposta = await MedicoRequests.deletarMedico(idMedico);
+        if (resposta) {
+            alert("Médico deletado com sucesso");
+            buscarMedicos();
+        } else {
+            alert("Erro ao deletar médico");
+        }
+    };
+
     useEffect(() => {
         buscarMedicos();
     }, []);
@@ -89,8 +101,8 @@ function ListagemMedicos(): JSX.Element {
                                         <td>
                                             <div className="btn-group">
                                                 <button className="btn-minimal primary" onClick={() => navigate(`/detalhes/medico/${medico.idMedico}`)}>Detalhes</button>
-                                                <button className="btn-minimal secondary">Atualizar</button>
-                                                <button className="btn-minimal danger">Deletar</button>
+                                                <button className="btn-minimal secondary" onClick={() => navigate(`/atualizar/medico/${medico.idMedico}`)}>Atualizar</button>
+                                                <button className="btn-minimal danger" onClick={() => deletarMedico(medico.idMedico)}>Deletar</button>
                                             </div>
                                         </td>
                                     </tr>

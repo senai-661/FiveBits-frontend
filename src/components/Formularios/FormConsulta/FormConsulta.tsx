@@ -11,12 +11,17 @@ import type { ConsultaDTO } from "../../../dto/ConsultaDTO";
 import type { MedicoDTO } from "../../../dto/MedicoDTO";
 import type { PacienteDTO } from "../../../dto/PacienteDTO";
 
-function FormConsulta() {
+interface FormConsultaProps {
+    idConsulta?: number;
+}
+
+function FormConsulta({ idConsulta }: FormConsultaProps) {
     const navigate = useNavigate();
 
     const [listaPacientes, setListaPacientes] = useState<PacienteDTO[]>([]);
     const [listaMedicos, setListaMedicos] = useState<MedicoDTO[]>([]);
     const [carregando, setCarregando] = useState(true);
+    const modoEdicao = idConsulta !== undefined;
 
     const [formData, setFormData] = useState<ConsultaDTO>({
         dataHora: new Date(),
@@ -48,19 +53,21 @@ function FormConsulta() {
         async function carregarDados() {
             setCarregando(true);
 
-            const [pacientes, medicos] = await Promise.all([
+            const [pacientes, medicos, consulta] = await Promise.all([
                 PacienteRequests.obterListaDePacientes(),
-                MedicoRequests.obterListaDeMedicos()
+                MedicoRequests.obterListaDeMedicos(),
+                modoEdicao ? ConsultaRequest.obterConsultaPorId(idConsulta) : Promise.resolve(undefined)
             ]);
 
             if (pacientes) setListaPacientes(pacientes as PacienteDTO[]);
             if (medicos) setListaMedicos(medicos as MedicoDTO[]);
+            if (consulta) setFormData(consulta as ConsultaDTO);
 
             setCarregando(false);
         }
 
         carregarDados();
-    }, []);
+    }, [idConsulta, modoEdicao]);
 
     const handleChange = (
         e: React.ChangeEvent<
@@ -103,16 +110,21 @@ function FormConsulta() {
     ) => {
         e.preventDefault();
 
-        console.log(formData);
+        try {
+            const resposta = modoEdicao
+                ? await ConsultaRequest.atualizarConsulta(formData)
+                : await ConsultaRequest.enviarFormularioConsulta(formData);
 
-        const resposta =
-            await ConsultaRequest.enviarFormularioConsulta(formData);
-
-        if (resposta) {
-            alert("Consulta cadastrada com sucesso!");
-          navigate("/lista/consulta");
-        } else {
-            alert("Erro ao cadastrar consulta!");
+            if (resposta) {
+                alert(modoEdicao ? "Consulta atualizada com sucesso!" : "Consulta cadastrada com sucesso!");
+                navigate("/lista/consulta");
+            } else {
+                alert(modoEdicao ? "Erro ao atualizar consulta!" : "Erro ao cadastrar consulta!");
+            }
+        } catch (error) {
+            const mensagem = error instanceof Error ? error.message : "Erro desconhecido";
+            const acao = modoEdicao ? "atualizar" : "cadastrar";
+            alert(`Não foi possível ${acao} a consulta: ${mensagem}`);
         }
     };
 
@@ -130,12 +142,14 @@ function FormConsulta() {
                             {/* Cabeçalho */}
                             <div className={styles.detailsHeader}>
                                 <h2 className={styles.headerTitle}>
-                                    Cadastro de Consulta
+                                    {modoEdicao ? "Atualização de Consulta" : "Cadastro de Consulta"}
                                 </h2>
 
                                 <div className={styles.headerSubtitle}>
                                     <span>
-                                        Preencha os dados abaixo para registrar uma nova consulta.
+                                        {modoEdicao
+                                            ? "Altere os dados abaixo e salve as informações da consulta."
+                                            : "Preencha os dados abaixo para registrar uma nova consulta."}
                                     </span>
                                 </div>
                             </div>
@@ -234,6 +248,7 @@ function FormConsulta() {
                                                 type="datetime-local"
                                                 name="dataHora"
                                                 required
+                                                value={new Date(formData.dataHora).toISOString().slice(0, 16)}
                                                 onChange={handleChange}
                                                 className={styles.fieldInput}
                                             />
@@ -312,7 +327,7 @@ function FormConsulta() {
                             type="submit"
                             className={styles.buttonPrimary}
                         >
-                            Cadastrar Consulta
+                            {modoEdicao ? "Atualizar Consulta" : "Cadastrar Consulta"}
                         </button>
 
                         <button
