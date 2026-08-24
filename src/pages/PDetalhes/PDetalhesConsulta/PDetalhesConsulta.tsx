@@ -8,9 +8,9 @@ function PDetalhesConsulta(): JSX.Element {
     const { id_consulta } = useParams();  // Recebe o ID do registro acessado
 
     return (
-        <div className="min-h-screen flex flex-col">
+        <div className="page-shell">
             <Navegacao />
-            <DetalhesConsulta id_consulta={Number(id_consulta)} />  {/* Envia o ID para o componente */}
+            <DetalhesConsulta id_consulta={Number(id_consulta)} />
             <Rodape />
         </div>
     );

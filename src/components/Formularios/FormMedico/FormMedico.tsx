@@ -4,10 +4,19 @@ import { Divider } from "primereact/divider";
 import { useNavigate } from "react-router-dom";
 import MedicoRequest from "../../../fetch/MedicoRequest";
 import type { MedicoDTO } from "../../../dto/MedicoDTO";
+import Utilitario from "../../../utils/Utilitario";
+import { AlertCard, type AlertVariant } from "../../AlertCard";
 import styles from "../../../styles/DetalhesPadrao.module.css";
 
 interface FormMedicoProps {
     idMedico?: number;
+}
+
+interface AlertaState {
+    variant: AlertVariant;
+    title?: string;
+    message: string;
+    type?: 'banner' | 'toast';
 }
 
 function FormMedico({ idMedico }: FormMedicoProps): JSX.Element {
@@ -24,6 +33,7 @@ function FormMedico({ idMedico }: FormMedicoProps): JSX.Element {
     });
     const modoEdicao = idMedico !== undefined;
     const [carregando, setCarregando] = useState(modoEdicao);
+    const [alerta, setAlerta] = useState<AlertaState | null>(null);
 
     useEffect(() => {
         if (idMedico === undefined) return;
@@ -31,11 +41,22 @@ function FormMedico({ idMedico }: FormMedicoProps): JSX.Element {
         async function buscarMedico(medicoId: number) {
             try {
                 const medico = await MedicoRequest.obterMedicoPorId(medicoId);
-                if (medico) setFormData(medico);
-                else alert("Médico não encontrado");
+                if (medico) {
+                    setFormData({ ...medico, crm: Utilitario.formatarCrm(medico.crm) });
+                } else {
+                    setAlerta({
+                        variant: 'danger',
+                        title: 'Não Encontrado',
+                        message: 'Médico não foi encontrado.',
+                    });
+                }
             } catch (error) {
                 console.error("Erro ao carregar médico para edição:", error);
-                alert("Erro ao carregar os dados do médico");
+                setAlerta({
+                    variant: 'danger',
+                    title: 'Erro de Carregamento',
+                    message: 'Erro ao carregar os dados do médico.',
+                });
             } finally {
                 setCarregando(false);
             }
@@ -52,9 +73,11 @@ function FormMedico({ idMedico }: FormMedicoProps): JSX.Element {
         setFormData(prev => ({
             ...prev,
             [name]:
-                name === "valorConsulta"
-                    ? Number(value)
-                    : value
+                name === "crm"
+                    ? Utilitario.formatarCrm(value)
+                    : name === "valorConsulta"
+                        ? Number(value)
+                        : value
         }));
     };
 
@@ -62,23 +85,40 @@ function FormMedico({ idMedico }: FormMedicoProps): JSX.Element {
         e: React.FormEvent<HTMLFormElement>
     ) => {
         e.preventDefault();
-
+        setAlerta(null);
 
         try {
+            const dadosMedico = { ...formData, crm: formData.crm.replace(/[^\dA-Za-z]/g, '') };
             const resposta = modoEdicao
-                ? await MedicoRequest.atualizarMedico(formData)
-                : await MedicoRequest.enviarFormularioMedico(formData);
+                ? await MedicoRequest.atualizarMedico(dadosMedico)
+                : await MedicoRequest.enviarFormularioMedico(dadosMedico);
 
             if (resposta) {
-                alert(modoEdicao ? "Médico atualizado com sucesso" : "Médico cadastrado com sucesso");
-                navigate("/lista/medico");
+                navigate("/lista/medico", {
+                    state: {
+                        alerta: {
+                            variant: 'success',
+                            title: modoEdicao ? "Médico Atualizado" : "Médico Cadastrado",
+                            message: modoEdicao ? "Dados do médico atualizados com sucesso!" : "Médico cadastrado com sucesso!",
+                            type: 'toast',
+                        }
+                    }
+                });
             } else {
-                alert(modoEdicao ? "Erro ao atualizar médico" : "Erro ao cadastrar médico");
+                setAlerta({
+                    variant: 'danger',
+                    title: 'Erro na Operação',
+                    message: modoEdicao ? "Erro ao atualizar dados do médico." : "Erro ao cadastrar médico.",
+                });
             }
         } catch (error) {
             const mensagem = error instanceof Error ? error.message : "Erro desconhecido";
             const acao = modoEdicao ? "atualizar" : "cadastrar";
-            alert(`Não foi possível ${acao} o médico: ${mensagem}`);
+            setAlerta({
+                variant: 'danger',
+                title: 'Erro no Servidor',
+                message: `Não foi possível ${acao} o médico: ${mensagem}`,
+            });
         }
     };
 
@@ -88,6 +128,17 @@ function FormMedico({ idMedico }: FormMedicoProps): JSX.Element {
 
     return (
         <main className={`${styles.detailsWrapper} ${styles.centeredFormWrapper}`}>
+            {alerta && (
+                <div style={{ marginBottom: '1.25rem' }}>
+                    <AlertCard
+                        variant={alerta.variant}
+                        type={alerta.type || 'toast'}
+                        title={alerta.title}
+                        message={alerta.message}
+                        onClose={() => setAlerta(null)}
+                    />
+                </div>
+            )}
             <form onSubmit={handleSubmit}>
                 <div className={styles.cardContainer}>
                     <Card className={styles.detailsCard}>
@@ -145,6 +196,7 @@ function FormMedico({ idMedico }: FormMedicoProps): JSX.Element {
                                                 type="text"
                                                 name="crm"
                                                 required
+                                                maxLength={9}
                                                 value={formData.crm}
                                                 onChange={handleChange}
                                                 placeholder="Digite o CRM"
@@ -187,11 +239,6 @@ function FormMedico({ idMedico }: FormMedicoProps): JSX.Element {
                                     </div>
                                 </div>
 
-                                
-
-                               
-                              
-
                             </div>
                         </div>
                     </Card>
@@ -221,3 +268,4 @@ function FormMedico({ idMedico }: FormMedicoProps): JSX.Element {
 }
 
 export default FormMedico;
+

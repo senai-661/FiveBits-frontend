@@ -8,7 +8,7 @@ export interface ConsultaDTO {
 
     paciente: {
         idPaciente: number;
-        nome: string;
+        nomePaciente: string;
         cpf: string;
         telefone?: string;
         dataNascimento: Date;
@@ -17,7 +17,7 @@ export interface ConsultaDTO {
 
     medico: {
         idMedico: number;
-        nome: string;
+        nomeMedico: string;
         crm: string;
         especialidade: string;
         valorConsulta: number;

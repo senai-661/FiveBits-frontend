@@ -1,67 +1,62 @@
-.login-form-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 88vh;
-  background-color: #f0f2f5;
+.loginStage {
+    flex: 1 1 auto;
+    min-height: 0;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    overflow: hidden;
 }
 
-.login-form {
-  background-color: #fff;
-  padding: 1rem;
-  border-radius: 8px;
-  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
-  width: 100%;
-  max-width: 30%;
-  height: 100%;
-  max-height: 45%;
+.loginCard {
+    width: 100%;
+    max-width: 420px;
+    padding: 2.5rem;
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 16px;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+    color: #0F172A;
 }
 
-.login-form h2 {
-  text-align: center;
-  margin-bottom: 20px;
-  color: #333;
+.brand {
+    margin-bottom: 1.35rem;
+    text-align: center;
+    font-size: 1.85rem;
+    font-weight: 800;
+    letter-spacing: -0.04em;
+    color: #0F172A;
 }
 
-.login-header {
-  font-size: 2rem;
+.brand strong { color: #0284C7; }
+.loginCard h1 { margin: 0 0 0.5rem; text-align: center; font-size: 1.55rem; color: #0F172A; }
+.subtitle { margin: 0 0 1.75rem; color: #475569; text-align: center; font-size: 0.95rem; }
+.form { display: grid; gap: 1.25rem; }
+.formGroup { display: grid; gap: 0.5rem; }
+.formGroup label { color: #0F172A; font-size: 0.9rem; font-weight: 700; }
+.passwordLabel { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+.passwordLabel a, .registerPrompt a { color: #0284C7; font-weight: 700; text-decoration: none; }
+.passwordLabel a:hover, .registerPrompt a:hover { color: #0369A1; text-decoration: underline; }
+.formGroup input { width: 100%; padding: 0.8rem 1rem; border: 1px solid #CBD5E1; border-radius: 10px; background: #FFFFFF; color: #0F172A; font-size: 1rem; transition: border-color 0.2s ease, box-shadow 0.2s ease; }
+.formGroup input::placeholder { color: #64748B; }
+.formGroup input:focus { outline: none; border-color: #0284C7; box-shadow: 0 0 0 4px rgba(2, 132, 199, 0.16); }
+.loginButton { width: 100%; padding: 0.9rem 1rem; border: 0; border-radius: 10px; background: #0284C7; color: #FFFFFF; font-size: 1rem; font-weight: 800; cursor: pointer; transition: background 0.2s ease, transform 0.2s ease; }
+.loginButton:hover { background: #0369A1; transform: translateY(-1px); }
+.registerPrompt { margin: 1.5rem 0 0; color: #475569; text-align: center; font-size: 0.9rem; }
+
+@media (max-height: 680px) {
+    .loginStage { padding: 10px 20px; }
+    .loginCard { padding: 1.5rem 2rem; }
+    .brand { margin-bottom: 0.75rem; }
+    .subtitle { margin-bottom: 1rem; }
+    .form { gap: 0.8rem; }
+    .registerPrompt { margin-top: 0.9rem; }
 }
 
-.form-group {
-  margin-bottom: 15px;
-}
-
-.form-group label {
-  display: block;
-  margin-bottom: 5px;
-  color: #333;
-}
-
-.form-group input {
-  width: 100%;
-  padding: 10px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-}
-
-.login-button {
-  width: 100%;
-  padding: 10px;
-  margin-top: 2rem;
-  background-color: #007bff;
-  border: none;
-  border-radius: 4px;
-  color: white;
-  font-size: 16px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-}
-
-.input-email-login,
-.input-password-login {
-  margin-top: 0.75rem;
-}
-
-.login-button:hover {
-  background-color: #0056b3;
+@media (max-width: 480px) {
+    .loginStage { padding: 12px; }
+    .loginCard { padding: 1.5rem; }
+    .passwordLabel { align-items: flex-start; flex-direction: column; gap: 4px; }
 }

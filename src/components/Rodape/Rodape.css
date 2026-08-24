@@ -1,102 +1,95 @@
 .footer-minimal {
-    /* Fundo Criativo: Gradiente suave que remete à saúde digital */
-    background: linear-gradient(135deg, #ffffff 0%, #f0fdfa 100%);
-    border-top: 1px solid #e2e8f0;
-    padding: 25px 5%; /* Altura bem reduzida */
-    font-family: 'Inter', sans-serif;
+  padding: 2.5rem 0;
+  background: var(--jet-black);
+  color: var(--pale-sky);
+  border-top: 1px solid rgba(191, 219, 247, 0.15);
 }
 
 .footer-container {
-    max-width: 1200px;
-    margin: 0 auto;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+  width: var(--container);
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem;
 }
 
-/* Marca e Slogan */
-.brand-brief {
-    display: flex;
-    align-items: center;
-    gap: 15px;
+.brand-brief,
+.dev-credits,
+.footer-info {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
 }
 
 .logo-compact {
-    font-size: 1.2rem;
-    color: #1a3a36;
-    letter-spacing: -0.5px;
+  color: var(--white);
+  font-family: 'Manrope', sans-serif;
+  font-size: 1.15rem;
+  font-weight: 700;
 }
 
 .logo-compact strong {
-    color: #00a896; /* Cor MedFlow */
+  color: var(--lime-cream);
 }
 
 .divider {
-    color: #cbd5e1;
+  color: var(--fern);
+  font-weight: 700;
 }
 
-.slogan-minimal {
-    font-size: 0.85rem;
-    color: #64748b;
-    margin: 0;
-}
-
-/* Créditos de Desenvolvedores */
-.dev-credits {
-    display: flex;
-    align-items: center;
-    gap: 8px;
+.slogan-minimal,
+.dev-names,
+.footer-info {
+  margin: 0;
+  color: var(--pale-sky);
+  font-size: 0.84rem;
 }
 
 .label {
-    font-size: 0.75rem;
-    font-weight: 700;
-    text-transform: uppercase;
-    color: #94a3b8;
-    letter-spacing: 0.5px;
-}
-
-.dev-names {
-    font-size: 0.85rem;
-    color: #475569;
-    font-weight: 500;
+  color: var(--fern);
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
 }
 
 .dev-names span {
-    transition: color 0.2s;
-    cursor: default;
+  color: var(--pale-sky);
+  transition: color 0.2s ease;
 }
 
 .dev-names span:hover {
-    color: #00a896;
-}
-
-/* Info e Localização */
-.footer-info {
-    display: flex;
-    align-items: center;
-    gap: 20px;
-    font-size: 0.8rem;
-    color: #94a3b8;
+  color: var(--lime-cream);
+  cursor: pointer;
 }
 
 .version {
-    background: #f1f5f9;
-    padding: 2px 8px;
-    border-radius: 6px;
-    font-family: monospace;
+  padding: 0.2rem 0.5rem;
+  border: 1px solid rgba(191, 219, 247, 0.25);
+  border-radius: 0.4rem;
+  font-family: monospace;
+  font-size: 0.78rem;
+  color: var(--pale-sky);
+  background: rgba(255, 255, 255, 0.05);
 }
 
-/* Ajuste Responsivo */
-@media (max-width: 768px) {
-    .footer-container {
-        flex-direction: column;
-        gap: 15px;
-        text-align: center;
-    }
-    .brand-brief {
-        flex-direction: column;
-        gap: 5px;
-    }
-    .divider { display: none; }
+@media (max-width: 850px) {
+  .footer-container {
+    flex-direction: column;
+    text-align: center;
+  }
 }
+
+@media (max-width: 500px) {
+  .brand-brief,
+  .dev-credits,
+  .footer-info {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  .divider {
+    display: none;
+  }
+}
+

@@ -1,41 +1,448 @@
-/* index.css */
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=Manrope:wght@400;500;600;700;800&display=swap');
 
-.navbar-custom {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 0 5%;
-    background-color: #ffffff;
-    height: 100px; /* Altura fixa para acomodar a logo nova */
-    width: 100%;
-    position: sticky; /* O menu fica preso no topo */
-    top: 0;
-    z-index: 1000; /* Garante que nada passe por cima do menu */
-    border-bottom: 1px solid #f0f0f0;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+:root {
+  /* Core Palette (The Mix) */
+  --jet-black: #022b3a;
+  --pale-sky: #bfdbf7;
+  --hunter-green: #022b3a;
+  --lime-cream: #778da9;
+  --lavender: #e1e5f2;
+  --fern: #4f772d;
+  --white: #ffffff;
+
+  /* Light Mode Surface & Layout Tokens */
+  --surface: #f4f8fc;
+  --surface-listing: #e8f2fc;
+  /* Slightly lighter tone for listing pages */
+  --surface-raised: #ffffff;
+  --surface-muted: #e1e5f2;
+  --surface-pale-sky: var(--pale-sky);
+  --surface-hunter-green: var(--hunter-green);
+
+  /* Typography Colors */
+  --text: var(--hunter-green);
+  --text-muted: #43645c;
+  --text-inverse: var(--white);
+  --text-on-dark: var(--white);
+  --text-dark-muted: var(--pale-sky);
+  --text-on-light: var(--hunter-green);
+
+  /* Accents & Focus */
+  --cta-bg: var(--lime-cream);
+  --cta-text: var(--jet-black);
+  --border: rgba(49, 87, 44, 0.18);
+  --border-focus: var(--lavender);
+  --focus-ring: rgba(79, 119, 45, 0.45);
+  --accent-fern: var(--fern);
+  --accent-lavender: var(--lavender);
+
+  /* Elevation & Geometry */
+  --shadow-sm: 0 8px 20px rgba(2, 43, 58, 0.08);
+  --shadow-md: 0 14px 30px rgba(2, 43, 58, 0.12);
+  --shadow-lg: 0 24px 50px rgba(2, 43, 58, 0.16);
+  --radius-sm: 0.75rem;
+  --radius-md: 1.25rem;
+  --radius-lg: 1.75rem;
+  --container: min(1120px, calc(100% - 3rem));
+
+  /* Alert Card Tokens */
+  --alert-success-bg: #eaf6ed;
+  --alert-success-border: #a3d9b1;
+  --alert-success-text: #1d522b;
+  --alert-success-icon: #2e7d32;
+
+  --alert-danger-bg: #fdf2f2;
+  --alert-danger-border: #f8b4b4;
+  --alert-danger-text: #822727;
+  --alert-danger-icon: #d32f2f;
+
+  --alert-warning-bg: #fffbe6;
+  --alert-warning-border: #ffe58f;
+  --alert-warning-text: #7a5200;
+  --alert-warning-icon: #d97706;
+
+  --alert-info-bg: #edf6fd;
+  --alert-info-border: #bde0fe;
+  --alert-info-text: #104271;
+  --alert-info-icon: #0284c7;
+
+  color-scheme: light;
 }
 
-.logo-img {
-    height: 100px; 
-    width: auto;  
-    display: block;
-    object-fit: contain;
+/* Global Reset & Base Typography */
+* {
+  box-sizing: border-box;
 }
 
-.nav-items-section {
-    display: flex;
-    align-items: center;
-    gap: 25px; /* Espaço entre os itens */
+html {
+  scroll-behavior: smooth;
 }
 
-/* Ajuste do Main para o conteúdo não subir */
-.main-wrapper {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    padding-top: 20px; /* Evita que o texto encoste no menu */
-    background-color: var(--cor-container);
-    min-height: calc(100vh - 180px); /* Desconta header e footer */
+body {
+  margin: 0;
+  min-width: 320px;
+  background: var(--surface);
+  color: var(--text);
+  font-family: 'DM Sans', system-ui, -apple-system, sans-serif;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+button,
+input,
+select,
+textarea {
+  font: inherit;
+}
+
+button,
+a {
+  -webkit-tap-highlight-color: transparent;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+img {
+  max-width: 100%;
+  display: block;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p {
+  margin-top: 0;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: 'Manrope', 'DM Sans', sans-serif;
+  letter-spacing: -0.03em;
+}
+
+/* Layout Utilities */
+.page-shell {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: var(--surface);
+}
+
+.page-main {
+  flex: 1;
+}
+
+.content-container {
+  width: var(--container);
+  margin-inline: auto;
+}
+
+.section {
+  padding: clamp(3.5rem, 7vw, 6rem) 0;
+}
+
+.section-heading {
+  max-width: 44rem;
+  margin-bottom: 2.5rem;
+}
+
+.eyebrow {
+  display: inline-flex;
+  gap: 0.45rem;
+  align-items: center;
+  margin-bottom: 0.9rem;
+  color: var(--fern);
+  font-size: 0.78rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.section-title {
+  margin-bottom: 0.8rem;
+  font-size: clamp(2rem, 4vw, 3rem);
+  line-height: 1.15;
+}
+
+.section-description {
+  margin-bottom: 0;
+  color: var(--text-muted);
+  font-size: 1.05rem;
+  line-height: 1.7;
+}
+
+/* Standardized Button System */
+.button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.55rem;
+  min-height: 2.9rem;
+  padding: 0.78rem 1.4rem;
+  border: 1px solid transparent;
+  border-radius: 999px;
+  cursor: pointer;
+  font-weight: 800;
+  font-size: 0.95rem;
+  line-height: 1;
+  text-decoration: none;
+  transition: transform 0.2s ease, background-color 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+}
+
+.button:hover {
+  transform: translateY(-2px);
+}
+
+.button:focus-visible,
+a:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible {
+  outline: 3px solid var(--focus-ring);
+  outline-offset: 3px;
+}
+
+.button-primary {
+  background: var(--lime-cream);
+  color: var(--jet-black);
+  box-shadow: 0 8px 20px rgba(236, 243, 158, 0.25);
+  border: 1px solid var(--lime-cream);
+}
+
+.button-primary:hover {
+  background: #f5fac2;
+  box-shadow: 0 12px 26px rgba(236, 243, 158, 0.38);
+  color: var(--jet-black);
+}
+
+.button-secondary {
+  background: transparent;
+  color: var(--text);
+  border: 1px solid var(--border);
+}
+
+.button-secondary:hover {
+  background: var(--lavender);
+  color: var(--jet-black);
+  border-color: var(--lavender);
+}
+
+@media (max-width: 700px) {
+  :root {
+    --container: min(100% - 2rem, 1120px);
+  }
+}
+
+/* ==========================================================================
+   Alert Card System (Banner & Toast)
+   ========================================================================== */
+.alert-card {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.9rem;
+  padding: 1rem 1.25rem;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border);
+  background: var(--surface-raised);
+  box-shadow: var(--shadow-sm);
+  transition: transform 0.2s ease, box-shadow 0.2s ease, opacity 0.2s ease;
+  position: relative;
+  width: 100%;
+}
+
+.alert-card-icon-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 2.25rem;
+  height: 2.25rem;
+  border-radius: 50%;
+  font-size: 1.15rem;
+}
+
+.alert-card-content {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.alert-card-title {
+  font-family: 'Manrope', 'DM Sans', sans-serif;
+  font-size: 0.98rem;
+  font-weight: 700;
+  line-height: 1.3;
+  margin: 0;
+}
+
+.alert-card-message {
+  font-size: 0.88rem;
+  line-height: 1.5;
+  margin: 0;
+  word-break: break-word;
+}
+
+.alert-card-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-top: 0.6rem;
+}
+
+.alert-card-btn-action {
+  background: transparent;
+  border: 1px solid currentColor;
+  border-radius: 999px;
+  padding: 0.35rem 0.85rem;
+  font-size: 0.8rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: opacity 0.15s ease, transform 0.15s ease;
+}
+
+.alert-card-btn-action:hover {
+  opacity: 0.85;
+  transform: translateY(-1px);
+}
+
+.alert-card-btn-close {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 0.3rem;
+  margin: -0.25rem -0.25rem 0 0;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.9rem;
+  opacity: 0.65;
+  transition: opacity 0.2s ease, background-color 0.2s ease;
+  color: inherit;
+}
+
+.alert-card-btn-close:hover {
+  opacity: 1;
+  background: rgba(0, 0, 0, 0.08);
+}
+
+/* Alert Card Variants */
+.alert-card--success {
+  background: var(--alert-success-bg);
+  border-color: var(--alert-success-border);
+  color: var(--alert-success-text);
+}
+
+.alert-card--success .alert-card-icon-container {
+  background: rgba(46, 125, 50, 0.12);
+  color: var(--alert-success-icon);
+}
+
+.alert-card--danger {
+  background: var(--alert-danger-bg);
+  border-color: var(--alert-danger-border);
+  color: var(--alert-danger-text);
+}
+
+.alert-card--danger .alert-card-icon-container {
+  background: rgba(211, 47, 47, 0.12);
+  color: var(--alert-danger-icon);
+}
+
+.alert-card--warning {
+  background: var(--alert-warning-bg);
+  border-color: var(--alert-warning-border);
+  color: var(--alert-warning-text);
+}
+
+.alert-card--warning .alert-card-icon-container {
+  background: rgba(217, 119, 6, 0.14);
+  color: var(--alert-warning-icon);
+}
+
+.alert-card--info {
+  background: var(--alert-info-bg);
+  border-color: var(--alert-info-border);
+  color: var(--alert-info-text);
+}
+
+.alert-card--info .alert-card-icon-container {
+  background: rgba(2, 132, 199, 0.12);
+  color: var(--alert-info-icon);
+}
+
+/* Toast Container & Layout Modes */
+.alert-toast-container {
+  position: fixed;
+  z-index: 9999;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  max-width: 420px;
+  width: calc(100% - 2rem);
+  pointer-events: none;
+}
+
+.alert-toast-container>* {
+  pointer-events: auto;
+}
+
+.alert-toast-container--top-right {
+  top: 1.5rem;
+  right: 1.5rem;
+}
+
+.alert-toast-container--top-center {
+  top: 1.5rem;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.alert-toast-container--top-left {
+  top: 1.5rem;
+  left: 1.5rem;
+}
+
+.alert-toast-container--bottom-right {
+  bottom: 1.5rem;
+  right: 1.5rem;
+}
+
+.alert-toast-container--bottom-center {
+  bottom: 1.5rem;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.alert-toast-container--bottom-left {
+  bottom: 1.5rem;
+  left: 1.5rem;
+}
+
+.alert-card--toast {
+  box-shadow: var(--shadow-md);
+  animation: alertSlideIn 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes alertSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px) scale(0.98);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
 }
