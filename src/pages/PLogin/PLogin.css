@@ -1,0 +1,35 @@
+.login-page {
+    height: 100vh;
+    min-height: 0;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    background:
+        linear-gradient(135deg, rgba(8, 23, 41, 0.85) 0%, rgba(19, 42, 19, 0.85) 100%),
+        url('https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?auto=format&fit=crop&w=1920&q=80') center/cover no-repeat;
+}
+
+.login-page .header-glass {
+    flex: 0 0 auto;
+    background: var(--text);
+    border-bottom-color: rgba(255, 255, 255, 0.16);
+}
+
+.login-page .p-menubar .p-menuitem-text,
+.login-page .email-span { color: #FFFFFF !important; }
+
+.login-page .welcome-span { color: #D0D7CB; }
+
+.login-page .nav-user-controls {
+    background: rgba(0, 45, 71, 0.72);
+    border-color: rgba(255, 255, 255, 0.18);
+}
+
+.login-page .btn-login-modern { display: none; }
+
+.login-page .footer-minimal {
+    flex: 0 0 auto;
+    background: rgba(0, 13, 26, 0.82);
+    border-top-color: rgba(255, 255, 255, 0.16);
+}

@@ -112,6 +112,7 @@
 
 .portfolio-card {
   display: flex;
+  position: relative;
   min-height: 16rem;
   flex-direction: column;
   justify-content: flex-end;
@@ -127,14 +128,25 @@
   transform: translateY(-4px);
 }
 
-.portfolio-card::before {
-  width: 3.2rem;
-  height: 3.2rem;
-  margin-bottom: auto;
+.portfolio-card::after {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
   content: '';
-  border: 2px solid currentColor;
-  border-radius: 50%;
-  opacity: 0.45;
+  background: linear-gradient(180deg, rgba(2, 43, 58, 0.05) 20%, rgba(2, 43, 58, 0.9) 100%);
+}
+
+.portfolio-card img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.4s ease;
+}
+
+.portfolio-card:hover img {
+  transform: scale(1.05);
 }
 
 .portfolio-card span {
@@ -143,12 +155,16 @@
   font-weight: 800;
   letter-spacing: 0.1em;
   text-transform: uppercase;
+  position: relative;
+  z-index: 1;
 }
 
 .portfolio-card strong {
   font-family: 'Manrope', sans-serif;
   font-size: clamp(1.15rem, 2vw, 1.65rem);
   line-height: 1.25;
+  position: relative;
+  z-index: 1;
 }
 
 .portfolio-large {
@@ -157,16 +173,16 @@
 }
 
 .portfolio-large span {
-  color: var(--lime-cream);
+  color: var(--white);
 }
 
 .portfolio-sky {
   background: var(--pale-sky);
-  color: var(--hunter-green);
+  color: var(--white);
 }
 
 .portfolio-sky span {
-  color: var(--hunter-green);
+  color: var(--white);
 }
 
 .portfolio-green {
@@ -175,7 +191,7 @@
 }
 
 .portfolio-green span {
-  color: var(--lime-cream);
+  color: var(--white);
 }
 
 @media (max-width: 900px) {

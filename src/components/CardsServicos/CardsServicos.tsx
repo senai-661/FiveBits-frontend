@@ -42,14 +42,17 @@ function CardsServicos(): JSX.Element {
                     </div>
                     <div className="portfolio-grid">
                         <article className="portfolio-card portfolio-large">
+                            <img src="https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=1200&q=85" alt="Pessoa organizando uma agenda em um notebook" />
                             <span>Agenda integrada</span>
                             <strong>Tenha mais tempo para o que importa.</strong>
                         </article>
                         <article className="portfolio-card portfolio-sky">
+                            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQhDNJfEkjOUr7CHmeZ_PUCIGpaxvHyja4eI_1gN7-0Ecr7njOiPjYwdxk&s=10" alt="Cadeado representando segurança e proteção de dados" />
                             <span>Dados protegidos</span>
                             <strong>Segurança em cada interação.</strong>
                         </article>
                         <article className="portfolio-card portfolio-green">
+                            <img src="https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?auto=format&fit=crop&w=900&q=85" alt="Profissional de saúde analisando informações" />
                             <span>Visão completa</span>
                             <strong>Uma gestão mais consciente.</strong>
                         </article>

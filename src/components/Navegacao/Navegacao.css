@@ -2,17 +2,24 @@
   position: sticky;
   top: 0;
   z-index: 1100;
-  padding: 0.65rem max(1.5rem, calc((100vw - 1120px) / 2));
-  background: var(--jet-black);
+  padding: 0.65rem 1.5rem;
+  background: var(--text);
   border-bottom: 1px solid var(--border);
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
 }
 
 .main-menubar.p-menubar {
+  display: flex;
+  align-items: center;
+  width: 100%;
   padding: 0;
   border: 0;
   border-radius: 0;
   background: transparent;
+}
+
+.main-menubar.p-menubar .p-menubar-root-list {
+  margin-right: auto;
 }
 
 .nav-logo-wrapper {
@@ -25,6 +32,8 @@
   width: auto;
   height: 44px;
   object-fit: contain;
+  transform: scale(1.45);
+  transform-origin: left center;
 }
 
 /* Header Links: White text with Lime Cream highlights */
@@ -152,5 +161,10 @@
 
   .logo-img-prime {
     height: 38px;
+    transform: scale(1.4);
+  }
+
+  .main-menubar.p-menubar .p-menubar-root-list {
+    margin-right: 0;
   }
 }
