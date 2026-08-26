@@ -1,3 +1,5 @@
+import { SERVER_CFG } from "../AppConfig";
+
 /**
  * Classe para lidar com autenticação
  */
@@ -11,9 +13,9 @@ class AuthRequests {
      */
     constructor() {
         // endereço do servidor
-        this.serverUrl = 'http://localhost:3333';
+        this.serverUrl = SERVER_CFG.SERVER_URL;
         // rota do servidor
-        this.endpointLogin = '/api/login';
+        this.endpointLogin = SERVER_CFG.ENDPOINT_LOGIN;
     }
 
     /**

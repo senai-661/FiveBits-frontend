@@ -1,3 +1,4 @@
+import { SERVER_CFG } from "../AppConfig";
 import type { MedicoDTO } from "../dto/MedicoDTO";
 
 // Classe responsável por fazer requisições à API - medico
@@ -6,8 +7,8 @@ class MedicoRequests {
     private endpointMedico;
 
     constructor() {
-        this.serverURL = `http://localhost:3333`;
-        this.endpointMedico = `/api/medicos`;
+        this.serverURL = SERVER_CFG.SERVER_URL;
+        this.endpointMedico = SERVER_CFG.ENDPOINT_MEDICOS;
     }
 
     private async mensagemDeErro(respostaAPI: Response): Promise<string> {
