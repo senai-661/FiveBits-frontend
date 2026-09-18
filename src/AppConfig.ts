@@ -1,5 +1,5 @@
 export const SERVER_CFG = {
-    SERVER_URL: 'https://fivebits-backend.onrender.com',
+    SERVER_URL: import.meta.env.VITE_SERVER_URL || 'https://fivebits-backend.onrender.com',
 
     ENDPOINT_PACIENTES: '/api/pacientes',
     ENDPOINT_MEDICOS: '/api/medicos',
