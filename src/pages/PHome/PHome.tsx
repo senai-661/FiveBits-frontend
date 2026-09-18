@@ -8,9 +8,9 @@ import Rodape from "../../components/Rodape/Rodape";
 
 function PHome(): JSX.Element {
     return (
-        <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
+        <div className="page-shell">
             <Navegacao /> 
-            <main style={{ flex: 1 }}>
+            <main className="page-main">
                 <BoasVindas />
                 <CardsServicos />
             </main>

@@ -5,9 +5,11 @@ import FormConsulta from "../../../components/Formularios/FormConsulta/FormConsu
 
 function PCadastroConsulta(): JSX.Element {
     return (
-        <div className="min-h-screen flex flex-col">
+        <div className="page-shell">
             <Navegacao />
-            <FormConsulta />
+            <main className="page-main">
+                <FormConsulta />
+            </main>
             <Rodape />
         </div>
     );

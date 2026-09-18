@@ -1,206 +1,286 @@
 .medflow-list-wrapper {
-    display: flex;
-    flex-direction: column;
-    min-height: 100vh;
-    /* Fundo clarinho e minimalista */
-    background-color: #f4f7f9; 
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background: var(--surface-listing);
 }
 
 .main-content {
-    flex: 1;
-    padding: 50px 10%;
+  width: var(--container);
+  flex: 1;
+  margin: 0 auto;
+  padding: clamp(2.5rem, 5vw, 4.5rem) 0;
 }
 
 .page-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 35px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 2rem;
 }
 
 .page-header h1 {
-    color: #1a3a36;
-    font-size: 1.8rem;
-    font-weight: 800;
-    margin: 0;
+  position: relative;
+  margin: 0;
+  color: var(--text);
+  font-size: clamp(1.8rem, 3.2vw, 2.5rem);
+  font-weight: 800;
+  line-height: 1.1;
+}
+
+.page-header h1::before {
+  display: block;
+  margin-bottom: 0.65rem;
+  color: var(--fern);
+  content: 'Gestão MedFlow';
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.75rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
 }
 
 .btn-novo {
-    background-color: #00a896;
-    color: white;
-    border: none;
-    padding: 10px 20px;
-    border-radius: 10px;
-    font-weight: 700;
-    cursor: pointer;
-    transition: background-color 0.2s;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 2.9rem;
+  padding: 0.75rem 1.3rem;
+  border: 1px solid var(--lime-cream);
+  border-radius: 999px;
+  background: var(--lime-cream);
+  color: var(--jet-black);
+  box-shadow: 0 8px 20px rgba(236, 243, 158, 0.25);
+  font-size: 0.92rem;
+  font-weight: 800;
+  text-decoration: none;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
 }
 
 .btn-novo:hover {
-    background-color: #008f7f;
+  transform: translateY(-2px);
+  background: #f5fac2;
+  box-shadow: 0 12px 26px rgba(236, 243, 158, 0.38);
+  color: var(--jet-black);
 }
 
-/* Container com Sombra Leve e Focada */
+.btn-novo:focus-visible,
+.btn-minimal:focus-visible {
+  outline: 3px solid var(--focus-ring);
+  outline-offset: 3px;
+}
+
 .table-container {
-    background: #ffffff;
-    border-radius: 20px;
-    border: 1px solid rgba(0, 0, 0, 0.03);
-    /* Sombra suave para efeito de profundidade */
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05); 
-    overflow: hidden;
+  overflow-x: auto;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  background: var(--surface-raised);
+  box-shadow: var(--shadow-sm);
 }
 
 .medflow-table {
-    width: 100%;
-    border-collapse: collapse;
+  width: 100%;
+  min-width: 650px;
+  border-collapse: collapse;
 }
 
 .medflow-table th {
-    background-color: #fafbfc;
-    padding: 18px 24px;
-    text-align: left;
-    font-size: 0.75rem;
-    color: #94a3b8;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    border-bottom: 1px solid #edf2f7;
+  padding: 1.1rem 1.35rem;
+  border-bottom: 1px solid var(--border);
+  background: color-mix(in srgb, var(--surface-muted) 65%, transparent);
+  color: var(--text-muted);
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  text-align: left;
+  text-transform: uppercase;
+  white-space: nowrap;
 }
 
 .medflow-table td {
-    padding: 16px 24px;
-    border-bottom: 1px solid #f7fafc;
-    color: #334155;
-    font-size: 0.95rem;
+  padding: 1.1rem 1.35rem;
+  border-bottom: 1px solid var(--border);
+  color: var(--text);
+  font-size: 0.94rem;
 }
 
 .medflow-table tr:last-child td {
-    border-bottom: none;
+  border-bottom: 0;
 }
 
-.medflow-table tr:hover {
-    background-color: #f0fdfa; /* Destaque sutil no hover */
+.medflow-table tbody tr {
+  transition: background-color 0.2s ease;
 }
 
-/* Estilização Interna */
+.medflow-table tbody tr:hover {
+  background: color-mix(in srgb, var(--pale-sky) 28%, transparent);
+}
+
 .item-box {
-    display: flex;
-    align-items: center;
-    gap: 12px;
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
 }
 
 .avatar-icon {
-    width: 36px;
-    height: 36px;
-    background: #e6f6f4;
-    color: #00a896;
-    border-radius: 8px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-weight: 700;
-    font-size: 0.85rem;
+  display: grid;
+  width: 2.5rem;
+  height: 2.5rem;
+  place-items: center;
+  border: 1px solid rgba(79, 119, 45, 0.25);
+  border-radius: 50%;
+  background: var(--lavender);
+  color: var(--hunter-green);
+  font-size: 0.95rem;
+  font-weight: 800;
 }
 
 .info-tag {
-    background: #f1f5f9;
-    color: #3b82f6;
-    padding: 4px 10px;
-    border-radius: 6px;
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 0.85rem;
-    font-weight: 600;
+  display: inline-block;
+  padding: 0.3rem 0.6rem;
+  border: 1px solid var(--border);
+  border-radius: 0.45rem;
+  background: var(--surface-muted);
+  color: var(--text);
+  font-family: monospace;
+  font-size: 0.8rem;
+  font-weight: 700;
 }
 
 .btn-group {
-    display: flex;
-    gap: 8px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 0.5rem;
 }
 
 .btn-minimal {
-    padding: 7px 15px;
-    border-radius: 8px;
-    border: 1px solid #e2e8f0;
-    background: white;
-    font-size: 0.8rem;
-    font-weight: 600;
-    cursor: pointer;
-    transition: 0.2s;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 2.3rem;
+  padding: 0.45rem 0.85rem;
+  border: 1px solid var(--border);
+  border-radius: 0.55rem;
+  background: transparent;
+  color: var(--text);
+  font-size: 0.78rem;
+  font-weight: 800;
+  cursor: pointer;
+  transition: transform 0.18s ease, background-color 0.18s ease, border-color 0.18s ease, color 0.18s ease;
 }
 
 .btn-minimal:hover {
-    background: #f8fafc;
-    border-color: #cbd5e1;
+  transform: translateY(-1px);
 }
 
 .btn-minimal.primary {
-    color: #333;
+  background: var(--lime-cream);
+  color: var(--jet-black);
+  border-color: var(--lime-cream);
+}
+
+.btn-minimal.primary:hover {
+  background: #f5fac2;
 }
 
 .btn-minimal.secondary {
-    color: #3F4DE3;
+  border-color: rgba(79, 119, 45, 0.35);
+  color: var(--fern);
+}
+
+.btn-minimal.secondary:hover {
+  background: var(--lavender);
+  color: var(--jet-black);
 }
 
 .btn-minimal.danger {
-    color: #ef4444;
+  border-color: rgba(183, 71, 71, 0.35);
+  color: #c94040;
+}
+
+.btn-minimal.danger:hover {
+  background: #fdf2f2;
+  color: #a82b2b;
+  border-color: #c94040;
 }
 
 .text-bold {
-    font-weight: 600;
+  font-weight: 700;
 }
 
-.empty-state, .error-state {
-    text-align: center;
-    padding: 60px 40px;
-    color: #94a3b8;
+.empty-state,
+.error-state {
+  padding: 4rem 2rem;
+  color: var(--text-muted);
+  text-align: center;
 }
 
 .error-state {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 15px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
 }
 
 .error-icon {
-    font-size: 3rem;
-    color: #ef4444;
-    margin-bottom: 10px;
-    opacity: 0.8;
+  margin-bottom: 0.25rem;
+  color: #c94040;
+  font-size: 2.2rem;
 }
 
 .error-title {
-    color: #1a3a36;
-    font-size: 1.2rem;
-    font-weight: 700;
+  color: var(--text);
+  font-size: 1.15rem;
+  font-weight: 800;
 }
 
 .error-message {
-    font-size: 0.95rem;
-    max-width: 400px;
-    line-height: 1.5;
+  max-width: 28rem;
+  line-height: 1.6;
 }
 
 .btn-retry {
-    margin-top: 15px;
-    background-color: #3b82f6;
-    color: white;
-    border: none;
-    padding: 8px 24px;
-    border-radius: 8px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: 0.2s;
+  padding: 0.65rem 1.2rem;
+  border: 1px solid var(--lime-cream);
+  border-radius: 999px;
+  background: var(--lime-cream);
+  color: var(--jet-black);
+  font-weight: 800;
+  cursor: pointer;
+  transition: transform 0.2s ease;
 }
 
 .btn-retry:hover {
-    background-color: #2563eb;
+  transform: translateY(-2px);
+  background: #f5fac2;
 }
 
 .money-tag {
-    background-color: #E7F9E2;
-    color: #18C401;
-    padding: 4px 8px;
-    border-radius: 6px;
-    font-size: 0.85rem;
-    font-weight: bold;
+  display: inline-block;
+  padding: 0.3rem 0.65rem;
+  border-radius: 0.45rem;
+  background: var(--lime-cream);
+  color: var(--hunter-green);
+  font-size: 0.82rem;
+  font-weight: 800;
 }
+
+
+
+@media (max-width: 600px) {
+  .page-header {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+  .btn-novo {
+    width: 100%;
+  }
+  .main-content {
+    padding-top: 2rem;
+  }
+}
+
+

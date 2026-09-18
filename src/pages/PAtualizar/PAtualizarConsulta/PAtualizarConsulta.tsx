@@ -8,7 +8,7 @@ function PAtualizarConsulta(): JSX.Element {
     const { id_consulta } = useParams();
 
     return (
-        <div className="min-h-screen flex flex-col">
+        <div className="page-shell">
             <Navegacao />
             <FormConsulta idConsulta={Number(id_consulta)} />
             <Rodape />

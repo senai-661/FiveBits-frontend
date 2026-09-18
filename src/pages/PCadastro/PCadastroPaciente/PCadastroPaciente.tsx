@@ -5,9 +5,11 @@ import FormPaciente from "../../../components/Formularios/FormPaciente/FormPacie
 
 function PCadastroPaciente(): JSX.Element {
     return (
-        <div className="min-h-screen flex flex-col">
+        <div className="page-shell">
             <Navegacao />
-            <FormPaciente />
+            <main className="page-main">
+                <FormPaciente />
+            </main>
             <Rodape />
         </div>
     );

@@ -8,7 +8,7 @@ function PAtualizarMedico(): JSX.Element {
     const { id_medico } = useParams();
 
     return (
-        <div className="min-h-screen flex flex-col">
+        <div className="page-shell">
             <Navegacao />
             <FormMedico idMedico={Number(id_medico)} />
             <Rodape />

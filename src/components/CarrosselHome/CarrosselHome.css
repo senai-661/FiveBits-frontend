@@ -1,112 +1,74 @@
-/* Container que redimensiona proporcionalmente (21/9 é ultra-wide e moderno) */
-.carrossel-wrapper-modern {
+.carrossel-wrapper-fullscreen { flex: 1 1 auto; min-height: 0; width: 100%; height: 100%; margin: 0; overflow: hidden; border: 0; border-radius: 0; background: linear-gradient(135deg, #081729 0%, #132A13 100%); box-shadow: none; }
+
+.swiper-fullscreen,
+.swiper-fullscreen .swiper-wrapper,
+.swiper-fullscreen .swiper-slide {
     width: 100%;
-    aspect-ratio: 21 / 9; /* Mantém a proporção independente do tamanho da tela */
-    min-height: 380px; /* Garante usabilidade em telas muito pequenas */
-    border-radius: 28px; /* Bordas arredondadas como os cards da home */
-    overflow: hidden;
-    position: relative;
-    box-shadow: 0 20px 40px rgba(0, 168, 150, 0.1);
+    height: 100%;
 }
 
-.swiper-tech { width: 100%; height: 100%; }
-
-/* Imagem de Fundo e Overlay */
-.slide-image-bg {
-    position: absolute;
-    top: 0; left: 0;
-    width: 100%; height: 100%;
+.slide-bg-image {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    background: linear-gradient(135deg, #081729 0%, #132A13 100%);
     background-size: cover;
     background-position: center;
 }
 
-.overlay-dark {
+.overlay-dark-medflow {
     position: absolute;
-    width: 100%; height: 100%;
-    background: linear-gradient(105deg, rgba(13, 38, 35, 0.8) 40%, rgba(13, 38, 35, 0.2) 100%); /* Degradê escuro MedFlow */
+    inset: 0;
+    background: linear-gradient(110deg, rgba(8, 23, 41, 0.92) 0%, rgba(8, 23, 41, 0.78) 48%, rgba(19, 42, 19, 0.64) 100%), radial-gradient(circle at 82% 48%, rgba(0, 170, 255, 0.24), transparent 32%);
 }
 
-/* Container de Conteúdo */
-.slide-content-area {
+.slide-content-container {
     position: relative;
-    z-index: 10;
-    height: 100%;
+    z-index: 2;
     display: flex;
     align-items: center;
-    padding: 0 8%;
-    color: white;
+    width: 100%;
+    height: 100%;
+    padding: 2rem 7%;
 }
 
-/* Glassmorphism: Efeito de vidro moderno e tecnológico */
-.tech-glass-card {
-    background: rgba(255, 255, 255, 0.05); /* Fundo sutil */
-    backdrop-filter: blur(15px); /* Desfoque do fundo (Glass effect) */
-    padding: 40px;
+.glass-card-hero {
+    width: min(650px, 72%);
+    padding: 3rem;
+    color: #FFFFFF;
+    background: rgba(255, 255, 255, 0.07);
+    backdrop-filter: blur(16px);
+    border: 1px solid rgba(255, 255, 255, 0.15);
     border-radius: 24px;
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    max-width: 550px;
+    box-shadow: 0 25px 50px rgba(0, 0, 0, 0.3);
 }
 
-/* Animação fadeInUp (texto surge suavemente) */
-.swiper-slide-active .tech-badge, 
-.swiper-slide-active .tech-title, 
-.swiper-slide-active .tech-desc, 
-.swiper-slide-active .btn-tech-neon {
-    animation: fadeInUp 0.8s ease forwards;
-    opacity: 0;
-}
-
-@keyframes fadeInUp {
-    from { opacity: 0; transform: translateY(40px); }
-    to { opacity: 1; transform: translateY(0); }
-}
-
-/* Estilos de Tipografia */
-.tech-badge {
-    background: #00a896; /* Verde principal MedFlow */
-    color: white;
-    padding: 6px 15px;
-    border-radius: 20px;
-    font-size: 0.8rem;
+.hero-badge {
+    display: inline-block;
+    padding: 6px 14px;
+    border-radius: 999px;
+    background: #16A34A;
+    color: #FFFFFF;
+    font-size: 0.78rem;
     font-weight: 800;
-    text-transform: uppercase;
     letter-spacing: 1px;
 }
 
-.tech-title {
-    font-size: 3rem; /* Título grande e impactante */
-    font-weight: 800;
-    line-height: 1.1;
-    margin: 15px 0;
-}
+.hero-title { margin: 20px 0 14px; color: #FFFFFF; font-size: 2.5rem; font-weight: 800; line-height: 1.08; }
+.hero-desc { margin: 0 0 26px; color: #E2E8F0; font-size: 1.1rem; line-height: 1.6; }
+.btn-hero-primary { padding: 14px 32px; border: none; border-radius: 12px; background: linear-gradient(135deg, #0284C7 0%, #00AAFF 100%); color: #FFFFFF; font-weight: 700; cursor: pointer; box-shadow: 0 10px 20px rgba(0, 170, 255, 0.3); transition: all 0.3s ease; }
+.btn-hero-primary:hover { transform: translateY(-2px); box-shadow: 0 14px 28px rgba(0, 170, 255, 0.4); }
+.swiper-fullscreen .swiper-button-next, .swiper-fullscreen .swiper-button-prev { color: #00AAFF; filter: drop-shadow(0 0 8px rgba(0, 170, 255, 0.5)); }
+.swiper-fullscreen .swiper-pagination { bottom: 22px; }
+.swiper-fullscreen .swiper-pagination-bullet { width: 9px; height: 9px; background: rgba(255, 255, 255, 0.65); opacity: 1; }
+.swiper-fullscreen .swiper-pagination-bullet-active { width: 28px; border-radius: 999px; background: #16A34A; }
 
-.tech-desc {
-    font-size: 1.1rem;
-    opacity: 0.9;
-    margin-bottom: 30px;
-    font-weight: 400;
+@media (max-width: 640px) {
+    .carrossel-wrapper-fullscreen { width: 100%; margin: 0; }
+    .slide-content-container { padding: 1rem; }
+    .glass-card-hero { width: 100%; padding: 1.5rem; border-radius: 16px; }
+    .hero-title { font-size: 1.65rem; }
+    .hero-desc { font-size: 0.9rem; line-height: 1.45; }
+    .swiper-fullscreen .swiper-button-next, .swiper-fullscreen .swiper-button-prev { display: none; }
 }
-
-/* Botão Moderno com Efeito */
-.btn-tech-neon {
-    background: transparent;
-    color: #00a896;
-    border: 1px solid #00a896;
-    padding: 12px 30px;
-    border-radius: 10px;
-    font-weight: 700;
-    cursor: pointer;
-    transition: 0.3s;
-    box-shadow: 0 0 10px rgba(0, 168, 150, 0.2);
-}
-
-.btn-tech-neon:hover {
-    background: #00a896;
-    color: white;
-    box-shadow: 0 0 20px rgba(0, 168, 150, 0.5);
-    transform: translateY(-2px);
-}
-
-/* Customização dos botões e paginação do Swiper */
-.swiper-button-next, .swiper-button-prev { color: rgba(255,255,255,0.4) !important; transform: scale(0.6); }
-.swiper-pagination-bullet-active { background: #00a896 !important; width: 22px; border-radius: 5px; }

@@ -4,11 +4,22 @@ import Rodape from "../../../components/Rodape/Rodape";
 import PacienteRequests from "../../../fetch/PacienteRequest";
 import type { PacienteDTO } from "../../../dto/PacienteDTO";
 import { useNavigate } from "react-router-dom";
+import { AlertCard, type AlertVariant } from "../../AlertCard";
+import ConfirmacaoCard from "../../../components/ConfirmacaoCard/ConfirmacaoCard";
+import Utilitario from "../../../utils/Utilitario";
 import "../../../styles/ListagensPadrao.css";
+
+interface AlertaState {
+    variant: AlertVariant;
+    title: string;
+    message: string;
+}
 
 function ListagemPacientes(): JSX.Element {
     const [pacientes, setPacientes] = useState<PacienteDTO[]>([]);
     const [erro, setErro] = useState<boolean>(false);
+    const [pacienteParaExcluir, setPacienteParaExcluir] = useState<{ id: number; nome: string } | null>(null);
+    const [alerta, setAlerta] = useState<AlertaState | null>(null);
     const navigate = useNavigate();
 
     const buscarPacientes = async () => {
@@ -26,20 +37,33 @@ function ListagemPacientes(): JSX.Element {
         }
     };
 
-    const handleRemoverPaciente = async (id_paciente: number | undefined, nome: string) => {
+    const solicitarRemocaoPaciente = (id_paciente: number | undefined, nome: string) => {
         if (id_paciente === undefined) {
             return;
         }
 
-        if (window.confirm(`Tem certeza que deseja remover o paciente "${nome}"?`)) {
-            const sucesso = await PacienteRequests.removerPaciente(id_paciente);
-            if (sucesso) {
-                alert("Paciente removido com sucesso!");
+        setPacienteParaExcluir({ id: id_paciente, nome });
+    };
 
-                setPacientes(prev => prev.filter(paciente => paciente.idPaciente !== id_paciente));
-            } else {
-                alert("Não foi possível remover o paciente.");
-            }
+    const handleRemoverPaciente = async () => {
+        if (!pacienteParaExcluir) return;
+
+        const sucesso = await PacienteRequests.removerPaciente(pacienteParaExcluir.id);
+        setPacienteParaExcluir(null);
+        if (sucesso) {
+            setAlerta({
+                variant: "success",
+                title: "Paciente removido",
+                message: "O cadastro do paciente foi removido com sucesso.",
+            });
+
+            setPacientes(prev => prev.filter(paciente => paciente.idPaciente !== pacienteParaExcluir.id));
+        } else {
+            setAlerta({
+                variant: "danger",
+                title: "Erro de remoção",
+                message: "Não foi possível remover o paciente.",
+            });
         }
     };
 
@@ -50,6 +74,25 @@ function ListagemPacientes(): JSX.Element {
     return (
         <div className="medflow-list-wrapper">
             <Navegacao />
+
+            {alerta && (
+                <AlertCard
+                    variant={alerta.variant}
+                    type="toast"
+                    title={alerta.title}
+                    message={alerta.message}
+                    onClose={() => setAlerta(null)}
+                />
+            )}
+
+            {pacienteParaExcluir && (
+                <ConfirmacaoCard
+                    titulo="Remover paciente?"
+                    mensagem={`O cadastro de ${pacienteParaExcluir.nome} será removido permanentemente.`}
+                    onCancelar={() => setPacienteParaExcluir(null)}
+                    onConfirmar={handleRemoverPaciente}
+                />
+            )}
 
             <main className="main-content">
                 <div className="page-header">
@@ -95,14 +138,14 @@ function ListagemPacientes(): JSX.Element {
                                             </div>
                                         </td>
                                         <td>
-                                            <span className="info-tag">{paciente.cpf}</span>
+                                            <span className="info-tag">{Utilitario.formatarCpf(paciente.cpf)}</span>
                                         </td>
-                                        <td>{paciente.telefone}</td>
+                                        <td>{paciente.telefone ? Utilitario.formatarTelefone(paciente.telefone) : "Não informado"}</td>
                                         <td>
                                             <div className="btn-group">
                                                 <button className="btn-minimal primary" onClick={(() => navigate(`/detalhes/paciente/${paciente.idPaciente}`))}>Detalhes</button>
                                                 <button className="btn-minimal secondary" onClick={() => navigate(`/atualizar/paciente/${paciente.idPaciente}`)}>Atualizar</button>
-                                                <button className="btn-minimal danger" onClick={() => handleRemoverPaciente(paciente.idPaciente, paciente.nome)}>Remover</button>
+                                                <button className="btn-minimal danger" onClick={() => solicitarRemocaoPaciente(paciente.idPaciente, paciente.nome)}>Remover</button>
                                             </div>
                                         </td>
                                     </tr>

@@ -6,22 +6,31 @@ import { Divider } from "primereact/divider";
 import { Message } from "primereact/message";
 import PacienteRequest from "../../../fetch/PacienteRequest";
 import type { PacienteDTO } from "../../../dto/PacienteDTO";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
+import { AlertCard, type AlertVariant } from "../../AlertCard";
+import Utilitario from "../../../utils/Utilitario";
 import styles from "../../../styles/DetalhesPadrao.module.css";
 
 interface DetalhesPacienteProps {
     id_paciente: number;
 }
 
-/**
- * Componente que exibe os detalhes de um Paciente.
- * Faz a consulta à API com base no ID fornecido e monta a visualização.
- */
+interface AlertaState {
+    variant: AlertVariant;
+    title?: string;
+    message: string;
+    type?: 'banner' | 'toast';
+}
+
 function DetalhesPaciente({ id_paciente }: DetalhesPacienteProps): JSX.Element {
     const [paciente, setPaciente] = useState<PacienteDTO | null>(null);
     const [loading, setLoading] = useState<boolean>(true);
     const [error, setError] = useState<string | null>(null);
     const navigate = useNavigate();
+    const location = useLocation();
+
+    const initialAlerta = (location.state as { alerta?: AlertaState })?.alerta || null;
+    const [alerta, setAlerta] = useState<AlertaState | null>(initialAlerta);
 
     useEffect(() => {
         async function buscarDados() {
@@ -86,6 +95,15 @@ function DetalhesPaciente({ id_paciente }: DetalhesPacienteProps): JSX.Element {
     // Renderização dos detalhes do Paciente
     return (
         <main className={styles.detailsWrapper}>
+            {alerta && (
+                <AlertCard
+                    variant={alerta.variant}
+                    type={alerta.type || 'toast'}
+                    title={alerta.title}
+                    message={alerta.message}
+                    onClose={() => setAlerta(null)}
+                />
+            )}
             <div className={styles.cardContainer}>
                 <Card className={styles.detailsCard}>
                     <div className={styles.cardContent}>
@@ -93,7 +111,7 @@ function DetalhesPaciente({ id_paciente }: DetalhesPacienteProps): JSX.Element {
                             <h2 className={styles.headerTitle}>{paciente.nome}</h2>
                             <div className={styles.headerSubtitle}>
                                 <span>Cadastro de Pessoas Físicas (CPF)</span>
-                                <Tag value={paciente.cpf} severity="info" className="px-3 py-1 text-sm font-semibold" />
+                                <Tag value={Utilitario.formatarCpf(paciente.cpf)} severity="info" className="px-3 py-1 text-sm font-semibold" />
                             </div>
                         </div>
 
@@ -128,7 +146,7 @@ function DetalhesPaciente({ id_paciente }: DetalhesPacienteProps): JSX.Element {
                                     <div className={styles.fieldGroup}>
                                         <span className={styles.fieldLabel}>Celular / Telefone</span>
                                         <span className={styles.fieldValue}>
-                                            {paciente.telefone ? paciente.telefone : "Não informado"}
+                                            {paciente.telefone ? Utilitario.formatarTelefone(paciente.telefone) : "Não informado"}
                                         </span>
                                     </div>
                                 </div>

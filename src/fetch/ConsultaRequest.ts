@@ -1,3 +1,4 @@
+import { SERVER_CFG } from "../AppConfig";
 import type { ConsultaDTO } from "../dto/ConsultaDTO";
 
 // Classe responsável por fazer requisições à API - consulta
@@ -6,8 +7,8 @@ class ConsultaRequests {
     private endpointConsulta;
 
     constructor() {
-        this.serverURL = `http://localhost:3333`;
-        this.endpointConsulta = `/api/consultas`;
+        this.serverURL = SERVER_CFG.SERVER_URL;
+        this.endpointConsulta = SERVER_CFG.ENDPOINT_CONSULTAS;
     }
 
     private async mensagemDeErro(respostaAPI: Response): Promise<string> {

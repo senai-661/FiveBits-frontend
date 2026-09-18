@@ -7,6 +7,7 @@ import { Message } from "primereact/message";
 import ConsultaRequests from "../../../fetch/ConsultaRequest.ts";
 import type { ConsultaDTO } from "../../../dto/ConsultaDTO";
 import { useNavigate } from "react-router-dom";
+import Utilitario from "../../../utils/Utilitario";
 import styles from "../../../styles/DetalhesPadrao.module.css";
 
 interface DetalhesConsultaProps {
@@ -104,7 +105,7 @@ function DetalhesConsulta({ id_consulta }: DetalhesConsultaProps): JSX.Element {
                                 <div className={styles.sectionText}>
                                     <div className={styles.fieldGroup}>
                                         <span className={styles.fieldLabel}>Nome</span>
-                                        <span className={styles.fieldValue}>{consulta.paciente.nome}</span>
+                                        <span className={styles.fieldValue}>{consulta.paciente.nomePaciente}</span>
                                     </div>
                                     <div className={styles.fieldGroup}>
                                         <span className={styles.fieldLabel}>CPF</span>
@@ -128,11 +129,11 @@ function DetalhesConsulta({ id_consulta }: DetalhesConsultaProps): JSX.Element {
                                 <div className={styles.sectionText}>
                                     <div className={styles.fieldGroup}>
                                         <span className={styles.fieldLabel}>Nome</span>
-                                        <span className={styles.fieldValue}>{consulta.medico.nome}</span>
+                                        <span className={styles.fieldValue}>{consulta.medico.nomeMedico}</span>
                                     </div>
                                     <div className={styles.fieldGroup}>
                                         <span className={styles.fieldLabel}>CRM</span>
-                                        <span className={styles.fieldValue}>{consulta.medico.crm}</span>
+                                        <span className={styles.fieldValue}>{Utilitario.formatarCrm(consulta.medico.crm)}</span>
                                     </div>
                                     <div className={styles.fieldGroup}>
                                         <span className={styles.fieldLabel}>Especialidade</span>
@@ -179,7 +180,7 @@ function DetalhesConsulta({ id_consulta }: DetalhesConsultaProps): JSX.Element {
                 <div className={styles.buttonGroup}>
                     <button
                         className={styles.buttonPrimary}
-                        onClick={() => navigate(`#`)}//navigate(`/atualizar/consulta/${consulta.idConsulta}`)}
+                        onClick={() => navigate(`/atualizar/consulta/${consulta.idConsulta}`)}//navigate(`/atualizar/consulta/${consulta.idConsulta}`)}
                     >
                         Editar Consulta
                     </button>

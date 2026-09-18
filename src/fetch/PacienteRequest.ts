@@ -1,4 +1,5 @@
 // Classe responsável por fazer requisições à API - paciente
+import { SERVER_CFG } from "../AppConfig";
 import type { PacienteDTO } from "../dto/PacienteDTO";
 
 class PacienteRequests {
@@ -6,8 +7,8 @@ class PacienteRequests {
     private endpointPaciente;
 
     constructor() {
-        this.serverURL = `http://localhost:3333`;
-        this.endpointPaciente = `/api/pacientes`;
+        this.serverURL = SERVER_CFG.SERVER_URL;
+        this.endpointPaciente = SERVER_CFG.ENDPOINT_PACIENTES;
     }
 
     async obterListaDePacientes() {
