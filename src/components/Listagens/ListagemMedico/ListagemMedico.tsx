@@ -4,13 +4,27 @@ import type { MedicoDTO } from "../../../dto/MedicoDTO";
 import MedicoRequests from "../../../fetch/MedicoRequest";
 import Navegacao from "../../../components/Navegacao/Navegacao";
 import Rodape from "../../../components/Rodape/Rodape";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
+import { AlertCard, type AlertVariant } from "../../AlertCard";
+import ConfirmacaoCard from "../../ConfirmacaoCard/ConfirmacaoCard";
 import "../../../styles/ListagensPadrao.css";
+
+interface AlertaState {
+    variant: AlertVariant;
+    title?: string;
+    message: string;
+    type?: 'banner' | 'toast';
+}
 
 function ListagemMedicos(): JSX.Element {
     const [medicos, setMedicos] = useState<MedicoDTO[]>([]);
     const [erro, setErro] = useState<boolean>(false);
     const navigate = useNavigate();
+    const location = useLocation();
+
+    const initialAlerta = (location.state as { alerta?: AlertaState })?.alerta || null;
+    const [alerta, setAlerta] = useState<AlertaState | null>(initialAlerta);
+    const [medicoParaExcluir, setMedicoParaExcluir] = useState<{ id: number; nome: string } | null>(null);
 
     const buscarMedicos = async () => {
         setErro(false);
@@ -27,6 +41,33 @@ function ListagemMedicos(): JSX.Element {
         }
     }
 
+    const solicitarExclusao = (id: number, nome: string) => {
+        setMedicoParaExcluir({ id, nome });
+    };
+
+    const deletarMedico = async () => {
+        if (!medicoParaExcluir) return;
+
+        const resposta = await MedicoRequests.deletarMedico(medicoParaExcluir.id);
+        setMedicoParaExcluir(null);
+        if (resposta) {
+            setAlerta({
+                variant: 'success',
+                title: 'Médico Removido',
+                message: 'O cadastro do médico foi removido com sucesso.',
+                type: 'toast',
+            });
+            buscarMedicos();
+        } else {
+            setAlerta({
+                variant: 'danger',
+                title: 'Erro de Remoção',
+                message: 'Não foi possível deletar o médico.',
+                type: 'toast',
+            });
+        }
+    };
+
     useEffect(() => {
         buscarMedicos();
     }, []);
@@ -35,11 +76,30 @@ function ListagemMedicos(): JSX.Element {
         <div className="medflow-list-wrapper">
             <Navegacao />
 
+            {medicoParaExcluir && (
+                <ConfirmacaoCard
+                    titulo="Excluir médico?"
+                    mensagem={`O cadastro de ${medicoParaExcluir.nome} será removido permanentemente.`}
+                    onCancelar={() => setMedicoParaExcluir(null)}
+                    onConfirmar={deletarMedico}
+                />
+            )}
+
+            {alerta && (
+                <AlertCard
+                    variant={alerta.variant}
+                    type={alerta.type || 'toast'}
+                    title={alerta.title}
+                    message={alerta.message}
+                    onClose={() => setAlerta(null)}
+                />
+            )}
+
             <main className="main-content">
                 {/* Cabeçalho */}
                 <div className="page-header">
                     <h1>Médicos</h1>
-                   <a href="/cadastro/medico" className="btn-novo">
+                    <a href="/cadastro/medico" className="btn-novo">
                         + Novo Médico
                     </a>
                 </div>
@@ -89,8 +149,8 @@ function ListagemMedicos(): JSX.Element {
                                         <td>
                                             <div className="btn-group">
                                                 <button className="btn-minimal primary" onClick={() => navigate(`/detalhes/medico/${medico.idMedico}`)}>Detalhes</button>
-                                                <button className="btn-minimal secondary">Atualizar</button>
-                                                <button className="btn-minimal danger">Deletar</button>
+                                                <button className="btn-minimal secondary" onClick={() => navigate(`/atualizar/medico/${medico.idMedico}`)}>Atualizar</button>
+                                                <button className="btn-minimal danger" onClick={() => solicitarExclusao(medico.idMedico, medico.nome)}>Deletar</button>
                                             </div>
                                         </td>
                                     </tr>

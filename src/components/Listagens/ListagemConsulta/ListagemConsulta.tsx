@@ -2,15 +2,29 @@ import { type JSX } from "react";
 import { useState, useEffect } from "react";
 import type { ConsultaDTO } from "../../../dto/ConsultaDTO";
 import ConsultaRequest from "../../../fetch/ConsultaRequest";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import Navegacao from "../../../components/Navegacao/Navegacao";
 import Rodape from "../../../components/Rodape/Rodape";
+import { AlertCard, type AlertVariant } from "../../AlertCard";
+import ConfirmacaoCard from "../../ConfirmacaoCard/ConfirmacaoCard";
 import "../../../styles/ListagensPadrao.css";
+
+interface AlertaState {
+    variant: AlertVariant;
+    title?: string;
+    message: string;
+    type?: 'banner' | 'toast';
+}
 
 function ListagemConsultas(): JSX.Element {
     const [consultas, setConsultas] = useState<ConsultaDTO[]>([]);
     const [erro, setErro] = useState<boolean>(false);
     const navigate = useNavigate();
+    const location = useLocation();
+
+    const initialAlerta = (location.state as { alerta?: AlertaState })?.alerta || null;
+    const [alerta, setAlerta] = useState<AlertaState | null>(initialAlerta);
+    const [consultaParaExcluir, setConsultaParaExcluir] = useState<number | null>(null);
 
     const buscarConsultas = async () => {
         setErro(false);
@@ -27,6 +41,33 @@ function ListagemConsultas(): JSX.Element {
         }
     }
 
+    const solicitarExclusao = (idConsulta: number) => {
+        setConsultaParaExcluir(idConsulta);
+    };
+
+    const deletarConsulta = async () => {
+        if (consultaParaExcluir === null) return;
+
+        const resposta = await ConsultaRequest.deletarConsulta(consultaParaExcluir);
+        setConsultaParaExcluir(null);
+        if (resposta) {
+            setAlerta({
+                variant: 'success',
+                title: 'Consulta Cancelada',
+                message: 'A consulta foi cancelada com sucesso.',
+                type: 'toast',
+            });
+            buscarConsultas();
+        } else {
+            setAlerta({
+                variant: 'danger',
+                title: 'Erro de Cancelamento',
+                message: 'Não foi possível cancelar a consulta.',
+                type: 'toast',
+            });
+        }
+    };
+
     useEffect(() => {
         buscarConsultas();
     }, []);
@@ -41,15 +82,34 @@ function ListagemConsultas(): JSX.Element {
 
     return (
         <div className="medflow-list-wrapper">
-            
+
             {/* 1. CABEÇALHO (Agora visível) */}
             <Navegacao />
+
+            {consultaParaExcluir !== null && (
+                <ConfirmacaoCard
+                    titulo="Cancelar consulta?"
+                    mensagem="Esta consulta será cancelada e removida da agenda."
+                    onCancelar={() => setConsultaParaExcluir(null)}
+                    onConfirmar={deletarConsulta}
+                />
+            )}
+
+            {alerta && (
+                <AlertCard
+                    variant={alerta.variant}
+                    type={alerta.type || 'toast'}
+                    title={alerta.title}
+                    message={alerta.message}
+                    onClose={() => setAlerta(null)}
+                />
+            )}
 
             {/* 2. CONTEÚDO PRINCIPAL */}
             <main className="main-content">
                 <div className="page-header">
                     <h1>Agenda de Consultas</h1>
-                     <a href="/cadastro/consulta" className="btn-novo">
+                    <a href="/cadastro/consulta" className="btn-novo">
                         + Nova Consulta
                     </a>
                 </div>
@@ -81,7 +141,7 @@ function ListagemConsultas(): JSX.Element {
                                 </tr>
                             ) : consultas && consultas.length > 0 ? (
                                 consultas.map((consulta) => {
-                                    const { data, hora } = formatarDataHora( consulta.dataHora.toString());
+                                    const { data, hora } = formatarDataHora(consulta.dataHora.toString());
                                     return (
                                         <tr key={consulta.idConsulta}>
                                             <td>
@@ -102,9 +162,9 @@ function ListagemConsultas(): JSX.Element {
                                             </td>
                                             <td>
                                                 <div className="btn-group">
-                                                    <button className="btn-minimal primary" onClick={() => navigate (`/detalhes/consulta/${consulta.idConsulta}`)}>Detalhes</button>
-                                                    <button className="btn-minimal secondary">Atualizar</button>
-                                                    <button className="btn-minimal danger">Cancelar</button>
+                                                    <button className="btn-minimal primary" onClick={() => navigate(`/detalhes/consulta/${consulta.idConsulta}`)}>Detalhes</button>
+                                                    <button className="btn-minimal secondary" onClick={() => consulta.idConsulta !== undefined && navigate(`/atualizar/consulta/${consulta.idConsulta}`)}>Atualizar</button>
+                                                    <button className="btn-minimal danger" onClick={() => consulta.idConsulta !== undefined && solicitarExclusao(consulta.idConsulta)}>Cancelar</button>
                                                 </div>
                                             </td>
                                         </tr>

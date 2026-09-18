@@ -1,0 +1,221 @@
+.services-section {
+  background: var(--surface);
+}
+
+.service-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1.25rem;
+}
+
+.service-card {
+  display: flex;
+  min-height: 20rem;
+  flex-direction: column;
+  padding: 1.8rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-sm);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.service-card:hover {
+  transform: translateY(-6px);
+  box-shadow: var(--shadow-lg);
+}
+
+/* Alternating Card Backgrounds: Pale Sky & Hunter Green */
+.service-card-1,
+.service-card-3 {
+  background: var(--pale-sky);
+  color: var(--hunter-green);
+  border-color: rgba(49, 87, 44, 0.2);
+}
+
+.service-card-2,
+.service-card-4 {
+  background: var(--hunter-green);
+  color: var(--white);
+  border-color: rgba(255, 255, 255, 0.15);
+}
+
+.service-icon {
+  display: grid;
+  width: 3rem;
+  height: 3rem;
+  place-items: center;
+  margin-bottom: auto;
+  border-radius: 50%;
+  background: var(--lime-cream);
+  color: var(--jet-black);
+  font-size: 1.1rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.service-card h3 {
+  margin: 1.75rem 0 0.6rem;
+  font-size: 1.25rem;
+  font-weight: 800;
+}
+
+.service-card-1 h3,
+.service-card-3 h3 {
+  color: var(--hunter-green);
+}
+
+.service-card-2 h3,
+.service-card-4 h3 {
+  color: var(--white);
+}
+
+.service-card p {
+  margin-bottom: 1.5rem;
+  line-height: 1.65;
+  font-size: 0.94rem;
+}
+
+.service-card-1 p,
+.service-card-3 p {
+  color: #244220;
+}
+
+.service-card-2 p,
+.service-card-4 p {
+  color: var(--pale-sky);
+}
+
+.service-btn {
+  align-self: flex-start;
+  margin-top: auto;
+  font-size: 0.85rem;
+  padding: 0.6rem 1.1rem;
+  background: var(--lime-cream) !important;
+  color: var(--jet-black) !important;
+  border: 1px solid var(--lime-cream) !important;
+}
+
+.service-btn:hover {
+  background: #f5fac2 !important;
+  transform: translateY(-2px);
+}
+
+/* Portfolio Section */
+.portfolio-section {
+  background: var(--surface-muted);
+}
+
+.portfolio-grid {
+  display: grid;
+  grid-template-columns: 1.35fr 1fr 1fr;
+  gap: 1.25rem;
+}
+
+.portfolio-card {
+  display: flex;
+  position: relative;
+  min-height: 16rem;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 1.75rem;
+  overflow: hidden;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-sm);
+  transition: transform 0.25s ease;
+}
+
+.portfolio-card:hover {
+  transform: translateY(-4px);
+}
+
+.portfolio-card::after {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  content: '';
+  background: linear-gradient(180deg, rgba(2, 43, 58, 0.05) 20%, rgba(2, 43, 58, 0.9) 100%);
+}
+
+.portfolio-card img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.4s ease;
+}
+
+.portfolio-card:hover img {
+  transform: scale(1.05);
+}
+
+.portfolio-card span {
+  margin-bottom: 0.5rem;
+  font-size: 0.75rem;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  position: relative;
+  z-index: 1;
+}
+
+.portfolio-card strong {
+  font-family: 'Manrope', sans-serif;
+  font-size: clamp(1.15rem, 2vw, 1.65rem);
+  line-height: 1.25;
+  position: relative;
+  z-index: 1;
+}
+
+.portfolio-large {
+  background: var(--jet-black);
+  color: var(--white);
+}
+
+.portfolio-large span {
+  color: var(--white);
+}
+
+.portfolio-sky {
+  background: var(--pale-sky);
+  color: var(--white);
+}
+
+.portfolio-sky span {
+  color: var(--white);
+}
+
+.portfolio-green {
+  background: var(--hunter-green);
+  color: var(--white);
+}
+
+.portfolio-green span {
+  color: var(--white);
+}
+
+@media (max-width: 900px) {
+  .service-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .portfolio-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+  .portfolio-large {
+    grid-column: span 2;
+  }
+}
+
+@media (max-width: 550px) {
+  .service-grid,
+  .portfolio-grid {
+    grid-template-columns: 1fr;
+  }
+  .portfolio-large {
+    grid-column: auto;
+  }
+  .service-card {
+    min-height: 15rem;
+  }
+}
+

@@ -1,3 +1,4 @@
+import { SERVER_CFG } from "../AppConfig";
 import type { MedicoDTO } from "../dto/MedicoDTO";
 
 // Classe responsável por fazer requisições à API - medico
@@ -6,8 +7,13 @@ class MedicoRequests {
     private endpointMedico;
 
     constructor() {
-        this.serverURL = `http://localhost:3333`;
-        this.endpointMedico = `/api/medicos`;
+        this.serverURL = SERVER_CFG.SERVER_URL;
+        this.endpointMedico = SERVER_CFG.ENDPOINT_MEDICOS;
+    }
+
+    private async mensagemDeErro(respostaAPI: Response): Promise<string> {
+        const erroAPI = await respostaAPI.json().catch(() => null);
+        return erroAPI?.mensagem || erroAPI?.message || respostaAPI.statusText;
     }
 
     async obterListaDeMedicos() {
@@ -72,6 +78,56 @@ class MedicoRequests {
             return true;
         } catch (error) {
             console.error(`Erro ao fazer consulta à API. ${error}`);
+            return false;
+        }
+    }
+
+    async atualizarMedico(formMedico: MedicoDTO): Promise<boolean> {
+        try {
+            const token = localStorage.getItem('token');
+            const dadosAtualizacao = {
+                idMedico: formMedico.idMedico,
+                nome: formMedico.nome,
+                crm: formMedico.crm,
+                especialidade: formMedico.especialidade,
+                valorConsulta: formMedico.valorConsulta
+            };
+            const respostaAPI = await fetch(`${this.serverURL}${this.endpointMedico}/${formMedico.idMedico}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'x-access-token': `${token}`
+                },
+                body: JSON.stringify(dadosAtualizacao)
+            });
+
+            if (!respostaAPI.ok) {
+                throw new Error(`Erro ${respostaAPI.status}: ${await this.mensagemDeErro(respostaAPI)}`);
+            }
+            return true;
+        } catch (error) {
+            console.error(`Erro ao atualizar médico. ${error}`);
+            throw error;
+        }
+    }
+
+    async deletarMedico(idMedico: number): Promise<boolean> {
+        try {
+            const token = localStorage.getItem('token');
+            const respostaAPI = await fetch(`${this.serverURL}${this.endpointMedico}/${idMedico}`, {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'x-access-token': `${token}`
+                }
+            });
+
+            if (!respostaAPI.ok) {
+                throw new Error(`Erro ${respostaAPI.status}: ${await this.mensagemDeErro(respostaAPI)}`);
+            }
+            return true;
+        } catch (error) {
+            console.error(`Erro ao deletar médico. ${error}`);
             return false;
         }
     }

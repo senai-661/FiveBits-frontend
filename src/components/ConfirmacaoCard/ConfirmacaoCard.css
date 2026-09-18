@@ -1,0 +1,133 @@
+.confirmacao-overlay {
+    position: fixed;
+    z-index: 1200;
+    inset: 0;
+    display: grid;
+    place-items: center;
+    padding: 1.25rem;
+    background: rgba(18, 24, 20, 0.62);
+    animation: confirmacao-fade-in 0.18s ease-out;
+}
+
+.confirmacao-card {
+    display: flex;
+    width: min(100%, 30rem);
+    gap: 1rem;
+    padding: 1.5rem;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    background: var(--surface-raised);
+    box-shadow: 0 20px 60px rgba(18, 24, 20, 0.25);
+    animation: confirmacao-slide-in 0.2s ease-out;
+}
+
+.confirmacao-icon {
+    display: grid;
+    flex: 0 0 2.75rem;
+    width: 2.75rem;
+    height: 2.75rem;
+    place-items: center;
+    border-radius: 50%;
+    background: #fdf2f2;
+    color: #b72f2f;
+    font-size: 1.2rem;
+}
+
+.confirmacao-content {
+    flex: 1;
+}
+
+.confirmacao-content h2 {
+    margin: 0;
+    color: var(--text);
+    font-size: 1.15rem;
+    line-height: 1.3;
+}
+
+.confirmacao-content p {
+    margin: 0.55rem 0 1.25rem;
+    color: var(--text-muted);
+    line-height: 1.5;
+}
+
+.confirmacao-actions {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    gap: 0.65rem;
+}
+
+.confirmacao-btn {
+    min-height: 2.5rem;
+    padding: 0.65rem 0.9rem;
+    border-radius: 0.55rem;
+    font-size: 0.82rem;
+    font-weight: 800;
+    cursor: pointer;
+    transition: transform 0.18s ease, background-color 0.18s ease;
+}
+
+.confirmacao-btn:hover {
+    transform: translateY(-1px);
+}
+
+.confirmacao-btn:focus-visible {
+    outline: 3px solid var(--focus-ring);
+    outline-offset: 3px;
+}
+
+.confirmacao-btn.cancel {
+    border: 1px solid var(--border);
+    background: transparent;
+    color: var(--text);
+}
+
+.confirmacao-btn.cancel:hover {
+    background: var(--surface-muted);
+}
+
+.confirmacao-btn.confirm {
+    border: 1px solid #c94040;
+    background: #c94040;
+    color: #fff;
+}
+
+.confirmacao-btn.confirm:hover {
+    background: #a82b2b;
+}
+
+@keyframes confirmacao-fade-in {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes confirmacao-slide-in {
+    from {
+        transform: translateY(0.5rem);
+        opacity: 0;
+    }
+
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+@media (max-width: 480px) {
+    .confirmacao-card {
+        padding: 1.25rem;
+    }
+
+    .confirmacao-actions {
+        justify-content: stretch;
+    }
+
+    .confirmacao-btn {
+        flex: 1;
+    }
+}

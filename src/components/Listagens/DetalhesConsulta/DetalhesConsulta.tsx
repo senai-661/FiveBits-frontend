@@ -5,8 +5,9 @@ import { Tag } from "primereact/tag";
 import { Divider } from "primereact/divider";
 import { Message } from "primereact/message";
 import ConsultaRequests from "../../../fetch/ConsultaRequest.ts";
-import type {ConsultaDTO} from "../../../dto/ConsultaDTO";
+import type { ConsultaDTO } from "../../../dto/ConsultaDTO";
 import { useNavigate } from "react-router-dom";
+import Utilitario from "../../../utils/Utilitario";
 import styles from "../../../styles/DetalhesPadrao.module.css";
 
 interface DetalhesConsultaProps {
@@ -132,7 +133,7 @@ function DetalhesConsulta({ id_consulta }: DetalhesConsultaProps): JSX.Element {
                                     </div>
                                     <div className={styles.fieldGroup}>
                                         <span className={styles.fieldLabel}>CRM</span>
-                                        <span className={styles.fieldValue}>{consulta.medico.crm}</span>
+                                        <span className={styles.fieldValue}>{Utilitario.formatarCrm(consulta.medico.crm)}</span>
                                     </div>
                                     <div className={styles.fieldGroup}>
                                         <span className={styles.fieldLabel}>Especialidade</span>
@@ -179,7 +180,7 @@ function DetalhesConsulta({ id_consulta }: DetalhesConsultaProps): JSX.Element {
                 <div className={styles.buttonGroup}>
                     <button
                         className={styles.buttonPrimary}
-                        onClick={() => navigate(`#`)}//navigate(`/atualizar/consulta/${consulta.idConsulta}`)}
+                        onClick={() => navigate(`/atualizar/consulta/${consulta.idConsulta}`)}//navigate(`/atualizar/consulta/${consulta.idConsulta}`)}
                     >
                         Editar Consulta
                     </button>
